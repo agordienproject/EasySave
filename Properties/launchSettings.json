@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EasySave": {
+      "commandName": "Project",
+      "commandLineArgs": "add -n test -s C:\\\\ -d C:\\\\ -t Complete"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "BackupName": "",
+  "BackupTime": "",
+  "BackupState": "",
+  "TotalFileNumber": "",
+  "TotalFileSize": "",
+  "Progress": {
+    "CurrentFileNumber": "",
+    "CurrentFileSize": "",
+    "SourceDirectory": "",
+    "DestinationDirectory": ""
+  }
+}
