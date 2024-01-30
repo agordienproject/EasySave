@@ -1,5 +1,6 @@
 ﻿using EasySave.Enums;
 using EasySave.Models;
+using EasySave.Services;
 using System.CommandLine;
 using System.Text.Json;
 
@@ -27,19 +28,20 @@ class Program
             aliases: ["--type", "-t"],
             description: "The type of backup (Complete or Differential).",
             getDefaultValue: () => BackupType.Complete);
+
         #endregion
 
         #region Commands
         var rootCommand = new RootCommand("EasySave app");
 
-        var addCommand = new Command("add", "Add a new backup work.")
+        var createCommand = new Command("create", "Create a new backup work.")
             {
                 backupNameOption,
                 sourceDirectoryPathOption,
                 destinationDirectoryPathOption,
                 backupTypeOption
             };
-        rootCommand.AddCommand(addCommand);
+        rootCommand.AddCommand(createCommand);
 
         var deleteCommand = new Command("delete", "Delete the specified backup.")
             {
@@ -47,54 +49,25 @@ class Program
             };
         rootCommand.AddCommand(deleteCommand);
 
+        var showCommand = new Command("show", "Show all backups");
+        rootCommand.AddCommand(showCommand);
+
+        var saveCommand = new Command("save", "Do a backup work");
+        rootCommand.AddCommand(saveCommand);
         #endregion
 
         #region Handlers
-        addCommand.SetHandler(CreateBackup,
+        createCommand.SetHandler(BackupService.CreateBackup,
             backupNameOption, sourceDirectoryPathOption, destinationDirectoryPathOption, backupTypeOption);
 
-        deleteCommand.SetHandler(DeleteBackup, backupNameOption);
-        
+        deleteCommand.SetHandler(BackupService.DeleteBackup, backupNameOption);
+
+        showCommand.SetHandler(BackupService.ShowBackups);
+
+        saveCommand.SetHandler(BackupService.SaveBackup);
         #endregion
-        
+
         return await rootCommand.InvokeAsync(args);
     }
 
-    static async Task CreateBackup(string name, string sourcePath, string destinationPath, BackupType backupType)
-    {
-        string backupsFilePath = "C:\\Users\\funny\\source\\repos\\lhPierre\\EasySave\\backups.json";
-
-        using FileStream openStream = File.Open(backupsFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-
-        List<Backup?> backupList = new List<Backup?>();
-        try
-        {
-            backupList = await JsonSerializer.DeserializeAsync<List<Backup?>>(openStream);
-        }
-        catch (JsonException e)
-        {
-            Console.WriteLine(e.InnerException);
-            Console.WriteLine(e.Message);    
-        }
-        
-        backupList.Add(new Backup(name, sourcePath, destinationPath, backupType));
-        
-        var options = new JsonSerializerOptions { WriteIndented = true, };
-        await JsonSerializer.SerializeAsync(openStream, backupList, options);
-    }
-
-    static async Task DeleteBackup(string name)
-    {
-        Console.WriteLine($"Deleting backup... {name}");
-    }
-
-    static async Task SaveBackup()
-    {
-
-    }
-
-    static async Task ShowBackups()
-    {
-
-    }
 }
