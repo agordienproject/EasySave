@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace EasySave.Services
 {
-    public class LogService
+    public class BackupLogger
     {
-        public LogService()
+        public BackupLogger() { }
+
+        public void LogBackupAction()
         {
-            
+
         }
 
+        public void LogBackupState()
+        {
 
+        }
     }
 }

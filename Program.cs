@@ -1,20 +1,35 @@
 ﻿using EasySave.Enums;
 using EasySave.Models;
 using EasySave.Services;
+using System.Collections.ObjectModel;
 using System.CommandLine;
 using System.Text.Json;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
+using EasySave.Controllers;
+using System.Text.RegularExpressions;
 
 namespace EasySave;
 
 class Program
 {
-    static async Task<int> Main(string[] args)
+    static async Task Main(string[] args)
     {
+        await InitCommandLine(args);
+
+    }
+
+    static async Task<int> InitCommandLine(string[] args)
+    {
+        Controller controller = new Controller();
+
         #region Options
         var backupNameOption = new Option<string>(
             aliases: ["--name", "-n"],
-            description: "The name of the backup");
-        backupNameOption.IsRequired = true;
+            description: "The name of the backup")
+        {
+            IsRequired = true
+        };
 
         var sourceDirectoryPathOption = new Option<string>(
             aliases: ["--source", "-s"],
@@ -29,6 +44,31 @@ class Program
             description: "The type of backup (Complete or Differential).",
             getDefaultValue: () => BackupType.Complete);
 
+        var backupIndexesOption = new Option<List<int>>(
+            aliases: ["--range", "-r"],
+            description: "Range of backup to execute.",
+            isDefault: true,
+            parseArgument: result =>
+            {
+                List<int> jobNumbers = new List<int>();
+
+                // Utiliser une regex pour extraire les numéros de travail de sauvegarde
+                Regex regex = new Regex(@"(\d+)([;, -]+(\d+))*");
+                MatchCollection matches = regex.Matches(result.ToString());
+
+                foreach (Match match in matches)
+                {
+                    foreach (Capture capture in match.Captures)
+                    {
+                        if (int.TryParse(capture.Value, out int jobNumber))
+                        {
+                            jobNumbers.Add(jobNumber);
+                        }
+                    }
+                }
+
+                return jobNumbers;
+            });
         #endregion
 
         #region Commands
@@ -57,17 +97,16 @@ class Program
         #endregion
 
         #region Handlers
-        createCommand.SetHandler(BackupService.CreateBackup,
+        createCommand.SetHandler(controller.CreateBackupJob,
             backupNameOption, sourceDirectoryPathOption, destinationDirectoryPathOption, backupTypeOption);
 
-        deleteCommand.SetHandler(BackupService.DeleteBackup, backupNameOption);
+        deleteCommand.SetHandler(controller.DeleteBackupJob, backupNameOption);
 
-        showCommand.SetHandler(BackupService.ShowBackups);
+        showCommand.SetHandler(controller.ShowBackupJobs);
 
-        saveCommand.SetHandler(BackupService.SaveBackup);
+        saveCommand.SetHandler(controller.ExecuteBackupJobs, backupIndexesOption);
         #endregion
 
         return await rootCommand.InvokeAsync(args);
     }
-
 }

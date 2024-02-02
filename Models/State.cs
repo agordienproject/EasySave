@@ -11,8 +11,16 @@ namespace EasySave.Models
         public string BackupName { get; set; }
         public DateTime BackupTime { get; set; }
         public string BackupState { get; set; }
-        public int TotalFileNumber { get; set; }
-        public int TotalFileSize { get; set; }
+        public int TotalFilesNumber { get; set; }
+        public int TotalFilesSize { get; set; }
 
+        public State(string backupName, DateTime backupTime, string backupState, int totalFilesNumber, int totalFilesSize)
+        {
+            this.BackupName = backupName;
+            this.BackupTime = backupTime;
+            this.BackupState = backupState;
+            this.TotalFilesNumber = totalFilesNumber;
+            this.TotalFilesSize = totalFilesSize;
+        }
     }
 }
