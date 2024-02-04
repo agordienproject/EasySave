@@ -2,7 +2,7 @@
   "profiles": {
     "EasySave": {
       "commandName": "Project",
-      "commandLineArgs": "delete -n test"
+      "commandLineArgs": "show"
     }
   }
 }

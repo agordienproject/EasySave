@@ -1,65 +1,69 @@
 ﻿using EasySave.Enums;
 using EasySave.Models;
+using EasySave.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace EasySave.Services
 {
     public class BackupManager
     {
-        private readonly FileManager _fileManager;
-        private List<BackupJob> _backupJobs {  get; set; }
+        private readonly IConfiguration _configuration;
+        private readonly IJsonFileManager _jsonFileManager;
 
-        public BackupManager() 
+        private List<BackupJob>? _backupJobs;
+
+        private const int BACKUPJOBS_LIMIT = 5;
+
+        public BackupManager(IConfiguration configuration) 
         {
-            _fileManager = new FileManager(@".\Backups\backups.json");
+            _configuration = configuration;
+            _jsonFileManager = new JsonFileManager(_configuration.GetValue<string>("BackupJobsJsonPath"));
         }
 
-        public async Task<List<BackupJob>> GetBackupJobs()
+        public List<BackupJob> GetBackupJobs()
         {
-            await ReadBackups();
+            ReadBackups();
             return _backupJobs;
         }
 
-        public async Task CreateBackupJob(BackupJob backupJob)
+        public void ReadBackups()
         {
-            await ReadBackups();
-
-            if (_backupJobs.Count < 5)
-            {
-                if (!_backupJobs.Any(backup => backup.BackupName == backupJob.BackupName))
-                {
-                    _backupJobs.Add(backupJob);
-                }
-                else
-                {
-                    Console.WriteLine("Two backups can't have the same name.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Too many backups already exist.");
-            }
-
-            await WriteBackups();
+            _backupJobs = _jsonFileManager.Read<BackupJob>();
         }
 
-        public async Task DeleteBackupJob(BackupJob backupJobToDelete)
+        public void WriteBackups()
         {
-            await ReadBackups();
+            _jsonFileManager.Write(_backupJobs);
+        }
 
-            if (backupJobToDelete != null)
+        public void CreateBackupJob(BackupJob backupJob)
+        {
+            ReadBackups();
+
+            if (_backupJobs.Count >= BACKUPJOBS_LIMIT)
             {
-                bool deleteStatus = _backupJobs.Remove(backupJobToDelete);
-                Console.WriteLine($"{backupJobToDelete.BackupName} successfuly deleted");
+                Console.WriteLine("Too many backups already exist.");
+                return;
             }
+            
+            if (_backupJobs.Any(backup => backup.BackupName == backupJob.BackupName))
+            {
+                Console.WriteLine("Two backups can't have the same name.");
+                return;
+            }
+            
+            _backupJobs.Add(backupJob);
 
-            await WriteBackups();
+            WriteBackups();
+        }
+
+        public void DeleteBackupJob(BackupJob backupJob)
+        {
+            _backupJobs.Remove(backupJob);
+            
+            Console.WriteLine($"{backupJob.BackupName} successfuly deleted");
+
+            WriteBackups();
         }
 
         public async Task ExecuteBackupJob(BackupJob backupJob)
@@ -67,12 +71,12 @@ namespace EasySave.Services
             if (backupJob.BackupType == BackupType.Complete)
             {
                 Console.WriteLine($"Complete backup of : {backupJob.BackupName}");
-                await FileManager.CopyFilesRecursively(backupJob.SourceDirectory, backupJob.TargetDirectory);
+                await CopyFilesRecursively(backupJob.SourceDirectory, backupJob.TargetDirectory);
             }
             else if (backupJob.BackupType == BackupType.Differential)
             {
                 Console.WriteLine($"Diferential backup of : {backupJob.BackupName}");
-                await FileManager.CopyFilesRecursively(backupJob.SourceDirectory, backupJob.TargetDirectory);
+                await CopyFilesRecursively(backupJob.SourceDirectory, backupJob.TargetDirectory);
             }
         }
 
@@ -84,9 +88,9 @@ namespace EasySave.Services
             }
         }
 
-        public async Task DisplayBackupJobs()
+        public void DisplayBackupJobs()
         {
-            await ReadBackups();
+            ReadBackups();
             int i = 0;
             foreach (var backupJob in _backupJobs)
             {
@@ -100,15 +104,37 @@ namespace EasySave.Services
             }
         }
 
-        public async Task ReadBackups()
+        public static async Task CopyFilesRecursively(string sourceDir, string targetDir)
         {
-            _backupJobs = await _fileManager.Read<BackupJob>();
-        }
+            // Vérifier si le répertoire source existe
+            if (!Directory.Exists(sourceDir))
+            {
+                Console.WriteLine($"Le répertoire source '{sourceDir}' n'existe pas.");
+                return;
+            }
 
-        public async Task WriteBackups()
-        {
-            await _fileManager.Write(_backupJobs);
-        }
+            // Créer le répertoire cible s'il n'existe pas
+            if (!Directory.Exists(targetDir))
+            {
+                Directory.CreateDirectory(targetDir);
+            }
 
+            // Copier les fichiers du répertoire source vers le répertoire cible
+            foreach (string filePath in Directory.GetFiles(sourceDir))
+            {
+                string fileName = Path.GetFileName(filePath);
+                string destFilePath = Path.Combine(targetDir, fileName);
+                File.Copy(filePath, destFilePath, true);
+                Console.WriteLine($"Copie du fichier : {fileName}");
+            }
+
+            // Copier les fichiers des sous-répertoires
+            foreach (string subDir in Directory.GetDirectories(sourceDir))
+            {
+                string subDirName = Path.GetFileName(subDir);
+                string targetSubDir = Path.Combine(targetDir, subDirName);
+                await CopyFilesRecursively(subDir, targetSubDir);
+            }
+        }
     }
 }

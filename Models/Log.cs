@@ -9,16 +9,16 @@ namespace EasySave.Models
 {
     public class Log
     {
-        public string Name { get; set; }
+        public string BackupName { get; set; }
         public string SourceFile { get; set;}
         public string TargetFile { get; set;}
         public int FileSize {get; set;}
         public float FileTransferTime {get; set;}
         public DateTime TimeStamp {get; set;}
 
-        public Log(string name, string sourceFile, string targetFile, int fileSize, float fileTransferTime, DateTime timeStamp)
+        public Log(string backupName, string sourceFile, string targetFile, int fileSize, float fileTransferTime, DateTime timeStamp)
         {
-            this.Name = name;
+            this.BackupName = backupName;
             this.SourceFile = sourceFile;
             this.TargetFile = targetFile;
             this.FileSize = fileSize;

@@ -1,54 +1,48 @@
 ﻿using EasySave.Enums;
 using EasySave.Models;
 using EasySave.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace EasySave.Controllers
 {
-    public class Controller
+    public class BackupController : IBackupController
     {
         private BackupManager backupManager { get; set; }
-        private BackupLogger backupLogger { get; set; }
-        
-        public Controller() 
+
+        public BackupController(IConfiguration configuration)
         {
-            backupManager = new BackupManager();
-            backupLogger = new BackupLogger();
+            backupManager = new BackupManager(configuration);
         }
 
-        public async Task CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType)
+        public void CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType)
         {
-            BackupJob newBackupJob = new BackupJob(name, sourcePath, destinationPath, backupType);
-            await backupManager.CreateBackupJob(newBackupJob);
+            backupManager.CreateBackupJob(new BackupJob(name, sourcePath, destinationPath, backupType));
         }
 
-        public async Task DeleteBackupJob(string name)
+        public void DeleteBackupJob(string name)
         {
-            List<BackupJob> backupJobs = await backupManager.GetBackupJobs();
+            List<BackupJob> backupJobs = backupManager.GetBackupJobs();
 
             BackupJob backupJobToDelete = backupJobs.Find(backupJob => backupJob.BackupName == name);
 
             if (backupJobToDelete != null)
             {
-                await backupManager.DeleteBackupJob(backupJobToDelete);
-            } else
+                backupManager.DeleteBackupJob(backupJobToDelete);
+            }
+            else
             {
                 Console.WriteLine($"No backupJob named : {name} was found !");
             }
         }
 
-        public async Task ShowBackupJobs()
+        public void ShowBackupJobs()
         {
-            await backupManager.DisplayBackupJobs();
+            backupManager.DisplayBackupJobs();
         }
 
         public async Task ExecuteBackupJobs(List<int> backupJobsId)
         {
-            List<BackupJob> backupJobs = await backupManager.GetBackupJobs();
+            List<BackupJob> backupJobs = backupManager.GetBackupJobs();
 
             List<BackupJob> backupJobsToExecute = new List<BackupJob>();
 
