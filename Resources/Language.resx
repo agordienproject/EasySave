@@ -118,6 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ApplicationDescription" xml:space="preserve">
-    <value>EasySave est une application de sauvegarde de fichier</value>
+    <value>EasySave is a backupJobs application</value>
+  </data>
+  <data name="HelloWorld" xml:space="preserve">
+    <value>HelloWorld</value>
+  </data>
+  <data name="CreateCommandDescription" xml:space="preserve">
+    <value>Create a new backup job</value>
   </data>
 </root>

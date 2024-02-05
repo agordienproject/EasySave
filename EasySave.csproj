@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="backupjobs.json" />
+    <None Remove="Data\BackupJobs\backupjobs.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,10 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\Language.en.resx">
-      <CustomToolNamespace></CustomToolNamespace>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Language.fr.resx">
+    <EmbeddedResource Update="Resources\Language.fr-FR.resx">
       <CustomToolNamespace></CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Language.resx">

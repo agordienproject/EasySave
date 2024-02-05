@@ -61,11 +61,29 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à EasySave est une application de sauvegarde de fichier.
+        ///   Recherche une chaîne localisée semblable à EasySave is a backupJobs application.
         /// </summary>
         internal static string ApplicationDescription {
             get {
                 return ResourceManager.GetString("ApplicationDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create a new backup job.
+        /// </summary>
+        internal static string CreateCommandDescription {
+            get {
+                return ResourceManager.GetString("CreateCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à HelloWorld.
+        /// </summary>
+        internal static string HelloWorld {
+            get {
+                return ResourceManager.GetString("HelloWorld", resourceCulture);
             }
         }
     }

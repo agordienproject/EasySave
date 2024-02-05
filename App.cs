@@ -2,6 +2,8 @@
 using EasySave.Enums;
 using Microsoft.Extensions.Configuration;
 using System.CommandLine;
+using System.Globalization;
+using System.Resources;
 using System.Text.RegularExpressions;
 
 namespace EasySave
@@ -19,6 +21,8 @@ namespace EasySave
 
         public async Task Run(string[] args)
         {
+            Resources.Language.Culture = new CultureInfo(_configuration.GetValue<string>("CurrentCulture"));
+            
             await InitCommandLine(args);
         }
 
@@ -75,7 +79,7 @@ namespace EasySave
             #region Commands
             var rootCommand = new RootCommand("EasySave app");
 
-            var createCommand = new Command("create", "Create a new backup work.")
+            var createCommand = new Command("create", Resources.Language.CreateCommandDescription)
             {
                 backupNameOption,
                 sourceDirectoryPathOption,
@@ -93,7 +97,10 @@ namespace EasySave
             var showCommand = new Command("show", "Show all backups");
             rootCommand.AddCommand(showCommand);
 
-            var executeCommand = new Command("execute", "Execute one or more backup jobs");
+            var executeCommand = new Command("execute", "Execute one or more backup jobs") 
+            { 
+                backupIndexesOption,
+            };
             rootCommand.AddCommand(executeCommand);
             #endregion
 

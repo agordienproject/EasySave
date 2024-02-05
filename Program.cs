@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using EasySave.Services;
+using System.Globalization;
 
 namespace EasySave;
 
@@ -26,6 +27,7 @@ class Program
         {
             Console.WriteLine(ex.Message);
         }
+
     }
     
     static IHostBuilder CreateHostBuilder(string[] args)
@@ -42,9 +44,9 @@ class Program
     static void BuildConfig(IConfigurationBuilder builder)
     {
         builder.SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", false, true);
-            //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", false)
-            //.AddEnvironmentVariables();
+            .AddJsonFile("appsettings.json", false, true)
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", false)
+            .AddEnvironmentVariables();
     }
 
     private static string GetLogFilePath()
