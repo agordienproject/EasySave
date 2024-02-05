@@ -38,11 +38,17 @@ namespace EasySave
 
             var sourceDirectoryPathOption = new Option<string>(
                 aliases: ["--source", "-s"],
-                description: "The path of the destination directory.");
+                description: "The path of the destination directory.")
+                {
+                    IsRequired = true
+                };
 
             var destinationDirectoryPathOption = new Option<string>(
                 aliases: ["--destination", "-d"],
-                description: "The path of the destination directory.");
+                description: "The path of the destination directory.")
+                {
+                    IsRequired = true
+                };
 
             var backupTypeOption = new Option<BackupType>(
                 aliases: ["--type", "-t"],
@@ -55,24 +61,7 @@ namespace EasySave
                 isDefault: true,
                 parseArgument: result =>
                 {
-                    List<int> jobNumbers = new List<int>();
-
-                    // Utiliser une regex pour extraire les numéros de travail de sauvegarde
-                    Regex regex = new Regex(@"(\d+)([;, -]+(\d+))*");
-                    MatchCollection matches = regex.Matches(result.ToString());
-
-                    foreach (Match match in matches)
-                    {
-                        foreach (Capture capture in match.Captures)
-                        {
-                            if (int.TryParse(capture.Value, out int jobNumber))
-                            {
-                                jobNumbers.Add(jobNumber);
-                            }
-                        }
-                    }
-
-                    return jobNumbers;
+                    return ParseBackupJobIndex(result.ToString());
                 });
             #endregion
 
@@ -118,5 +107,53 @@ namespace EasySave
             return await rootCommand.InvokeAsync(args);
         }
 
+        public static List<int> ParseBackupJobIndex(string input)
+        {
+            List<int> backupNumbers = new List<int>();
+
+            // Vérifier le format 'X-Y' ou 'X;Y'
+            Regex regex = new Regex(@"(\d+)[\-;](\d+)");
+            Match match = regex.Match(input);
+
+            if (match.Success)
+            {
+                int start = int.Parse(match.Groups[1].Value);
+                int end = int.Parse(match.Groups[2].Value);
+
+                // Ajouter les numéros de sauvegarde dans la liste
+                if (input.Contains(";"))
+                {
+                    backupNumbers.Add(start);
+                    backupNumbers.Add(end);
+                }
+
+                if (input.Contains('-'))
+                {
+                    for (int i = start; i <= end; i++)
+                    {
+                        backupNumbers.Add(i);
+                    }
+                }
+            }
+            else
+            {
+                // Vérifier le format unique 'X'
+                regex = new Regex(@"(\d+)");
+                match = regex.Match(input);
+
+                if (match.Success)
+                {
+                    int number = int.Parse(match.Groups[1].Value);
+                    backupNumbers.Add(number);
+                }
+                else
+                {
+                    // Format incorrect
+                    return null;
+                }
+            }
+
+            return backupNumbers.Distinct().ToList();
+        }
     }
 }

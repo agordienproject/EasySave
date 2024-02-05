@@ -1,7 +1,9 @@
-﻿using System;
+﻿using EasySave.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EasySave.Models
@@ -9,18 +11,34 @@ namespace EasySave.Models
     public class State
     {
         public string BackupName { get; set; }
+        public BackupState BackupState { get; set; }
         public DateTime BackupTime { get; set; }
-        public string BackupState { get; set; }
         public int TotalFilesNumber { get; set; }
         public int TotalFilesSize { get; set; }
+        public int NbFilesLeftToDo { get; set; }
+        public int FilesSizeLeftToDo { get; set; }
+        public string? SourceTransferingFilePath { get; set; }
+        public string? TargetTransferingFilePath { get; set; }
 
-        public State(string backupName, DateTime backupTime, string backupState, int totalFilesNumber, int totalFilesSize)
+        [JsonConstructor]
+        public State(string backupName, DateTime backupTime, BackupState backupState, int totalFilesNumber, int totalFilesSize, int nbFilesLeftToDo, int filesSizeLeftToDo, string sourceTransferingFilePath, string targetTransferingFilePath)
         {
-            this.BackupName = backupName;
-            this.BackupTime = backupTime;
-            this.BackupState = backupState;
-            this.TotalFilesNumber = totalFilesNumber;
-            this.TotalFilesSize = totalFilesSize;
+            BackupName = backupName;
+            BackupState = backupState;
+            BackupTime = backupTime;
+            TotalFilesNumber = totalFilesNumber;
+            TotalFilesSize = totalFilesSize;
+            NbFilesLeftToDo = nbFilesLeftToDo;
+            FilesSizeLeftToDo = filesSizeLeftToDo;
+            SourceTransferingFilePath = sourceTransferingFilePath;
+            TargetTransferingFilePath = targetTransferingFilePath;
         }
+
+        public State(string backupName)
+        {
+            BackupName = backupName;
+            BackupState = BackupState.Inactive;
+        }
+        
     }
 }

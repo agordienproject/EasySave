@@ -21,6 +21,6 @@ namespace EasySave.Models
             TargetDirectory = targetDirectory;
             BackupType = backupType;
         }
-
+        
     }
 }

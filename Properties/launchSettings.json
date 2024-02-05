@@ -2,7 +2,7 @@
   "profiles": {
     "EasySave": {
       "commandName": "Project",
-      "commandLineArgs": "create -n test -s c:\\\\ -d c:\\\\ -t Complete"
+      "commandLineArgs": "create -n Save2 -s C:\\\\Users\\\\funny\\\\Desktop\\\\SourceDir -d C:\\\\Users\\\\funny\\\\Desktop\\\\DestDir -t Complete"
     }
   }
 }

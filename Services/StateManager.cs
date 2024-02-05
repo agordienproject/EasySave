@@ -14,13 +14,7 @@ namespace EasySave.Services
         public StateManager(IConfiguration configuration)
         {
             _configuration = configuration;
-            _jsonFileManager = new JsonFileManager(_configuration.GetValue<string>("StatesJsonPath"));
-        }
-
-        public List<State> GetStates()
-        {
-            ReadStates();
-            return _states;
+            _jsonFileManager = new JsonFileManager(GetStateFilePath());
         }
 
         public void ReadStates()
@@ -42,11 +36,12 @@ namespace EasySave.Services
             WriteStates();
         }
 
-        public void DeleteState(State state)
+        public void DeleteState(string backupJobName)
         {
             ReadStates();
 
-            _states.Remove(state);
+            State stateToDelete = _states.FirstOrDefault(x => x.BackupName == backupJobName);
+            _states.Remove(stateToDelete);
 
             WriteStates();
         }
@@ -63,6 +58,20 @@ namespace EasySave.Services
             }
 
             WriteStates();
+        }
+
+        private string GetStateFilePath()
+        {
+            string filePath = _configuration.GetValue<string>("StatesJsonPath");
+
+            if (!File.Exists(filePath))
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+                }
+            }
+
+            return filePath;
         }
     }
 }

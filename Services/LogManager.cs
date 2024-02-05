@@ -3,6 +3,7 @@ using EasySave.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.CommandLine;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,13 +20,7 @@ namespace EasySave.Services
         public LogManager(IConfiguration configuration)
         {
             _configuration = configuration;
-            _jsonFileManager = new JsonFileManager(Path.Combine(_configuration.GetValue<string>("LogsFolderPath"), DateTime.Now.ToString() + ".json"));
-        }
-
-        public List<Log> GetLogs()
-        {
-            ReadLogs();
-            return _logs;
+            _jsonFileManager = new JsonFileManager(GetLogFilePath());
         }
 
         public void ReadLogs()
@@ -47,5 +42,26 @@ namespace EasySave.Services
             WriteLogs();
         }
 
+        private string GetLogFilePath()
+        {
+            string logDirectory = _configuration.GetValue<string>("LogsFolderPath");
+            string logFileName = $"{DateTime.Now:dd_MM_yyyy}.json";
+
+            string filePath = Path.Combine(logDirectory, logFileName);
+
+            if (!Directory.Exists(logDirectory))
+            {
+                Directory.CreateDirectory(logDirectory);
+            }
+
+            if (!File.Exists(filePath))
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+                }
+            }
+
+            return filePath;
+        }
     }
 }

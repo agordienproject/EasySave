@@ -21,18 +21,7 @@ namespace EasySave.Controllers
 
         public void DeleteBackupJob(string name)
         {
-            List<BackupJob> backupJobs = backupManager.GetBackupJobs();
-
-            BackupJob backupJobToDelete = backupJobs.Find(backupJob => backupJob.BackupName == name);
-
-            if (backupJobToDelete != null)
-            {
-                backupManager.DeleteBackupJob(backupJobToDelete);
-            }
-            else
-            {
-                Console.WriteLine($"No backupJob named : {name} was found !");
-            }
+            backupManager.DeleteBackupJob(name);
         }
 
         public void ShowBackupJobs()
@@ -40,24 +29,14 @@ namespace EasySave.Controllers
             backupManager.DisplayBackupJobs();
         }
 
-        public async Task ExecuteBackupJobs(List<int> backupJobsId)
+        public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
         {
-            List<BackupJob> backupJobs = backupManager.GetBackupJobs();
-
-            List<BackupJob> backupJobsToExecute = new List<BackupJob>();
-
-            foreach (var index in backupJobsId)
+            if (backupJobsIndex.Count == 0)
             {
-                if (backupJobs.ElementAt(index) == null)
-                {
-                    backupJobsToExecute.Add(backupJobs.ElementAt(index));
-                }
+                return;
             }
 
-            if (backupJobsToExecute.Count > 0)
-            {
-                await backupManager.ExecuteBackupJobs(backupJobsToExecute);
-            }
+            await backupManager.ExecuteBackupJobs(backupJobsIndex);
         }
     }
 }

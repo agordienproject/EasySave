@@ -2,6 +2,7 @@
 using EasySave.Models;
 using EasySave.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
+using System.Xml.Linq;
 
 namespace EasySave.Services
 {
@@ -9,6 +10,9 @@ namespace EasySave.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IJsonFileManager _jsonFileManager;
+        
+        private readonly LogManager _logManager;
+        private readonly StateManager _stateManager;
 
         private List<BackupJob>? _backupJobs;
 
@@ -18,12 +22,8 @@ namespace EasySave.Services
         {
             _configuration = configuration;
             _jsonFileManager = new JsonFileManager(_configuration.GetValue<string>("BackupJobsJsonPath"));
-        }
-
-        public List<BackupJob> GetBackupJobs()
-        {
-            ReadBackups();
-            return _backupJobs;
+            _logManager = new LogManager(configuration);
+            _stateManager = new StateManager(configuration);
         }
 
         public void ReadBackups()
@@ -53,15 +53,26 @@ namespace EasySave.Services
             }
             
             _backupJobs.Add(backupJob);
+            _stateManager.CreateState(new State(backupJob.BackupName));
 
             WriteBackups();
         }
 
-        public void DeleteBackupJob(BackupJob backupJob)
+        public void DeleteBackupJob(string backupJobName)
         {
-            _backupJobs.Remove(backupJob);
+            ReadBackups();
+
+            BackupJob backupJobToDelete = _backupJobs.Find(backupJob => backupJob.BackupName == backupJobName);
+
+            if (backupJobToDelete == null) 
+            {
+                Console.WriteLine($"No backupJob named : {backupJobName} was found !");
+                return;
+            }
             
-            Console.WriteLine($"{backupJob.BackupName} successfuly deleted");
+            _backupJobs.Remove(backupJobToDelete);
+            _stateManager.DeleteState(backupJobName);
+            Console.WriteLine($"{backupJobName} successfuly deleted");
 
             WriteBackups();
         }
@@ -71,20 +82,25 @@ namespace EasySave.Services
             if (backupJob.BackupType == BackupType.Complete)
             {
                 Console.WriteLine($"Complete backup of : {backupJob.BackupName}");
-                await CopyFilesRecursively(backupJob.SourceDirectory, backupJob.TargetDirectory);
+                await CopyFilesRecursively(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory);
             }
             else if (backupJob.BackupType == BackupType.Differential)
             {
-                Console.WriteLine($"Diferential backup of : {backupJob.BackupName}");
-                await CopyFilesRecursively(backupJob.SourceDirectory, backupJob.TargetDirectory);
+                Console.WriteLine($"Differential backup of : {backupJob.BackupName}");
+                await CopyFilesRecursively(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory);
             }
         }
 
-        public async Task ExecuteBackupJobs(List<BackupJob> backupJobsToExecute)
+        public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
         {
-            foreach (var backupJobToExecute in backupJobsToExecute)
+            ReadBackups();
+
+            foreach (var index in backupJobsIndex)
             {
-                await ExecuteBackupJob(backupJobToExecute);
+                if (_backupJobs.ElementAt(index - 1) != null)
+                {
+                    await ExecuteBackupJob(_backupJobs.ElementAt(index - 1));
+                }
             }
         }
 
@@ -104,8 +120,9 @@ namespace EasySave.Services
             }
         }
 
-        public static async Task CopyFilesRecursively(string sourceDir, string targetDir)
+        public async Task CopyFilesRecursively(string backupJobName, string sourceDir, string targetDir)
         {
+            
             // Vérifier si le répertoire source existe
             if (!Directory.Exists(sourceDir))
             {
@@ -122,9 +139,22 @@ namespace EasySave.Services
             // Copier les fichiers du répertoire source vers le répertoire cible
             foreach (string filePath in Directory.GetFiles(sourceDir))
             {
+                FileInfo fileInfo = new FileInfo(filePath);
                 string fileName = Path.GetFileName(filePath);
                 string destFilePath = Path.Combine(targetDir, fileName);
+
+                DateTime before = DateTime.Now;
                 File.Copy(filePath, destFilePath, true);
+                DateTime after = DateTime.Now;
+                double transferTime = after.Subtract(before).TotalSeconds;
+                _logManager.CreateLog(new Log(
+                    backupJobName,
+                    filePath,
+                    destFilePath,
+                    fileInfo.Length,
+                    transferTime,
+                    DateTime.Now
+                    ));
                 Console.WriteLine($"Copie du fichier : {fileName}");
             }
 
@@ -133,7 +163,7 @@ namespace EasySave.Services
             {
                 string subDirName = Path.GetFileName(subDir);
                 string targetSubDir = Path.Combine(targetDir, subDirName);
-                await CopyFilesRecursively(subDir, targetSubDir);
+                await CopyFilesRecursively(backupJobName, subDir, targetSubDir);
             }
         }
     }
