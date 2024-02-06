@@ -81,12 +81,12 @@ namespace EasySave.Services
         {
             if (backupJob.BackupType == BackupType.Complete)
             {
-                Console.WriteLine($"Complete backup of : {backupJob.BackupName}");
+                //Console.WriteLine($"Complete backup of : {backupJob.BackupName}");
                 await CopyFilesRecursively(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory);
             }
             else if (backupJob.BackupType == BackupType.Differential)
             {
-                Console.WriteLine($"Differential backup of : {backupJob.BackupName}");
+                //Console.WriteLine($"Differential backup of : {backupJob.BackupName}");
                 await CopyFilesRecursively(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory);
             }
         }
@@ -143,19 +143,26 @@ namespace EasySave.Services
                 string fileName = Path.GetFileName(filePath);
                 string destFilePath = Path.Combine(targetDir, fileName);
 
-                DateTime before = DateTime.Now;
-                File.Copy(filePath, destFilePath, true);
-                DateTime after = DateTime.Now;
-                double transferTime = after.Subtract(before).TotalSeconds;
-                _logManager.CreateLog(new Log(
-                    backupJobName,
-                    filePath,
-                    destFilePath,
-                    fileInfo.Length,
-                    transferTime,
-                    DateTime.Now
-                    ));
-                Console.WriteLine($"Copie du fichier : {fileName}");
+                FileInfo destFileInfo = new FileInfo(destFilePath);
+                if (destFileInfo.Exists)
+                {
+                    if (destFileInfo.LastWriteTimeUtc < fileInfo.LastWriteTimeUtc)
+                    {
+                        DateTime before = DateTime.Now;
+                        File.Copy(filePath, destFilePath, true);
+                        DateTime after = DateTime.Now;
+                        double transferTime = after.Subtract(before).TotalSeconds;
+                        _logManager.CreateLog(new Log(
+                            backupJobName,
+                            filePath,
+                            destFilePath,
+                            fileInfo.Length,
+                            transferTime,
+                            DateTime.Now
+                            ));
+                        Console.WriteLine($"Copie du fichier : {fileName}");
+                    }
+                }
             }
 
             // Copier les fichiers des sous-répertoires
@@ -169,8 +176,8 @@ namespace EasySave.Services
 
         private string GetBackupJobsFilePath()
         {
-            string folderPath = _configuration.GetValue<string>("BackupJobsFolderPath");
-            string filePath = _configuration.GetValue<string>("BackupJobsJsonPath");
+            string folderPath = @".\Data\BackupJobs\";
+            string filePath = @".\Data\BackupJobs\backupjobs.json";
 
             if (!Directory.Exists(folderPath))
             {

@@ -44,7 +44,7 @@ namespace EasySave.Services
 
         private string GetLogFilePath()
         {
-            string logDirectory = _configuration.GetValue<string>("LogsFolderPath");
+            string logDirectory = @".\Data\Logs\";
             string logFileName = $"{DateTime.Now:dd_MM_yyyy}.json";
 
             string filePath = Path.Combine(logDirectory, logFileName);
