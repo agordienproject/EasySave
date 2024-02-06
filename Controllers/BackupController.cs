@@ -14,20 +14,19 @@ namespace EasySave.Controllers
             backupManager = new BackupManager(configuration);
         }
 
-        public void CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType)
+        public async Task CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType)
         {
-            backupManager.CreateBackupJob(new BackupJob(name, sourcePath, destinationPath, backupType));
+            await backupManager.CreateBackupJob(new BackupJob(name, sourcePath, destinationPath, backupType));
         }
 
-        public void DeleteBackupJob(string name)
+        public async Task DeleteBackupJob(string name)
         {
-            backupManager.DeleteBackupJob(name);
+            await backupManager.DeleteBackupJob(name);
         }
 
-        public void ShowBackupJobs()
+        public async Task ShowBackupJobs()
         {
-            Console.WriteLine("Displaying...");
-            backupManager.DisplayBackupJobs();
+            await backupManager.DisplayBackupJobs();
         }
 
         public async Task ExecuteBackupJobs(List<int> backupJobsIndex)

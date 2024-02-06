@@ -2,7 +2,7 @@
 {
     public interface IFileManager
     {
-        List<T>? Read<T>();
-        void Write<T>(List<T> list);
+        Task<List<T>?> Read<T>();
+        Task Write<T>(List<T> list);
     }
 }
