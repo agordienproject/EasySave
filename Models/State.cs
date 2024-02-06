@@ -1,4 +1,5 @@
 ﻿using EasySave.Enums;
+using EasySave.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EasySave.Models
 {
-    public class State
+    public class State : INamedEntity
     {
         public string BackupName { get; set; }
         public BackupState BackupState { get; set; }

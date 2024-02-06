@@ -13,7 +13,7 @@ namespace EasySave.Services
     public class LogManager
     {
         private readonly IConfiguration _configuration;
-        private readonly IJsonFileManager _jsonFileManager;
+        private readonly IFileManager _jsonFileManager;
 
         private List<Log>? _logs;
 

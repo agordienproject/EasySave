@@ -10,13 +10,6 @@
 
   <ItemGroup>
     <None Remove="backupjobs.json" />
-    <None Remove="Data\BackupJobs\backupjobs.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Data\BackupJobs\backupjobs.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -50,8 +43,8 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Backups\backups.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="Data\BackupJobs\backupjobs.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

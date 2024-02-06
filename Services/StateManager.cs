@@ -7,7 +7,7 @@ namespace EasySave.Services
     public class StateManager
     {
         private readonly IConfiguration _configuration;
-        private readonly IJsonFileManager _jsonFileManager;
+        private readonly IFileManager _jsonFileManager;
 
         private List<State>? _states;
 
@@ -62,7 +62,13 @@ namespace EasySave.Services
 
         private string GetStateFilePath()
         {
-            string filePath = _configuration.GetValue<string>("StatesJsonPath");
+            string folderPath = _configuration.GetValue<string>("StatesFolderPath");
+            string filePath = _configuration.GetValue<string>("StatesJsonFilePath");
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
 
             if (!File.Exists(filePath))
             {

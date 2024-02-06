@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EasySave.Models.Interfaces;
+
 
 namespace EasySave.Models
 {
-    public class BackupJob
+    public class BackupJob : INamedEntity
     {
         public string BackupName { get; set; }
         public string SourceDirectory { get; set; }

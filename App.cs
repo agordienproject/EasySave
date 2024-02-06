@@ -21,6 +21,7 @@ namespace EasySave
 
         public async Task Run(string[] args)
         {
+            // Set language from settings
             Resources.Language.Culture = new CultureInfo(_configuration.GetValue<string>("CurrentCulture"));
             
             await InitCommandLine(args);

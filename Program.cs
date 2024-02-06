@@ -49,16 +49,4 @@ class Program
             .AddEnvironmentVariables();
     }
 
-    private static string GetLogFilePath()
-    {
-        string logDirectory = "logs"; // Nom du répertoire des logs
-        string logFileName = $"{DateTime.Now:dd_MM_yyyy}.json";
-
-        if (!Directory.Exists(logDirectory))
-        {
-            Directory.CreateDirectory(logDirectory);
-        }
-
-        return Path.Combine(logDirectory, logFileName);
-    }
 }

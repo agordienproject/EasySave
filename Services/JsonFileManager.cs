@@ -3,7 +3,7 @@ using EasySave.Services.Interfaces;
 
 namespace EasySave.Services
 {
-    public class JsonFileManager : IJsonFileManager
+    public class JsonFileManager : IFileManager
     {
         private readonly string _filePath;
 

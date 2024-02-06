@@ -9,8 +9,8 @@ namespace EasySave.Services
     public class BackupManager
     {
         private readonly IConfiguration _configuration;
-        private readonly IJsonFileManager _jsonFileManager;
-        
+        private readonly IFileManager _jsonFileManager;
+
         private readonly LogManager _logManager;
         private readonly StateManager _stateManager;
 
@@ -21,7 +21,7 @@ namespace EasySave.Services
         public BackupManager(IConfiguration configuration) 
         {
             _configuration = configuration;
-            _jsonFileManager = new JsonFileManager(_configuration.GetValue<string>("BackupJobsJsonPath"));
+            _jsonFileManager = new JsonFileManager(GetBackupJobsFilePath());
             _logManager = new LogManager(configuration);
             _stateManager = new StateManager(configuration);
         }
@@ -165,6 +165,26 @@ namespace EasySave.Services
                 string targetSubDir = Path.Combine(targetDir, subDirName);
                 await CopyFilesRecursively(backupJobName, subDir, targetSubDir);
             }
+        }
+
+        private string GetBackupJobsFilePath()
+        {
+            string folderPath = _configuration.GetValue<string>("BackupJobsFolderPath");
+            string filePath = _configuration.GetValue<string>("BackupJobsJsonPath");
+
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            if (!File.Exists(filePath))
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+                }
+            }
+
+            return filePath;
         }
     }
 }
