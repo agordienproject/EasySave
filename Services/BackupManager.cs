@@ -113,7 +113,9 @@ namespace EasySave.Services
 
         public async Task ExecuteBackupJob(BackupJob backupJob)
         {
-            if (backupJob.BackupType == BackupType.Complete)
+            await ReadBackups();
+            int i = 0;
+            foreach (var backupJob in _backupJobs)
             {
                 Console.WriteLine($"La sauvegarde est complète");
                 //Console.WriteLine($"Complete backup of : {backupJob.BackupName}");
