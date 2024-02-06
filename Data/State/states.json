@@ -1,0 +1,57 @@
+[
+  {
+    "BackupName": "Save1",
+    "BackupState": 0,
+    "BackupTime": "0001-01-01T00:00:00",
+    "TotalFilesNumber": 0,
+    "TotalFilesSize": 0,
+    "NbFilesLeftToDo": 0,
+    "FilesSizeLeftToDo": 0,
+    "SourceTransferingFilePath": null,
+    "TargetTransferingFilePath": null
+  },
+  {
+    "BackupName": "Save2",
+    "BackupState": 0,
+    "BackupTime": "0001-01-01T00:00:00",
+    "TotalFilesNumber": 0,
+    "TotalFilesSize": 0,
+    "NbFilesLeftToDo": 0,
+    "FilesSizeLeftToDo": 0,
+    "SourceTransferingFilePath": null,
+    "TargetTransferingFilePath": null
+  },
+  {
+    "BackupName": "Save3",
+    "BackupState": 0,
+    "BackupTime": "0001-01-01T00:00:00",
+    "TotalFilesNumber": 0,
+    "TotalFilesSize": 0,
+    "NbFilesLeftToDo": 0,
+    "FilesSizeLeftToDo": 0,
+    "SourceTransferingFilePath": null,
+    "TargetTransferingFilePath": null
+  },
+  {
+    "BackupName": "Save4",
+    "BackupState": 0,
+    "BackupTime": "0001-01-01T00:00:00",
+    "TotalFilesNumber": 0,
+    "TotalFilesSize": 0,
+    "NbFilesLeftToDo": 0,
+    "FilesSizeLeftToDo": 0,
+    "SourceTransferingFilePath": null,
+    "TargetTransferingFilePath": null
+  },
+  {
+    "BackupName": "Save5",
+    "BackupState": 0,
+    "BackupTime": "0001-01-01T00:00:00",
+    "TotalFilesNumber": 0,
+    "TotalFilesSize": 0,
+    "NbFilesLeftToDo": 0,
+    "FilesSizeLeftToDo": 0,
+    "SourceTransferingFilePath": null,
+    "TargetTransferingFilePath": null
+  }
+]

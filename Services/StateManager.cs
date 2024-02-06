@@ -17,38 +17,38 @@ namespace EasySave.Services
             _jsonFileManager = new JsonFileManager(GetStateFilePath());
         }
 
-        public void ReadStates()
+        public async Task ReadStates()
         {
-            _states = _jsonFileManager.Read<State>();
+            _states = await _jsonFileManager.Read<State>();
         }
 
-        public void WriteStates()
+        public async Task WriteStates()
         {
-            _jsonFileManager.Write(_states);
+            await _jsonFileManager.Write(_states);
         }
 
-        public void CreateState(State state)
+        public async Task CreateState(State state)
         {
-            ReadStates();
+            await ReadStates();
 
             _states.Add(state);
 
-            WriteStates();
+            await WriteStates();
         }
 
-        public void DeleteState(string backupJobName)
+        public async Task DeleteState(string backupJobName)
         {
-            ReadStates();
+            await ReadStates();
 
             State stateToDelete = _states.FirstOrDefault(x => x.BackupName == backupJobName);
             _states.Remove(stateToDelete);
 
-            WriteStates();
+            await WriteStates();
         }
 
-        public void UpdateState(State updatedState)
+        public async Task UpdateState(State updatedState)
         {
-            ReadStates();
+            await ReadStates();
 
             int stateToUpdateIndex = _states.FindIndex(state => state.BackupName == updatedState.BackupName);
 
@@ -57,7 +57,7 @@ namespace EasySave.Services
                 _states[stateToUpdateIndex] = updatedState;
             }
 
-            WriteStates();
+            await WriteStates();
         }
 
         private string GetStateFilePath()

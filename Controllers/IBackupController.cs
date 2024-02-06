@@ -4,9 +4,9 @@ namespace EasySave.Controllers
 {
     public interface IBackupController
     {
-        void CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType);
-        void DeleteBackupJob(string name);
-        Task ExecuteBackupJobs(List<int> backupJobsId);
-        void ShowBackupJobs();
+        Task CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType);
+        Task DeleteBackupJob(string name);
+        Task ExecuteBackupJobs(List<int> backupJobsIndex);
+        Task ShowBackupJobs();
     }
 }
