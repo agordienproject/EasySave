@@ -62,8 +62,8 @@ namespace EasySave.Services
 
         private string GetStateFilePath()
         {
-            string folderPath = _configuration.GetValue<string>("StatesFolderPath");
-            string filePath = _configuration.GetValue<string>("StatesJsonFilePath");
+            string folderPath = @".\Data\State\";
+            string filePath = @".\Data\State\states.json";
 
             if (!Directory.Exists(folderPath))
             {

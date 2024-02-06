@@ -105,6 +105,12 @@ namespace EasySave
             executeCommand.SetHandler(_backupController.ExecuteBackupJobs, backupIndexesOption);
             #endregion
 
+            //Console.WriteLine("Attendre");
+            //while (true)
+            //{
+            //    Console.ReadLine();
+            //}
+
             return await rootCommand.InvokeAsync(args);
         }
 

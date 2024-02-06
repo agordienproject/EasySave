@@ -26,6 +26,7 @@ namespace EasySave.Controllers
 
         public void ShowBackupJobs()
         {
+            Console.WriteLine("Displaying...");
             backupManager.DisplayBackupJobs();
         }
 

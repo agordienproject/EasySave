@@ -9,10 +9,14 @@ namespace EasySave;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
-        var builder = new ConfigurationBuilder();
-        BuildConfig(builder);
+        var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appSettings.json", false)
+            .Build();
+        //BuildConfig(builder);
+
 
         using IHost host = CreateHostBuilder(args).Build();
         using var scope = host.Services.CreateScope();
@@ -21,11 +25,11 @@ class Program
 
         try
         {
-            services.GetRequiredService<App>().Run(args);
+            await services.GetRequiredService<App>().Run(args);
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex);
         }
 
     }
@@ -33,10 +37,11 @@ class Program
     static IHostBuilder CreateHostBuilder(string[] args)
     {
         return Host.CreateDefaultBuilder(args)
-            .ConfigureServices((_, services) =>
+            .ConfigureServices((context, services) =>
             {
                 services.AddSingleton<App>();
                 services.AddSingleton<IBackupController, BackupController>();
+                //services.AddSingleton<IConfiguration>(configuration);
             });
 
     }
@@ -45,7 +50,7 @@ class Program
     {
         builder.SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", false, true)
-            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", false)
+            //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", false)
             .AddEnvironmentVariables();
     }
 
