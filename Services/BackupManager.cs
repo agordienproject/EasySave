@@ -97,21 +97,15 @@ namespace EasySave.Services
         {
             await ReadBackups();
 
-            Console.WriteLine("before");
             if (_backupJobs.Count == 0)
             {
                 Console.WriteLine("No backup job to execute !");
                 return;
             }
-            Console.WriteLine("after");
 
-            Console.WriteLine($"Taille de la liste _backupJobs : {_backupJobs.Count}");
-
-            List<BackupJob> backupJobsToExecute = _backupJobs.Where((item, index) => backupJobsIndex.Contains(index)).ToList();
-            Console.WriteLine($"Taille de la liste backupJobsToExecute : {backupJobsToExecute.Count}");
+            List<BackupJob> backupJobsToExecute = _backupJobs.Where((item, index) => backupJobsIndex.Contains(index + 1)).ToList();
             foreach (var backupJob in backupJobsToExecute)
             {
-                Console.WriteLine("Exécution des jobs");
                 await ExecuteBackupJob(backupJob);
             }
 
@@ -158,7 +152,7 @@ namespace EasySave.Services
 
                 CopyFileAndUpdateLog(backupJobName, filePath, destFilePath, fileInfo);
 
-                Console.WriteLine($"Copie du fichier : {fileName}");
+                Console.WriteLine($"Copie du fichier : {fileName} dans {destFilePath}");
             }
 
             // Copier les fichiers des sous-répertoires
