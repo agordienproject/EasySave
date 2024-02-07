@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EasySave.Models.BackupJob">
+    <Position X="4" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAgAAAgAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\BackupJob.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasySave.Models.State">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIgAAAAAAABAAAAAAACAAAAgAAAAAAAA=</HashCode>
+      <FileName>Models\State.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasySave.Models.Log">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAgBAAAAEAgAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Models\Log.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasySave.Services.BackupManager">
+    <Position X="0.5" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAAIAAgAAAAAAAAIAABBAAAEAAABAAAEEAAIAAAAA=</HashCode>
+      <FileName>Services\BackupManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasySave.Services.JsonFileManager">
+    <Position X="2.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAgAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Services\JsonFileManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasySave.Services.LogManager">
+    <Position X="4.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAoAAAAAAAAAAAEECAAAAAAAAAAAAAAEAAAIAAAA=</HashCode>
+      <FileName>Services\LogManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasySave.Services.StateManager">
+    <Position X="6.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EEAAAMAAAAAAAAAAAAAAABAAAABAAAAAAAEABAAAgAA=</HashCode>
+      <FileName>Services\StateManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasySave.Controllers.BackupController">
+    <Position X="11.75" Y="3.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAADAAAAAAAAAAAEAAAAAAAIA=</HashCode>
+      <FileName>Controllers\BackupController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EasySave.App">
+    <Position X="12" Y="9" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEABAAAAAI=</HashCode>
+      <FileName>App.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EasySave.Program">
+    <Position X="14" Y="9" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAIAAAAAAAAAEAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="EasySave.Services.Interfaces.IJsonFileManager">
+    <Position X="2.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Services\Interfaces\IJsonFileManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="EasySave.Controllers.IBackupController">
+    <Position X="9.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAABAAAAAAAAAAAEAAAAAAAIA=</HashCode>
+      <FileName>Controllers\IBackupController.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="EasySave.Enums.BackupType">
+    <Position X="6" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enums\BackupTypeEnum.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

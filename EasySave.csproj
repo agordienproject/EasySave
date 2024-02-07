@@ -10,6 +10,11 @@
 
   <ItemGroup>
     <None Remove="backupjobs.json" />
+    <None Remove="README\README_En.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="README\README_En.md" />
   </ItemGroup>
 
   <ItemGroup>
