@@ -2,6 +2,7 @@
   "profiles": {
     "EasySave": {
       "commandName": "Project"
+      "commandLineArgs": "create -- help\r\n"
     }
   }
 }

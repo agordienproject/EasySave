@@ -32,33 +32,33 @@ namespace EasySave
             #region Options
             var backupNameOption = new Option<string>(
                 aliases: ["--name", "-n"],
-                description: "The name of the backup")
+                description: Resources.Language.NameOptionDescription)
                 {
                     IsRequired = true
                 };
 
             var sourceDirectoryPathOption = new Option<string>(
                 aliases: ["--source", "-s"],
-                description: "The path of the destination directory.")
+                description: Resources.Language.SourceDirectoryPathOptionDescription)
                 {
                     IsRequired = true
                 };
 
             var destinationDirectoryPathOption = new Option<string>(
                 aliases: ["--destination", "-d"],
-                description: "The path of the destination directory.")
+                description: Resources.Language.DestinationDirectoryPathOptionDescription)
                 {
                     IsRequired = true
                 };
 
             var backupTypeOption = new Option<BackupType>(
                 aliases: ["--type", "-t"],
-                description: "The type of backup (Complete or Differential).",
+                description: Resources.Language.BackupTypeOptionDescription,
                 getDefaultValue: () => BackupType.Complete);
 
             var backupIndexesOption = new Option<List<int>>(
                 aliases: ["--range", "-r"],
-                description: "Range of backup to execute.",
+                description: Resources.Language.BackupIndexesOptionDescription,
                 isDefault: true,
                 parseArgument: result =>
                 {
@@ -78,16 +78,16 @@ namespace EasySave
             };
             rootCommand.AddCommand(createCommand);
 
-            var deleteCommand = new Command("delete", "Delete the specified backup.")
+            var deleteCommand = new Command("delete", Resources.Language.DeleteCommandDescription)
             {
                 backupNameOption,
             };
             rootCommand.AddCommand(deleteCommand);
 
-            var showCommand = new Command("show", "Show all backups");
+            var showCommand = new Command("show", Resources.Language.ShowCommandDescription);
             rootCommand.AddCommand(showCommand);
 
-            var executeCommand = new Command("execute", "Execute one or more backup jobs") 
+            var executeCommand = new Command("execute", Resources.Language.ExecuteCommandDescription) 
             { 
                 backupIndexesOption,
             };

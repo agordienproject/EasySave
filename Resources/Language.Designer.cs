@@ -70,6 +70,24 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Range of backup to execute.
+        /// </summary>
+        internal static string BackupIndexesOptionDescription {
+            get {
+                return ResourceManager.GetString("BackupIndexesOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The type of backup (Complete or Differential).
+        /// </summary>
+        internal static string BackupTypeOptionDescription {
+            get {
+                return ResourceManager.GetString("BackupTypeOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create a new backup job.
         /// </summary>
         internal static string CreateCommandDescription {
@@ -79,11 +97,65 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete the specified backup.
+        /// </summary>
+        internal static string DeleteCommandDescription {
+            get {
+                return ResourceManager.GetString("DeleteCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The path of the destination directory.
+        /// </summary>
+        internal static string DestinationDirectoryPathOptionDescription {
+            get {
+                return ResourceManager.GetString("DestinationDirectoryPathOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Execute one or more backup jobs.
+        /// </summary>
+        internal static string ExecuteCommandDescription {
+            get {
+                return ResourceManager.GetString("ExecuteCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à HelloWorld.
         /// </summary>
         internal static string HelloWorld {
             get {
                 return ResourceManager.GetString("HelloWorld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The name of the backup.
+        /// </summary>
+        internal static string NameOptionDescription {
+            get {
+                return ResourceManager.GetString("NameOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Show all backups.
+        /// </summary>
+        internal static string ShowCommandDescription {
+            get {
+                return ResourceManager.GetString("ShowCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The path of the source directory.
+        /// </summary>
+        internal static string SourceDirectoryPathOptionDescription {
+            get {
+                return ResourceManager.GetString("SourceDirectoryPathOptionDescription", resourceCulture);
             }
         }
     }
