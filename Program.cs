@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using EasySave.Services;
 using System.Globalization;
+using EasySave.Services.Interfaces;
 
 namespace EasySave;
 
@@ -11,18 +12,23 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        //Configuration
-       //var builder = new ConfigurationBuilder()
-       //    .SetBasePath(ApplicationExeDirectory())
-       //    .AddJsonFile("appSettings.json")
-       //    .Build();
+        // Configuration
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(AppSettingsJson.GetApplicationExeDirectory())
+            .AddJsonFile($"appsettings.json", false, true)
+            .AddEnvironmentVariables()
+            .Build();
 
         // Host
         using IHost host = Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
             {
+                services.AddSingleton<IConfiguration>(configuration);
                 services.AddSingleton<App>();
                 services.AddSingleton<IBackupController, BackupController>();
+                services.AddSingleton<IBackupManager, BackupManager>();
+                services.AddSingleton<IStateManager, StateManager>();
+                services.AddSingleton<ILogManager, LogManager>();
             }).Build();
 
         using (var scope = host.Services.CreateScope())
@@ -31,6 +37,7 @@ class Program
 
             try
             {
+                // Call Run command from App.cs
                 var app = services.GetRequiredService<App>();
                 await app.Run(args);
             }
@@ -41,32 +48,5 @@ class Program
 
         }
 
-        static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureServices((context, services) =>
-                {
-                    services.AddSingleton<App>();
-                    services.AddSingleton<IBackupController, BackupController>();
-                    //services.AddSingleton<IConfiguration>(configuration);
-                });
-
-        }
-
-        static void BuildConfig(IConfigurationBuilder builder)
-        {
-            builder.SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", false, true)
-                //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", false)
-                .AddEnvironmentVariables();
-        }
-
-        static string ApplicationExeDirectory()
-        {
-            var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var appRoot = Path.GetDirectoryName(location);
-
-            return appRoot;
-        }
     }
 }

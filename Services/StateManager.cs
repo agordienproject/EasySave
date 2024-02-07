@@ -4,16 +4,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace EasySave.Services
 {
-    public class StateManager
+    public class StateManager : IStateManager
     {
-        private readonly IConfiguration _configuration;
         private readonly IFileManager _jsonFileManager;
 
         private List<State>? _states;
 
-        public StateManager(IConfiguration configuration)
+        public StateManager()
         {
-            _configuration = configuration;
             _jsonFileManager = new JsonFileManager(AppSettingsJson.GetStatesFilePath());
         }
 

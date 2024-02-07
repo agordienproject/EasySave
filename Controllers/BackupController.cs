@@ -1,27 +1,32 @@
 ﻿using EasySave.Enums;
 using EasySave.Models;
 using EasySave.Services;
+using EasySave.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 namespace EasySave.Controllers
 {
     public class BackupController : IBackupController
     {
-        private BackupManager _backupManager { get; set; }
+        private IBackupManager _backupManager { get; set; }
+        private IStateManager _stateManager { get; set; }
 
-        public BackupController(IConfiguration configuration)
+        public BackupController(IBackupManager backupManager, IStateManager stateManager)
         {
-            _backupManager = new BackupManager(configuration);
+            _backupManager = backupManager;
+            _stateManager = stateManager;
         }
 
         public async Task CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType)
         {
             await _backupManager.CreateBackupJob(new BackupJob(name, sourcePath, destinationPath, backupType));
+            await _stateManager.CreateState(new State(name));
         }
 
         public async Task DeleteBackupJob(string name)
         {
             await _backupManager.DeleteBackupJob(name);
+            await _stateManager.DeleteState(name);
         }
 
         public async Task ShowBackupJobs()

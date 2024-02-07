@@ -20,7 +20,7 @@ namespace EasySave
             return builder.Build();
         }
 
-        private static string GetApplicationExeDirectory()
+        public static string GetApplicationExeDirectory()
         {
             var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var appRoot = Path.GetDirectoryName(location);
@@ -63,5 +63,6 @@ namespace EasySave
 
             return Path.Combine(appRoot, relativeFilePath);
         }
+
     }
 }

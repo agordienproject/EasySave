@@ -10,16 +10,14 @@ using System.Threading.Tasks;
 
 namespace EasySave.Services
 {
-    public class LogManager
+    public class LogManager : ILogManager
     {
-        private readonly IConfiguration _configuration;
         private readonly IFileManager _jsonFileManager;
 
         private List<Log>? _logs;
 
-        public LogManager(IConfiguration configuration)
+        public LogManager()
         {
-            _configuration = configuration;
             _jsonFileManager = new JsonFileManager(AppSettingsJson.GetLogsFilePath());
         }
 

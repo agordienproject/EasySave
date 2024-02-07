@@ -1,5 +1,6 @@
 ﻿using EasySave.Controllers;
 using EasySave.Enums;
+using EasySave.Utils;
 using Microsoft.Extensions.Configuration;
 using System.CommandLine;
 using System.Globalization;
@@ -10,28 +11,37 @@ namespace EasySave
 {
     public class App
     {
-        private readonly IBackupController _backupController;
         private readonly IConfiguration _configuration;
+        private readonly IBackupController _backupController;
 
-        public App(IBackupController backupController, IConfiguration configuration) 
+        public App(IConfiguration configuration, IBackupController backupController) 
         {
-            _backupController = backupController;
             _configuration = configuration;
+            _backupController = backupController;
         }
 
         public async Task Run(string[] args)
         {
-            // Set language from settings
-            Resources.Language.Culture = new CultureInfo(AppSettingsJson.GetAppSettings()["CurrentCulture"]);
-            
-            InitJsonFile(AppSettingsJson.GetBackupJobsFilePath());
-            InitJsonFile(AppSettingsJson.GetLogsFilePath());
-            InitJsonFile(AppSettingsJson.GetStatesFilePath());
+            // Set app culture from appsettings.json
+            Resources.Language.Culture = new CultureInfo(_configuration["CurrentCulture"]);
 
-            await InitCommandLine(args);
+            RootCommand rootCommand = InitCommandLine();
+
+            if (args.Length == 0)
+            {
+                await rootCommand.InvokeAsync(["--help"]);
+                while (true)
+                {
+                    Console.WriteLine("Saisissez une commande :");
+                    args = Console.ReadLine().Split(' ');
+                    await rootCommand.InvokeAsync(args);
+                }
+            }
+
+            await rootCommand.InvokeAsync(args);
         }
 
-        public async Task<int> InitCommandLine(string[] args)
+        public RootCommand InitCommandLine()
         {
             #region Options
             var backupNameOption = new Option<string>(
@@ -66,7 +76,7 @@ namespace EasySave
                 isDefault: true,
                 parseArgument: result =>
                 {
-                    return ParseBackupJobIndex(result.ToString());
+                    return CommandLineParseUtils.ParseBackupJobIndex(result.ToString());
                 });
             #endregion
 
@@ -109,84 +119,7 @@ namespace EasySave
             executeCommand.SetHandler(_backupController.ExecuteBackupJobs, backupIndexesOption);
             #endregion
 
-            //if (args.Length == 0)
-            //{
-                while (args.Length == 0)
-                {
-                    //Console.Clear();
-                    await rootCommand.InvokeAsync(["--help"]);
-                    Console.WriteLine("Saisissez une commande :");
-                    args = Console.ReadLine().Split(' ');  // Lire la commande depuis la console et la diviser en arguments
-                }
-            //}
-
-            return await rootCommand.InvokeAsync(args);
-        }
-
-        public static List<int> ParseBackupJobIndex(string input)
-        {
-            List<int> backupNumbers = new List<int>();
-
-            // Vérifier le format 'X-Y' ou 'X;Y'
-            Regex regex = new Regex(@"(\d+)[\-;](\d+)");
-            Match match = regex.Match(input);
-
-            if (match.Success)
-            {
-                int start = int.Parse(match.Groups[1].Value);
-                int end = int.Parse(match.Groups[2].Value);
-
-                // Ajouter les numéros de sauvegarde dans la liste
-                if (input.Contains(";"))
-                {
-                    backupNumbers.Add(start);
-                    backupNumbers.Add(end);
-                }
-
-                if (input.Contains('-'))
-                {
-                    for (int i = start; i <= end; i++)
-                    {
-                        backupNumbers.Add(i);
-                    }
-                }
-            }
-            else
-            {
-                // Vérifier le format unique 'X'
-                regex = new Regex(@"(\d+)");
-                match = regex.Match(input);
-
-                if (match.Success)
-                {
-                    int number = int.Parse(match.Groups[1].Value);
-                    backupNumbers.Add(number);
-                }
-                else
-                {
-                    // Format incorrect
-                    return null;
-                }
-            }
-
-            return backupNumbers.Distinct().ToList();
-        }
-
-        private void InitJsonFile(string filePath)
-        {
-            string directoryPath = Path.GetDirectoryName(filePath);
-
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-
-            if (!File.Exists(filePath))
-            {
-                using (FileStream fs = File.Create(filePath))
-                {
-                }
-            }
+            return rootCommand;
         }
     }
 }

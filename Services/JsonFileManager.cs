@@ -10,6 +10,24 @@ namespace EasySave.Services
         public JsonFileManager(string filePath)
         {
             _filePath = filePath;
+            InitJsonFile(filePath);
+        }
+
+        private void InitJsonFile(string filePath)
+        {
+            string directoryPath = Path.GetDirectoryName(filePath);
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            if (!File.Exists(filePath))
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+                }
+            }
         }
 
         public async Task<List<T>?> Read<T>()
