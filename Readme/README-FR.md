@@ -35,10 +35,10 @@
 
 #### Exemples
 
-EasySave create --name {nomDeLaSauvegarde} --source {repertoireSource} --destination {repertoireDestination} --type {typeDeSauvegarde}
-EasySave show
-EasySave delete --name {nomDeLaSauvegarde}
-EasySave execute -r 1-3 
+- EasySave create --name {nomDeLaSauvegarde} --source {repertoireSource} --destination {repertoireDestination} --type {typeDeSauvegarde}
+- EasySave show
+- EasySave delete --name {nomDeLaSauvegarde}
+- EasySave execute -r 1-3 
 
 
 ### 3/ Emplacements des fichiers
