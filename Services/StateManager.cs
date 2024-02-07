@@ -14,7 +14,7 @@ namespace EasySave.Services
         public StateManager(IConfiguration configuration)
         {
             _configuration = configuration;
-            _jsonFileManager = new JsonFileManager(GetStateFilePath());
+            _jsonFileManager = new JsonFileManager(AppSettingsJson.GetStatesFilePath());
         }
 
         public async Task ReadStates()
@@ -60,24 +60,5 @@ namespace EasySave.Services
             await WriteStates();
         }
 
-        private string GetStateFilePath()
-        {
-            string folderPath = @".\Data\State\";
-            string filePath = @".\Data\State\states.json";
-
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            if (!File.Exists(filePath))
-            {
-                using (FileStream fs = File.Create(filePath))
-                {
-                }
-            }
-
-            return filePath;
-        }
     }
 }
