@@ -12,7 +12,7 @@ namespace EasySave.Services
             _filePath = filePath;
         }
 
-        public List<T>? Read<T>()
+        public async Task<List<T>?> Read<T>()
         {
             using FileStream openStream = File.OpenRead(_filePath);
 
@@ -24,13 +24,13 @@ namespace EasySave.Services
             }
             catch (JsonException e)
             {
-                Console.WriteLine(e.Message);
+                //Console.WriteLine(e.Message);
             }
 
             return list;
         }
 
-        public void Write<T>(List<T> list)
+        public async Task Write<T>(List<T> list)
         {
             var options = new JsonSerializerOptions { WriteIndented = true, };
             using FileStream openStream = File.Open(_filePath, FileMode.Truncate);

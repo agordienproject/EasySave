@@ -26,19 +26,19 @@ namespace EasySave.Services
             _stateManager = new StateManager(configuration);
         }
 
-        public void ReadBackups()
+        public async Task ReadBackups()
         {
-            _backupJobs = _jsonFileManager.Read<BackupJob>();
+            _backupJobs = await _jsonFileManager.Read<BackupJob>();
         }
 
-        public void WriteBackups()
+        public async Task WriteBackups()
         {
-            _jsonFileManager.Write(_backupJobs);
+            await _jsonFileManager.Write(_backupJobs);
         }
 
-        public void CreateBackupJob(BackupJob backupJob)
+        public async Task CreateBackupJob(BackupJob backupJob)
         {
-            ReadBackups();
+            await ReadBackups();
 
             if (_backupJobs.Count >= BACKUPJOBS_LIMIT)
             {
@@ -53,14 +53,14 @@ namespace EasySave.Services
             }
             
             _backupJobs.Add(backupJob);
-            _stateManager.CreateState(new State(backupJob.BackupName));
+            await _stateManager.CreateState(new State(backupJob.BackupName));
 
-            WriteBackups();
+            await WriteBackups();
         }
 
-        public void DeleteBackupJob(string backupJobName)
+        public async Task DeleteBackupJob(string backupJobName)
         {
-            ReadBackups();
+            await ReadBackups();
 
             BackupJob backupJobToDelete = _backupJobs.Find(backupJob => backupJob.BackupName == backupJobName);
 
@@ -71,42 +71,15 @@ namespace EasySave.Services
             }
             
             _backupJobs.Remove(backupJobToDelete);
-            _stateManager.DeleteState(backupJobName);
+            await _stateManager.DeleteState(backupJobName);
             Console.WriteLine($"{backupJobName} successfuly deleted");
 
-            WriteBackups();
+            await WriteBackups();
         }
 
-        public async Task ExecuteBackupJob(BackupJob backupJob)
+        public async Task DisplayBackupJobs()
         {
-            if (backupJob.BackupType == BackupType.Complete)
-            {
-                Console.WriteLine($"Complete backup of : {backupJob.BackupName}");
-                await CopyFilesRecursively(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory);
-            }
-            else if (backupJob.BackupType == BackupType.Differential)
-            {
-                Console.WriteLine($"Differential backup of : {backupJob.BackupName}");
-                await CopyFilesRecursively(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory);
-            }
-        }
-
-        public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
-        {
-            ReadBackups();
-
-            foreach (var index in backupJobsIndex)
-            {
-                if (_backupJobs.ElementAt(index - 1) != null)
-                {
-                    await ExecuteBackupJob(_backupJobs.ElementAt(index - 1));
-                }
-            }
-        }
-
-        public void DisplayBackupJobs()
-        {
-            ReadBackups();
+            await ReadBackups();
             int i = 0;
             foreach (var backupJob in _backupJobs)
             {
@@ -120,9 +93,43 @@ namespace EasySave.Services
             }
         }
 
+        public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
+        {
+            await ReadBackups();
+
+            if (_backupJobs.Count == 0)
+            {
+                Console.WriteLine("No backup job to execute !");
+                return;
+            }
+
+            List<BackupJob> backupJobsToExecute = _backupJobs.Where((item, index) => backupJobsIndex.Contains(index + 1)).ToList();
+            foreach (var backupJob in backupJobsToExecute)
+            {
+                await ExecuteBackupJob(backupJob);
+            }
+
+        }
+
+        public async Task ExecuteBackupJob(BackupJob backupJob)
+        {
+            if (backupJob.BackupType == BackupType.Complete)
+            {
+                Console.WriteLine($"La sauvegarde est complète");
+                //Console.WriteLine($"Complete backup of : {backupJob.BackupName}");
+                await CopyFilesRecursively(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory);
+            }
+            else if (backupJob.BackupType == BackupType.Differential)
+            {
+                Console.WriteLine($"La sauvegarde est différentielle");
+                //Console.WriteLine($"Differential backup of : {backupJob.BackupName}");
+                await CopyFilesDifferential(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory);
+            }
+        }
+
         public async Task CopyFilesRecursively(string backupJobName, string sourceDir, string targetDir)
         {
-            
+
             // Vérifier si le répertoire source existe
             if (!Directory.Exists(sourceDir))
             {
@@ -143,19 +150,9 @@ namespace EasySave.Services
                 string fileName = Path.GetFileName(filePath);
                 string destFilePath = Path.Combine(targetDir, fileName);
 
-                DateTime before = DateTime.Now;
-                File.Copy(filePath, destFilePath, true);
-                DateTime after = DateTime.Now;
-                double transferTime = after.Subtract(before).TotalSeconds;
-                _logManager.CreateLog(new Log(
-                    backupJobName,
-                    filePath,
-                    destFilePath,
-                    fileInfo.Length,
-                    transferTime,
-                    DateTime.Now
-                    ));
-                Console.WriteLine($"Copie du fichier : {fileName}");
+                CopyFileAndUpdateLog(backupJobName, filePath, destFilePath, fileInfo);
+
+                Console.WriteLine($"Copie du fichier : {fileName} dans {destFilePath}");
             }
 
             // Copier les fichiers des sous-répertoires
@@ -166,11 +163,84 @@ namespace EasySave.Services
                 await CopyFilesRecursively(backupJobName, subDir, targetSubDir);
             }
         }
+        public async Task CopyFilesDifferential(string backupJobName, string sourceDir, string targetDir)
+        {
+            Console.WriteLine($"Entrée dans la fonction CopyFilesDifferential");
+            // Vérifier si le répertoire source existe
+            if (!Directory.Exists(sourceDir))
+            {
+                Console.WriteLine($"Le répertoire source '{sourceDir}' n'existe pas.");
+                return;
+            }
+
+            // Créer le répertoire cible s'il n'existe pas
+            if (!Directory.Exists(targetDir))
+            {
+                Directory.CreateDirectory(targetDir);
+            }
+
+            // Copier les fichiers du répertoire source vers le répertoire cible
+            foreach (string filePath in Directory.GetFiles(sourceDir))
+            {
+                FileInfo fileInfo = new FileInfo(filePath);
+                string fileName = Path.GetFileName(filePath);
+                string destFilePath = Path.Combine(targetDir, fileName);
+
+                // Vérifier si le fichier existe déjà dans le répertoire cible
+                if (File.Exists(destFilePath))
+                {
+                    FileInfo destFileInfo = new FileInfo(destFilePath);
+                    if (fileInfo.LastWriteTime > destFileInfo.LastWriteTime)
+                    {
+                        // Le fichier source est plus récent, donc le copier
+                        CopyFileAndUpdateLog(backupJobName, filePath, destFilePath, fileInfo);
+                    }
+                    else
+                    {
+                        // Le fichier source n'est pas plus récent, passer au prochain fichier
+                        Console.WriteLine($"Le fichier {fileName} existe déjà dans le répertoire cible et est plus récent ou égal. Ne pas copier.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"Copie du nouveau fichier");
+
+                    // Le fichier n'existe pas dans le répertoire cible, donc le copier
+                    CopyFileAndUpdateLog(backupJobName, filePath, destFilePath, fileInfo);
+                }
+            }
+
+            // Copier les fichiers des sous-répertoires
+            foreach (string subDir in Directory.GetDirectories(sourceDir))
+            {
+                string subDirName = Path.GetFileName(subDir);
+                string targetSubDir = Path.Combine(targetDir, subDirName);
+                await CopyFilesDifferential(backupJobName, subDir, targetSubDir);
+            }
+        }
+        private void CopyFileAndUpdateLog(string backupJobName, string sourceFilePath, string destFilePath, FileInfo fileInfo)
+        {
+            Console.WriteLine($"Entrée dans la fonction CopyFileAndUpdateLog");
+
+            DateTime before = DateTime.Now;
+            File.Copy(sourceFilePath, destFilePath, true);
+            DateTime after = DateTime.Now;
+            double transferTime = after.Subtract(before).TotalSeconds;
+            _logManager.CreateLog(new Log(
+                backupJobName,
+                sourceFilePath,
+                destFilePath,
+                fileInfo.Length,
+                transferTime,
+                DateTime.Now
+            ));
+            Console.WriteLine($"Copie du fichier : {Path.GetFileName(sourceFilePath)}");
+        }
 
         private string GetBackupJobsFilePath()
         {
-            string folderPath = _configuration.GetValue<string>("BackupJobsFolderPath");
-            string filePath = _configuration.GetValue<string>("BackupJobsJsonPath");
+            string folderPath = @".\Data\BackupJobs\";
+            string filePath = @".\Data\BackupJobs\backupjobs.json";
 
             if (!Directory.Exists(folderPath))
             {

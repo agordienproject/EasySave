@@ -23,28 +23,28 @@ namespace EasySave.Services
             _jsonFileManager = new JsonFileManager(GetLogFilePath());
         }
 
-        public void ReadLogs()
+        public async Task ReadLogs()
         {
-            _logs = _jsonFileManager.Read<Log>();
+            _logs = await _jsonFileManager.Read<Log>();
         }
 
-        public void WriteLogs()
+        public async Task WriteLogs()
         {
-            _jsonFileManager.Write(_logs);
+            await _jsonFileManager.Write(_logs);
         }
 
-        public void CreateLog(Log log)
+        public async Task CreateLog(Log log)
         {
-            ReadLogs();
+            await ReadLogs();
 
             _logs.Add(log);
 
-            WriteLogs();
+            await WriteLogs();
         }
 
         private string GetLogFilePath()
         {
-            string logDirectory = _configuration.GetValue<string>("LogsFolderPath");
+            string logDirectory = @".\Data\Logs\";
             string logFileName = $"{DateTime.Now:dd_MM_yyyy}.json";
 
             string filePath = Path.Combine(logDirectory, logFileName);

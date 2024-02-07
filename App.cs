@@ -22,7 +22,7 @@ namespace EasySave
         public async Task Run(string[] args)
         {
             // Set language from settings
-            Resources.Language.Culture = new CultureInfo(_configuration.GetValue<string>("CurrentCulture"));
+            Resources.Language.Culture = new CultureInfo(AppSettingsJson.GetAppSettings()["CurrentCulture"]);
             
             await InitCommandLine(args);
         }
@@ -104,6 +104,13 @@ namespace EasySave
 
             executeCommand.SetHandler(_backupController.ExecuteBackupJobs, backupIndexesOption);
             #endregion
+
+            while (args.Length == 0)
+            {
+                rootCommand.InvokeAsync(["--help"]);
+                Console.WriteLine("Saisissez une commande :");
+                args = Console.ReadLine().Split(' ');  // Lire la commande depuis la console et la diviser en arguments
+            }
 
             return await rootCommand.InvokeAsync(args);
         }
