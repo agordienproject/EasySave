@@ -128,7 +128,7 @@ namespace EasySave.Services
             // Vérifier si le répertoire source existe
             if (!Directory.Exists(sourceDir))
             {
-                Console.WriteLine($"Le répertoire source '{sourceDir}' n'existe pas.");
+                ConsoleView.NoSourceDirMessage(sourceDir);
                 return;
             }
 
