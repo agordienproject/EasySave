@@ -20,7 +20,7 @@ namespace EasySave.Services
         public LogManager(IConfiguration configuration)
         {
             _configuration = configuration;
-            _jsonFileManager = new JsonFileManager(GetLogFilePath());
+            _jsonFileManager = new JsonFileManager(AppSettingsJson.GetLogsFilePath());
         }
 
         public async Task ReadLogs()
@@ -42,26 +42,5 @@ namespace EasySave.Services
             await WriteLogs();
         }
 
-        private string GetLogFilePath()
-        {
-            string logDirectory = @".\Data\Logs\";
-            string logFileName = $"{DateTime.Now:dd_MM_yyyy}.json";
-
-            string filePath = Path.Combine(logDirectory, logFileName);
-
-            if (!Directory.Exists(logDirectory))
-            {
-                Directory.CreateDirectory(logDirectory);
-            }
-
-            if (!File.Exists(filePath))
-            {
-                using (FileStream fs = File.Create(filePath))
-                {
-                }
-            }
-
-            return filePath;
-        }
     }
 }

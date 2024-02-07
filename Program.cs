@@ -11,12 +11,11 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        // Configuration
-        //var builder = new ConfigurationBuilder()
-        //    .SetBasePath(ApplicationExeDirectory())
-        //    .AddJsonFile("appSettings.json", false, true)
-        //    .AddEnvironmentVariables()
-        //    .Build();
+        //Configuration
+       //var builder = new ConfigurationBuilder()
+       //    .SetBasePath(ApplicationExeDirectory())
+       //    .AddJsonFile("appSettings.json")
+       //    .Build();
 
         // Host
         using IHost host = Host.CreateDefaultBuilder(args)
@@ -60,6 +59,14 @@ class Program
                 .AddJsonFile("appsettings.json", false, true)
                 //.AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", false)
                 .AddEnvironmentVariables();
+        }
+
+        static string ApplicationExeDirectory()
+        {
+            var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var appRoot = Path.GetDirectoryName(location);
+
+            return appRoot;
         }
     }
 }
