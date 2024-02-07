@@ -7,26 +7,26 @@ namespace EasySave.Controllers
 {
     public class BackupController : IBackupController
     {
-        private BackupManager backupManager { get; set; }
+        private BackupManager _backupManager { get; set; }
 
         public BackupController(IConfiguration configuration)
         {
-            backupManager = new BackupManager(configuration);
+            _backupManager = new BackupManager(configuration);
         }
 
         public void CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType)
         {
-            backupManager.CreateBackupJob(new BackupJob(name, sourcePath, destinationPath, backupType));
+            _backupManager.CreateBackupJob(new BackupJob(name, sourcePath, destinationPath, backupType));
         }
 
         public void DeleteBackupJob(string name)
         {
-            backupManager.DeleteBackupJob(name);
+            _backupManager.DeleteBackupJob(name);
         }
 
         public void ShowBackupJobs()
         {
-            backupManager.DisplayBackupJobs();
+            _backupManager.DisplayBackupJobs();
         }
 
         public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
@@ -36,7 +36,7 @@ namespace EasySave.Controllers
                 return;
             }
 
-            await backupManager.ExecuteBackupJobs(backupJobsIndex);
+            await _backupManager.ExecuteBackupJobs(backupJobsIndex);
         }
     }
 }

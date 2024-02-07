@@ -126,4 +126,28 @@
   <data name="CreateCommandDescription" xml:space="preserve">
     <value>Create a new backup job</value>
   </data>
+  <data name="DeleteCommandDescription" xml:space="preserve">
+    <value>Delete the specified backup</value>
+  </data>
+  <data name="ExecuteCommandDescription" xml:space="preserve">
+    <value>Execute one or more backup jobs</value>
+  </data>
+  <data name="NameOptionDescription" xml:space="preserve">
+    <value>The name of the backup</value>
+  </data>
+  <data name="SourceDirectoryPathOptionDescription" xml:space="preserve">
+    <value>The path of the source directory</value>
+  </data>
+  <data name="DestinationDirectoryPathOptionDescription" xml:space="preserve">
+    <value>The path of the destination directory</value>
+  </data>
+  <data name="BackupTypeOptionDescription" xml:space="preserve">
+    <value>The type of backup (Complete or Differential)</value>
+  </data>
+  <data name="BackupIndexesOptionDescription" xml:space="preserve">
+    <value>Range of backup to execute</value>
+  </data>
+  <data name="ShowCommandDescription" xml:space="preserve">
+    <value>Show all backups</value>
+  </data>
 </root>
