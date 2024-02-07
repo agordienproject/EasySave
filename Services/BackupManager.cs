@@ -106,9 +106,7 @@ namespace EasySave.Services
 
         public async Task ExecuteBackupJob(BackupJob backupJob)
         {
-            await ReadBackups();
-            int i = 0;
-            foreach (var backupJob in _backupJobs)
+            if (backupJob.BackupType == BackupType.Complete)
             {
                 Console.WriteLine($"La sauvegarde est complète");
                 //Console.WriteLine($"Complete backup of : {backupJob.BackupName}");
@@ -231,17 +229,6 @@ namespace EasySave.Services
             ));
             Console.WriteLine($"Copie du fichier : {Path.GetFileName(sourceFilePath)}");
         }
-
-        private string GetBackupJobsFilePath()
-        {
-            string folderPath = @".\Data\BackupJobs\";
-            string filePath = @".\Data\BackupJobs\backupjobs.json";
-
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
 
     }
 }
