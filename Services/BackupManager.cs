@@ -1,6 +1,8 @@
-﻿using EasySave.Enums;
+﻿using ConsoleTables;
+using EasySave.Enums;
 using EasySave.Models;
 using EasySave.Services.Interfaces;
+using EasySave.Views;
 using Microsoft.Extensions.Configuration;
 using System.Xml.Linq;
 
@@ -21,7 +23,7 @@ namespace EasySave.Services
         public BackupManager(IConfiguration configuration) 
         {
             _configuration = configuration;
-            _jsonFileManager = new JsonFileManager(GetBackupJobsFilePath());
+            _jsonFileManager = new JsonFileManager(AppSettingsJson.GetBackupJobsFilePath());
             _logManager = new LogManager(configuration);
             _stateManager = new StateManager(configuration);
         }
@@ -80,17 +82,8 @@ namespace EasySave.Services
         public async Task DisplayBackupJobs()
         {
             await ReadBackups();
-            int i = 0;
-            foreach (var backupJob in _backupJobs)
-            {
-                Console.WriteLine($"---------------{i}-----------------");
-                Console.WriteLine($"Name : {backupJob.BackupName}");
-                Console.WriteLine($"Source directory : {backupJob.SourceDirectory}");
-                Console.WriteLine($"Destination directory : {backupJob.TargetDirectory}");
-                Console.WriteLine($"Backup type : {backupJob.BackupType}");
-                Console.WriteLine("----------------------------------");
-                i++;
-            }
+
+            ConsoleView.DisplayBackupJobsTable(_backupJobs);
         }
 
         public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
@@ -132,7 +125,7 @@ namespace EasySave.Services
             // Vérifier si le répertoire source existe
             if (!Directory.Exists(sourceDir))
             {
-                Console.WriteLine($"Le répertoire source '{sourceDir}' n'existe pas.");
+                ConsoleView.NoSourceDirMessage(sourceDir);
                 return;
             }
 
@@ -160,7 +153,7 @@ namespace EasySave.Services
                     fileInfo.Length,
                     transferTime,
                     DateTime.Now
-                    ));
+                ));
                 Console.WriteLine($"Copie du fichier : {fileName}");
             }
 
@@ -173,24 +166,6 @@ namespace EasySave.Services
             }
         }
 
-        private string GetBackupJobsFilePath()
-        {
-            string folderPath = @".\Data\BackupJobs\";
-            string filePath = @".\Data\BackupJobs\backupjobs.json";
 
-            if (!Directory.Exists(folderPath))
-            {
-                Directory.CreateDirectory(folderPath);
-            }
-
-            if (!File.Exists(filePath))
-            {
-                using (FileStream fs = File.Create(filePath))
-                {
-                }
-            }
-
-            return filePath;
-        }
     }
 }

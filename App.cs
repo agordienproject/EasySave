@@ -24,6 +24,10 @@ namespace EasySave
             // Set language from settings
             Resources.Language.Culture = new CultureInfo(AppSettingsJson.GetAppSettings()["CurrentCulture"]);
             
+            InitJsonFile(AppSettingsJson.GetBackupJobsFilePath());
+            InitJsonFile(AppSettingsJson.GetLogsFilePath());
+            InitJsonFile(AppSettingsJson.GetStatesFilePath());
+
             await InitCommandLine(args);
         }
 
@@ -105,12 +109,16 @@ namespace EasySave
             executeCommand.SetHandler(_backupController.ExecuteBackupJobs, backupIndexesOption);
             #endregion
 
-            while (args.Length == 0)
-            {
-                rootCommand.InvokeAsync(["--help"]);
-                Console.WriteLine("Saisissez une commande :");
-                args = Console.ReadLine().Split(' ');  // Lire la commande depuis la console et la diviser en arguments
-            }
+            //if (args.Length == 0)
+            //{
+                while (args.Length == 0)
+                {
+                    //Console.Clear();
+                    await rootCommand.InvokeAsync(["--help"]);
+                    Console.WriteLine("Saisissez une commande :");
+                    args = Console.ReadLine().Split(' ');  // Lire la commande depuis la console et la diviser en arguments
+                }
+            //}
 
             return await rootCommand.InvokeAsync(args);
         }
@@ -162,6 +170,23 @@ namespace EasySave
             }
 
             return backupNumbers.Distinct().ToList();
+        }
+
+        private void InitJsonFile(string filePath)
+        {
+            string directoryPath = Path.GetDirectoryName(filePath);
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            if (!File.Exists(filePath))
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+                }
+            }
         }
     }
 }
