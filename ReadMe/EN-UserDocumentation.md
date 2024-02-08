@@ -72,7 +72,7 @@ When using paths with spaces, you must use quotes, otherwise EasySave doesn't co
 
 - **--range -r** : backups range to execute.
 
-- **--language -l** : change the language (English or Frensh).
+- **--language -l** : change the language (English or French).
 
 #### Examples
 
