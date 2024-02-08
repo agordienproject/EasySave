@@ -28,7 +28,7 @@ namespace EasySave
             // Set app culture from appsettings.json
             Resources.Language.Culture = new CultureInfo(_configuration["CurrentCulture"]);
 
-            // Traitement des guillemets
+            // Handling quotes
             args = CommandLineParseUtils.ParseFilePath(args);
             RootCommand rootCommand = InitCommandLine();
 
@@ -38,7 +38,6 @@ namespace EasySave
                 await rootCommand.InvokeAsync(new string[] { "--help" });
                 while (true)
                 {
-                    //ConsoleView.EnterCommand();
                     Console.Write(" > ");
                     string input = Console.ReadLine();
                     MatchCollection matches = Regex.Matches(input, @"[\""].+?[\""]|[^ ]+");
