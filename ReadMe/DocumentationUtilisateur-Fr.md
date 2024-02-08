@@ -1,6 +1,6 @@
 # Documentation utilisateur
 
-## I) Instalation de l'exécutable
+## I) Installation de l'exécutable
 
 Pour commencer, ProSoft vous fournit un exécutable qui va s’occuper d’installer tout le programme dont vous avez besoin.
 
@@ -14,9 +14,6 @@ Une fois l’exécutable lancé, un assistant d’installation va se lancer. Vou
 ![Aspose Words e993f0b3-7905-445e-acae-2c775ecdb285 002](https://github.com/agordienproject/EasySave/assets/127090687/e22be2f4-3454-49f9-ac34-5253fd90d6a5)
 
 
-![Une image contenant texte, capture d’écran
-
-Description générée automatiquement](Aspose.Words.e993f0b3-7905-445e-acae-2c775ecdb285.003.png)
 
 ![Aspose Words e993f0b3-7905-445e-acae-2c775ecdb285 004](https://github.com/agordienproject/EasySave/assets/127090687/d3eeab8a-8d06-42db-a735-a531dba552a6)
 
@@ -33,7 +30,7 @@ Une fois que tout est installé, vous pouvez lancer le programme de 2 manières 
 ![Aspose Words e993f0b3-7905-445e-acae-2c775ecdb285 006](https://github.com/agordienproject/EasySave/assets/127090687/b1a325a9-3485-4355-9463-e3f47ed67315)
 
 
-2. Lancer n’importe quel terminal puis lancez la commande EasySave
+2. Lancer n’importe quel terminal puis lancer la commande EasySave
 
 ![Aspose Words e993f0b3-7905-445e-acae-2c775ecdb285 007](https://github.com/agordienproject/EasySave/assets/127090687/cbdaec4c-d555-42ce-be15-c0fe6db67cbe)
 
