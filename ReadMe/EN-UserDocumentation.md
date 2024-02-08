@@ -13,9 +13,9 @@ To do that, the executable file "EasySave.exe" must be launched. In some cases, 
 
 After this, follow the step by step explanations of the installation assistant.
 
-![Aspose Words e993f0b3-7905-445e-acae-2c775ecdb285 002](https://github.com/agordienproject/EasySave/assets/127090687/e22be2f4-3454-49f9-ac34-5253fd90d6a5)
+![image](https://github.com/agordienproject/EasySave/assets/150005779/aa7ea79a-7a00-4651-9f1f-fc0e1921c956)
 
-![Aspose Words e993f0b3-7905-445e-acae-2c775ecdb285 004](https://github.com/agordienproject/EasySave/assets/127090687/d3eeab8a-8d06-42db-a735-a531dba552a6)
+![image](https://github.com/agordienproject/EasySave/assets/150005779/476d128c-40cd-4625-8489-513baa182c20)
 
 When the installation is done, an environment variable PATH is automatically added by the program in your device system.
 This allows you to use EasySave from any terminal: 
@@ -30,7 +30,7 @@ At that point, you can launch EasySave two differents ways:
 
 2. Launch any terminal **WITH THE ADMINISTRATOR MODE** and enter the command "EasySave": 
 
-![Aspose Words e993f0b3-7905-445e-acae-2c775ecdb285 007](https://github.com/agordienproject/EasySave/assets/127090687/cbdaec4c-d555-42ce-be15-c0fe6db67cbe)
+![image](https://github.com/agordienproject/EasySave/assets/150005779/d5534494-d67b-473f-b042-9f2dfe4bf16b)
 
 Using a terminal allows you to launch cammands in EasySave without staying in the software: 
 
@@ -43,7 +43,7 @@ Using a terminal allows you to launch cammands in EasySave without staying in th
 
 The interface for this 1.0 version is the following: 
 
-![image](https://github.com/agordienproject/EasySave/assets/127090687/e38a9e2a-3ea8-433e-a6f2-5c71fa5a5a17)
+![image](https://github.com/agordienproject/EasySave/assets/150005779/44ffbeb2-c8d1-48a7-98f5-6cd9a1b69ea6)
 
 ### 2/ Commands and options
 
