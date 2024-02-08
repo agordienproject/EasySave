@@ -27,19 +27,19 @@ namespace EasySave.Services
             _stateManager = stateManager;
         }
 
-        public async Task ReadBackups()
+        public void ReadBackups()
         {
-            _backupJobs = await _jsonFileManager.Read<BackupJob>();
+            _backupJobs = _jsonFileManager.Read<BackupJob>();
         }
 
-        public async Task WriteBackups()
+        public void WriteBackups()
         {
-            await _jsonFileManager.Write(_backupJobs);
+            _jsonFileManager.Write(_backupJobs);
         }
 
-        public async Task CreateBackupJob(BackupJob backupJob)
+        public void CreateBackupJob(BackupJob backupJob)
         {
-            await ReadBackups();
+            ReadBackups();
 
             if (_backupJobs.Count >= BACKUPJOBS_LIMIT)
             {
@@ -55,12 +55,12 @@ namespace EasySave.Services
 
             _backupJobs.Add(backupJob);
 
-            await WriteBackups();
+            WriteBackups();
         }
 
-        public async Task DeleteBackupJob(string backupJobName)
+        public void DeleteBackupJob(string backupJobName)
         {
-            await ReadBackups();
+            ReadBackups();
 
             BackupJob backupJobToDelete = _backupJobs.Find(backupJob => backupJob.BackupName == backupJobName);
 
@@ -71,22 +71,22 @@ namespace EasySave.Services
             }
 
             _backupJobs.Remove(backupJobToDelete);
-            await _stateManager.DeleteState(backupJobName);
+            _stateManager.DeleteState(backupJobName);
             ConsoleView.SuccessDelete(backupJobName);
 
-            await WriteBackups();
+            WriteBackups();
         }
 
-        public async Task DisplayBackupJobs()
+        public void DisplayBackupJobs()
         {
-            await ReadBackups();
+            ReadBackups();
 
             ConsoleView.DisplayBackupJobsTable(_backupJobs);
         }
 
-        public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
+        public void ExecuteBackupJobs(List<int> backupJobsIndex)
         {
-            await ReadBackups();
+            ReadBackups();
 
             if (_backupJobs.Count == 0)
             {
@@ -100,28 +100,45 @@ namespace EasySave.Services
 
             foreach (var backupJob in backupJobsToExecute)
             {
-                await ExecuteBackupJob(backupJob);
+                ConsoleView.StartingBackupJobExecutionMessage(backupJob.BackupName);
+                ExecuteBackupJob(backupJob);
+                ConsoleView.EndBackupJobExecutionMessage();
             }
         }
 
-        public async Task ExecuteBackupJob(BackupJob backupJob)
+        public void ExecuteBackupJob(BackupJob backupJob)
         {
-            await _stateManager.UpdateState(backupJob.BackupName, BackupState : BackupState.Active);
+            _stateManager.UpdateState(backupJob.BackupName, backupState: BackupState.Active);
 
-            await CopyFiles(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory, backupJob.BackupType);
+            int totalFilesNumber = 0;
+            long totalFilesSize = 0;
 
-            await _stateManager.UpdateState(
-                backupJob.BackupName, 
-                BackupState: BackupState.Inactive, 
-                TotalFilesNumber : 0,
-                TotalFilesSize : 0,
-                NbFilesLeftToDo: 0,
-                FilesSizeLeftToDo: 0,
-                SourceTransferingFilePath : "",
-                TargetTransferingFilePath: "");
+            GetDirectoryInfos(backupJob.SourceDirectory, ref totalFilesNumber, ref totalFilesSize);
+
+            int nbFilesLeftToDo = totalFilesNumber;
+            long filesSizeLeftToDo = totalFilesSize;
+
+            _stateManager.UpdateState(
+                backupJob.BackupName,
+                totalFilesNumber: totalFilesNumber,
+                totalFilesSize: totalFilesSize,
+                nbFilesLeftToDo: totalFilesNumber,
+                filesSizeLeftToDo: totalFilesSize);
+
+            CopyFiles(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory, backupJob.BackupType, ref nbFilesLeftToDo, ref filesSizeLeftToDo);
+
+            _stateManager.UpdateState(
+                backupJob.BackupName,
+                backupState: BackupState.Inactive,
+                totalFilesNumber: 0,
+                totalFilesSize: 0,
+                nbFilesLeftToDo: 0,
+                filesSizeLeftToDo: 0,
+                sourceTransferingFilePath: "",
+                targetTransferingFilePath: "");
         }
 
-        public async Task CopyFiles(string backupJobName, string sourceDir, string targetDir, BackupType backupType)
+        public void CopyFiles(string backupJobName, string sourceDir, string targetDir, BackupType backupType, ref int nbFilesLeftToDo, ref long filesSizeLeftToDo)
         {
             if (!Directory.Exists(sourceDir))
             {
@@ -129,22 +146,6 @@ namespace EasySave.Services
                 return;
             }
 
-            int totalFilesNumber = 0;
-            long totalFilesSize = 0;
-
-            int nbFilesLeftToDo = totalFilesNumber;
-            long filesSizeLeftToDo = totalFilesSize;
-
-            GetDirectoryInfos(sourceDir, ref totalFilesNumber, ref totalFilesSize);
-
-            await _stateManager.UpdateState(
-                backupJobName, 
-                TotalFilesNumber: totalFilesNumber, 
-                TotalFilesSize: totalFilesSize, 
-                NbFilesLeftToDo : nbFilesLeftToDo, 
-                FilesSizeLeftToDo : filesSizeLeftToDo);
-
-            
             if (!Directory.Exists(targetDir))
             {
                 Directory.CreateDirectory(targetDir);
@@ -156,21 +157,24 @@ namespace EasySave.Services
 
                 string targetPath = Path.Combine(targetDir, fileInfo.Name);
 
-                await _stateManager.UpdateState(backupJobName, NbFilesLeftToDo: nbFilesLeftToDo, FilesSizeLeftToDo: filesSizeLeftToDo, SourceTransferingFilePath: filePath, TargetTransferingFilePath: targetPath);
+                _stateManager.UpdateState(
+                    backupJobName,
+                    nbFilesLeftToDo: nbFilesLeftToDo,
+                    filesSizeLeftToDo: filesSizeLeftToDo,
+                    sourceTransferingFilePath: filePath,
+                    targetTransferingFilePath: targetPath);
 
-                await CopyFile(backupJobName, filePath, targetDir, backupType);
+                CopyFile(backupJobName, filePath, targetDir, backupType);
 
                 nbFilesLeftToDo--;
-
                 filesSizeLeftToDo -= fileInfo.Length;
-
             }
 
             foreach (string subDir in Directory.GetDirectories(sourceDir))
             {
                 string subDirName = Path.GetFileName(subDir);
                 string targetSubDir = Path.Combine(targetDir, subDirName);
-                await CopyFiles(backupJobName, subDir, targetSubDir, backupType);
+                CopyFiles(backupJobName, subDir, targetSubDir, backupType, ref nbFilesLeftToDo, ref filesSizeLeftToDo);
             }
         }
 
@@ -178,18 +182,18 @@ namespace EasySave.Services
         {
             try
             {
-                string[] fichiers = Directory.GetFiles(directory);
-                string[] sousDossiers = Directory.GetDirectories(directory);
+                string[] files = Directory.GetFiles(directory);
+                string[] subDirs = Directory.GetDirectories(directory);
 
-                foreach (var fichier in fichiers)
+                foreach (var fichier in files)
                 {
                     totalFilesNumber++;
                     totalFilesSize += new FileInfo(fichier).Length;
                 }
 
-                foreach (var sousDossier in sousDossiers)
+                foreach (var subDir in subDirs)
                 {
-                    GetDirectoryInfos(sousDossier, ref totalFilesNumber, ref totalFilesSize);
+                    GetDirectoryInfos(subDir, ref totalFilesNumber, ref totalFilesSize);
                 }
             }
             catch (Exception e)
@@ -198,7 +202,7 @@ namespace EasySave.Services
             }
         }
 
-        private async Task CopyFile(string backupJobName, string sourceFilePath, string targetDir, BackupType backupType)
+        private void CopyFile(string backupJobName, string sourceFilePath, string targetDir, BackupType backupType)
         {
             string fileName = Path.GetFileName(sourceFilePath);
             string targetFilePath = Path.Combine(targetDir, fileName);
@@ -230,7 +234,7 @@ namespace EasySave.Services
                     transferTime = -1;
                 }
 
-                await _logManager.CreateLog(new Log(
+                _logManager.CreateLog(new Log(
                     backupJobName,
                     sourceFilePath,
                     targetFilePath,
@@ -245,7 +249,6 @@ namespace EasySave.Services
 
         private static bool ShouldCopyFile(string sourceFilePath, string targetFilePath)
         {
-            FileInfo sourceFileInfo = new(sourceFilePath);
             FileInfo destFileInfo = new(targetFilePath);
             string sourceFileHash = CalculateMD5(sourceFilePath);
 

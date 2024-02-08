@@ -16,35 +16,35 @@ namespace EasySave.Controllers
             _stateManager = stateManager;
         }
 
-        public async Task CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType)
+        public void CreateBackupJob(string name, string sourcePath, string destinationPath, BackupType backupType)
         {
-            await _backupManager.CreateBackupJob(new BackupJob(name, sourcePath, destinationPath, backupType));
-            await _stateManager.CreateState(new State(name));
+            _backupManager.CreateBackupJob(new BackupJob(name, sourcePath, destinationPath, backupType));
+            _stateManager.CreateState(new State(name));
 
-            await ShowBackupJobs();
+            ShowBackupJobs();
         }
 
-        public async Task DeleteBackupJob(string name)
+        public void DeleteBackupJob(string name)
         {
-            await _backupManager.DeleteBackupJob(name);
-            await _stateManager.DeleteState(name);
+            _backupManager.DeleteBackupJob(name);
+            _stateManager.DeleteState(name);
 
-            await ShowBackupJobs();
+            ShowBackupJobs();
         }
 
-        public async Task ShowBackupJobs()
+        public void ShowBackupJobs()
         {
-            await _backupManager.DisplayBackupJobs();
+            _backupManager.DisplayBackupJobs();
         }
 
-        public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
+        public void ExecuteBackupJobs(List<int> backupJobsIndex)
         {
             if (backupJobsIndex.Count == 0)
             {
                 return;
             }
 
-            await _backupManager.ExecuteBackupJobs(backupJobsIndex);
+            _backupManager.ExecuteBackupJobs(backupJobsIndex);
         }
     }
 }

@@ -4,8 +4,8 @@ namespace EasySave.Services.Interfaces
 {
     public interface ILogManager
     {
-        Task CreateLog(Log log);
-        Task ReadLogs();
-        Task WriteLogs();
+        void CreateLog(Log log);
+        void ReadLogs();
+        void WriteLogs();
     }
 }

@@ -30,7 +30,7 @@ namespace EasySave.Services
             }
         }
 
-        public async Task<List<T>?> Read<T>()
+        public List<T>? Read<T>()
         {
             using FileStream openStream = File.OpenRead(_filePath);
 
@@ -48,7 +48,7 @@ namespace EasySave.Services
             return list;
         }
 
-        public async Task Write<T>(List<T> list)
+        public void Write<T>(List<T> list)
         {
             var options = new JsonSerializerOptions { WriteIndented = true, };
             using FileStream openStream = File.Open(_filePath, FileMode.Truncate);

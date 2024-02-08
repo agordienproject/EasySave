@@ -21,23 +21,23 @@ namespace EasySave.Services
             _jsonFileManager = new JsonFileManager(AppSettingsJson.GetLogsFilePath());
         }
 
-        public async Task ReadLogs()
+        public void ReadLogs()
         {
-            _logs = await _jsonFileManager.Read<Log>();
+            _logs = _jsonFileManager.Read<Log>();
         }
 
-        public async Task WriteLogs()
+        public void WriteLogs()
         {
-            await _jsonFileManager.Write(_logs);
+            _jsonFileManager.Write(_logs);
         }
 
-        public async Task CreateLog(Log log)
+        public void CreateLog(Log log)
         {
-            await ReadLogs();
+            ReadLogs();
 
             _logs.Add(log);
 
-            await WriteLogs();
+            WriteLogs();
         }
 
     }

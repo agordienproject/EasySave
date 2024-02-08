@@ -178,6 +178,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Backup job ended..
+        /// </summary>
+        internal static string EndBackupJobExecutionMessage {
+            get {
+                return ResourceManager.GetString("EndBackupJobExecutionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Enter a command:.
         /// </summary>
         internal static string EnterCommand {
@@ -345,6 +354,15 @@ namespace EasySave.Resources {
         internal static string StartCopyFilesDifferential {
             get {
                 return ResourceManager.GetString("StartCopyFilesDifferential", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Execution of backup job : .
+        /// </summary>
+        internal static string StartingBackupJobExecutionMessage {
+            get {
+                return ResourceManager.GetString("StartingBackupJobExecutionMessage", resourceCulture);
             }
         }
         

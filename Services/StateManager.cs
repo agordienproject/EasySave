@@ -16,12 +16,11 @@ namespace EasySave.Services
             _jsonFileManager = new JsonFileManager(AppSettingsJson.GetStatesFilePath());
         }
 
-        public async Task ReadStates()
+        public void ReadStates()
         {
             try
             {
-
-            _states = await _jsonFileManager.Read<State>();
+                _states = _jsonFileManager.Read<State>();
             }
             catch (Exception ex)
             {
@@ -30,94 +29,92 @@ namespace EasySave.Services
             }
         }
 
-        public async Task WriteStates()
+        public void WriteStates()
         {
-            await _jsonFileManager.Write(_states);
+            _jsonFileManager.Write(_states);
         }
 
-        public async Task CreateState(State state)
+        public void CreateState(State state)
         {
-            await ReadStates();
+            ReadStates();
 
             _states.Add(state);
 
-            await WriteStates();
+            WriteStates();
         }
 
-        public async Task DeleteState(string backupJobName)
+        public void DeleteState(string backupJobName)
         {
-            await ReadStates();
+            ReadStates();
 
             State stateToDelete = _states.FirstOrDefault(x => x.BackupName == backupJobName);
             _states.Remove(stateToDelete);
 
-            await WriteStates();
+            WriteStates();
         }
 
-        public async Task UpdateState
-            (
-            string BackupName,
-            BackupState BackupState = BackupState.None,
-            int TotalFilesNumber = 0,
-            long TotalFilesSize = 0,
-            int NbFilesLeftToDo = 0,
-            long FilesSizeLeftToDo = 0,
-            string SourceTransferingFilePath = "",
-            string TargetTransferingFilePath = ""
-            )
-
+        public void UpdateState
+        (
+            string backupName,
+            BackupState backupState = BackupState.None,
+            int? totalFilesNumber = null,
+            long? totalFilesSize = null,
+            int? nbFilesLeftToDo = null,
+            long? filesSizeLeftToDo = null,
+            string sourceTransferingFilePath = "none",
+            string targetTransferingFilePath = "none"
+        )
         {
-            await ReadStates();
+            ReadStates();
 
-            int stateToUpdateIndex = _states.FindIndex(state => state.BackupName == BackupName);
+            int stateToUpdateIndex = _states.FindIndex(state => state.BackupName == backupName);
+
+            if (stateToUpdateIndex == -1)
+            {
+                return;
+            }
 
             State stateToUpdate = _states[stateToUpdateIndex];
-
             stateToUpdate.BackupTime = DateTime.Now.ToString();
 
-            if (stateToUpdateIndex != -1)
+            if (backupState != Enums.BackupState.None)
             {
-                stateToUpdate = _states[stateToUpdateIndex];
+                stateToUpdate.BackupState = backupState;
             }
 
-            if (BackupState != Enums.BackupState.None)
+            if (totalFilesNumber != null)
             {
-                stateToUpdate.BackupState = BackupState;
+                stateToUpdate.TotalFilesNumber = (int)totalFilesNumber;
             }
 
-            if (TotalFilesNumber != 0)
+            if (totalFilesSize != null)
             {
-                stateToUpdate.TotalFilesNumber = TotalFilesNumber;
+                stateToUpdate.TotalFilesSize = (long)totalFilesSize;
             }
 
-            if (TotalFilesSize != 0)
+            if (nbFilesLeftToDo != null)
             {
-                stateToUpdate.TotalFilesSize = TotalFilesSize;
+                stateToUpdate.NbFilesLeftToDo = (int)nbFilesLeftToDo;
             }
 
-            if (NbFilesLeftToDo != 0)
+            if (filesSizeLeftToDo != null)
             {
-                stateToUpdate.NbFilesLeftToDo = NbFilesLeftToDo;
+                stateToUpdate.FilesSizeLeftToDo = (long)filesSizeLeftToDo;
             }
 
-            if (FilesSizeLeftToDo != 0)
+            if (sourceTransferingFilePath != "none")
             {
-                stateToUpdate.FilesSizeLeftToDo = FilesSizeLeftToDo;
+                stateToUpdate.SourceTransferingFilePath = sourceTransferingFilePath;
             }
 
-            if (SourceTransferingFilePath != "")
+            if (targetTransferingFilePath != "none")
             {
-                stateToUpdate.SourceTransferingFilePath = SourceTransferingFilePath;
-            }
-
-            if (TargetTransferingFilePath != "")
-            {
-                stateToUpdate.TargetTransferingFilePath = TargetTransferingFilePath;
+                stateToUpdate.TargetTransferingFilePath = targetTransferingFilePath;
             }
 
             _states[stateToUpdateIndex] = stateToUpdate;
 
-            await WriteStates();
+            WriteStates();
         }
 
     }
