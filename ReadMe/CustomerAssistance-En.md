@@ -1,6 +1,6 @@
 # Customer assistance
 
-## Informations générales
+## General informations
 
 | Application name       | Easy Save            |
 |------------------------|----------------------|
