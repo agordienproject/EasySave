@@ -99,7 +99,7 @@ namespace EasySave
                 {
                     ConsoleView.ErrorSameLanguage();
                 }
-            } // The using block ends here, which ensures that the file flow is closed once the block has been exited
+            }
         }
 
 

@@ -5,10 +5,10 @@ namespace EasySave.Services.Interfaces
 {
     public interface IStateManager
     {
-        Task CreateState(State state);
-        Task DeleteState(string backupJobName);
-        Task ReadStates();
-        Task UpdateState(string BackupName, BackupState BackupState = BackupState.None, int TotalFilesNumber = 0, long TotalFilesSize = 0, int NbFilesLeftToDo = 0, long FilesSizeLeftToDo = 0, string SourceTransferingFilePath = "", string TargetTransferingFilePath = "");
-        Task WriteStates();
+        void CreateState(State state);
+        void DeleteState(string backupJobName);
+        void ReadStates();
+        void UpdateState(string backupName, BackupState backupState = BackupState.None, int? totalFilesNumber = null, long? totalFilesSize = null, int? nbFilesLeftToDo = null, long? filesSizeLeftToDo = null, string sourceTransferingFilePath = "none", string targetTransferingFilePath = "none");
+        void WriteStates();
     }
 }
