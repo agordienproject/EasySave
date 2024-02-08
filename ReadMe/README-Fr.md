@@ -36,7 +36,9 @@ Description générée automatiquement](Aspose.Words.e993f0b3-7905-445e-acae-2c7
 
 ![](Aspose.Words.e993f0b3-7905-445e-acae-2c775ecdb285.007.png)
 
+L'utilisation d'un terminal permet d'envoyer une commande sans rester dans l'application :
 
+![image](https://github.com/agordienproject/EasySave/assets/127090687/1ea63361-6e7b-4271-ac3c-dc91c5931074)
 
 
 
