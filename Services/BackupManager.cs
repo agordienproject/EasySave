@@ -183,9 +183,35 @@ namespace EasySave.Services
         {
             FileInfo sourceFileInfo = new(sourceFilePath);
             FileInfo destFileInfo = new(targetFilePath);
-            return sourceFileInfo.LastWriteTime > destFileInfo.LastWriteTime;
+            string sourceFileHash = CalculateMD5(sourceFilePath);
+
+            // Vérifier si le fichier existe déjà dans le répertoire cible
+            if (File.Exists(targetFilePath))
+            {
+                string destFileHash = CalculateMD5(targetFilePath);
+
+                if (sourceFileHash != destFileHash)
+                {
+                    // Le fichier source est plus récent, donc le copier
+                    return true;
+                }
+                else
+                {
+                    // Le fichier source n'est pas plus récent, passer au prochain fichier
+                    Console.WriteLine($"Le fichier {destFileInfo} existe déjà dans le répertoire cible et est plus récent ou égal. Ne pas copier.");
+                    return false;
+                }
+            }
+            else
+            {
+
+                Console.WriteLine($"Copie du nouveau fichier");
+                return true;
+                // Le fichier n'existe pas dans le répertoire cible, donc le copier
+            }
+
         }
-        private string CalculateMD5(string filePath)
+        private static string CalculateMD5(string filePath)
         {
             using (var md5 = MD5.Create())
             {
