@@ -1,12 +1,57 @@
 # Documentation utilisateur
 
-## Instalation de l'exécutable
+## I) Instalation de l'exécutable
 
-## Guide d'utilisation
+Pour commencer, ProSoft vous fournit un exécutable qui va s’occuper d’installer tout le programme dont vous avez besoin.
+
+![](Aspose.Words.e993f0b3-7905-445e-acae-2c775ecdb285.001.png)
+
+Pour ce faire, il faut lancer l’exe « EasySave.exe ». Il est fort probable que Windows Defender ne laisse pas passer cette exécution. Pas de soucis, autorisez l’exécution.
+
+Une fois l’exécutable lancé, un assistant d’installation va se lancer. Vous pouvez simplement suivre toutes les étapes renseignées pour l’installer.
+
+![](Aspose.Words.e993f0b3-7905-445e-acae-2c775ecdb285.002.png)
+
+![Une image contenant texte, capture d’écran
+
+Description générée automatiquement](Aspose.Words.e993f0b3-7905-445e-acae-2c775ecdb285.003.png)
+
+![Une image contenant texte, capture d’écran, affichage, logiciel](Aspose.Words.e993f0b3-7905-445e-acae-2c775ecdb285.004.png)
+
+Une fois l’installation finie, le programme se charge de rajouter automatiquement une variable d’environnement PATH dans votre système, afin que vous puissiez l’utiliser depuis n’importe quel terminal :
+
+![Une image contenant texte, capture d’écran, Police, nombre
+
+Description générée automatiquement](Aspose.Words.e993f0b3-7905-445e-acae-2c775ecdb285.005.png)
+
+Une fois que tout est installé, vous pouvez lancer le programme de 2 manières différentes :
+
+1. Lancer le programme depuis votre bureau si vous l’avez ajouté lors de l’installation
+
+![Une image contenant texte, capture d’écran, logo, graphisme
+
+Description générée automatiquement](Aspose.Words.e993f0b3-7905-445e-acae-2c775ecdb285.006.png)
+
+2. Lancer n’importe quel terminal puis lancez la commande EasySave
+
+![](Aspose.Words.e993f0b3-7905-445e-acae-2c775ecdb285.007.png)
+
+
+
+
+
+## II) Guide d'utilisation
+
+### 1/ Accès à l'application
+
+#### Via 
 
 ### 1/ Interface
 
+L'interface de la version 1.0 du logiciel EasySave est la suivante :
+
 ![image](https://github.com/agordienproject/EasySave/assets/127090687/e38a9e2a-3ea8-433e-a6f2-5c71fa5a5a17)
+
 
 
 ### 2/ Liste des commandes et options
