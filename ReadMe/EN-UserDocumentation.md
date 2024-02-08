@@ -49,8 +49,8 @@ The interface for this 1.0 version is the following:
 
 #### Commands
 
-[!WARNING]
-When using paths with spaces, you must use quotes, otherwise EasySave doesn't count it as a valid path.  
+> [!WARNING]
+> When using paths with spaces, you must use quotes, otherwise EasySave doesn't count it as a valid path.  
 
 - **EasySave create** : Create a new backup job.
 
@@ -76,14 +76,32 @@ When using paths with spaces, you must use quotes, otherwise EasySave doesn't co
 
 #### Examples
 
-- EasySave create --name {backupName} --source {bourceDirectory} --destination {destinationDirectory} --type {backupType}
+**Create a backup job :**
+```
+EasySave create --name {nomDeLaSauvegarde} --source {repertoireSource} --destination {repertoireDestination} --type {typeDeSauvegarde}
+```
 
-- EasySave show
+**View list of backup jobs :**
+```
+EasySave show
+```
 
-- EasySave delete --name {backupName}
+**Delete a backup job:**
+```
+EasySave delete --name {nomDeLaSauvegarde}
+```
 
-- EasySave execute -r 1-3 
+**Run one or more backup jobs:**
+```
+EasySave execute -r 1-3 // Execute les travaux 1 à 3
+EasySave execute -r 1;3 // Execute les travaux 1 et 3
+EasySave execute -r 5   // Execute le travail 5
+```
 
+**Change app language:**
+```
+EasySave language -l en
+```
 
 
 
