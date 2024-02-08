@@ -85,8 +85,29 @@ L'interface de la version 1.0 du logiciel EasySave est la suivante :
 
 #### Exemples
 
-- `EasySave create --name {nomDeLaSauvegarde} --source {repertoireSource} --destination {repertoireDestination} --type {typeDeSauvegarde}`
-- `EasySave show`
-- `EasySave delete --name {nomDeLaSauvegarde}`
-- `EasySave execute -r 1-3`
-- `EasySave language -l en`
+**Créer un travail de sauvegarde :**
+```
+EasySave create --name {nomDeLaSauvegarde} --source {repertoireSource} --destination {repertoireDestination} --type {typeDeSauvegarde}
+```
+
+**Afficher la liste des travaux de sauvegarde :**
+```
+EasySave show
+```
+
+**Supprimer un travail de sauvegarde :**
+```
+EasySave delete --name {nomDeLaSauvegarde}
+```
+
+**Executer un ou plusieurs travaux de sauvegarde :**
+```
+EasySave execute -r 1-3 // Execute les travaux 1 à 3
+EasySave execute -r 1;3 // Execute les travaux 1 et 3
+EasySave execute -r 5   // Execute le travail 5
+```
+
+**Modifier la langue de l'application :**
+```
+EasySave language -l en
+```
