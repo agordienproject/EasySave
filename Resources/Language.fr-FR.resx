@@ -168,4 +168,10 @@
   <data name="UpdateLanguage" xml:space="preserve">
     <value>La langue choisie a été mise à jour avec succès</value>
   </data>
+  <data name="ChooseCommand" xml:space="preserve">
+    <value>Saisissez une commande :</value>
+  </data>
+  <data name="ResetAppAfterChangingLanguage" xml:space="preserve">
+    <value>Veuillez redémarrer votre application afin que les modifications prennent effet</value>
+  </data>
 </root>

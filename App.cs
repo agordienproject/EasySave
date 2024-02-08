@@ -2,9 +2,11 @@
 using EasySave.Enums;
 using EasySave.Utils;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Specialized;
 using System.CommandLine;
 using System.Globalization;
 using System.Resources;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace EasySave
@@ -25,14 +27,17 @@ namespace EasySave
             // Set app culture from appsettings.json
             Resources.Language.Culture = new CultureInfo(_configuration["CurrentCulture"]);
 
+            // Traitement des guillemets
+            args = ParseFilePath(args);
+
             RootCommand rootCommand = InitCommandLine();
 
             if (args.Length == 0)
             {
-                await rootCommand.InvokeAsync(["--help"]);
+                await rootCommand.InvokeAsync(new string[] { "--help" });
                 while (true)
                 {
-                    Console.WriteLine("Saisissez une commande :");
+                    Console.WriteLine($"{Resources.Language.ChooseCommand}");
                     args = Console.ReadLine().Split(' ');
                     await rootCommand.InvokeAsync(args);
                 }
@@ -40,6 +45,17 @@ namespace EasySave
 
             await rootCommand.InvokeAsync(args);
         }
+
+        private string[] ParseFilePath(string[] args)
+        {
+            // Handling quotes for each argument
+            for (int i = 0; i < args.Length; i++)
+            {
+                args[i] = args[i].Trim('"');
+            }
+            return args;
+        }
+
 
         public RootCommand InitCommandLine()
         {

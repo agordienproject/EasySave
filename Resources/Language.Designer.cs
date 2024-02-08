@@ -88,6 +88,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter a comand : .
+        /// </summary>
+        internal static string ChooseCommand {
+            get {
+                return ResourceManager.GetString("ChooseCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Choosen language.
         /// </summary>
         internal static string ChoosenLanguageCommand {
@@ -183,6 +192,15 @@ namespace EasySave.Resources {
         internal static string NameOptionDescription {
             get {
                 return ResourceManager.GetString("NameOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please restart your application for the changes to take effect.
+        /// </summary>
+        internal static string ResetAppAfterChangingLanguage {
+            get {
+                return ResourceManager.GetString("ResetAppAfterChangingLanguage", resourceCulture);
             }
         }
         

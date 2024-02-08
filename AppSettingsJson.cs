@@ -93,6 +93,8 @@ namespace EasySave
                     fileStream.SetLength(fileStream.Position);
 
                     Console.WriteLine($"{Resources.Language.UpdateLanguage} : {cultureName}");
+                    Console.WriteLine($"{Resources.Language.ResetAppAfterChangingLanguage}");
+
                 }
                 else
                 {
