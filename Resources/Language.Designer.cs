@@ -97,7 +97,7 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Choosen language.
+        ///   Recherche une chaîne localisée semblable à Choosen language:.
         /// </summary>
         internal static string ChoosenLanguageCommand {
             get {
@@ -286,20 +286,20 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Two backups can&apos;t have the same name.
-        /// </summary>
-        internal static string SameNameBackup {
-            get {
-                return ResourceManager.GetString("SameNameBackup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à Please restart your application for the changes to take effect.
         /// </summary>
         internal static string ResetAppAfterChangingLanguage {
             get {
                 return ResourceManager.GetString("ResetAppAfterChangingLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Two backups can&apos;t have the same name.
+        /// </summary>
+        internal static string SameNameBackup {
+            get {
+                return ResourceManager.GetString("SameNameBackup", resourceCulture);
             }
         }
         

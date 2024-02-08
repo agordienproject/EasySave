@@ -20,12 +20,16 @@ namespace EasySave.Controllers
         {
             await _backupManager.CreateBackupJob(new BackupJob(name, sourcePath, destinationPath, backupType));
             await _stateManager.CreateState(new State(name));
+
+            await ShowBackupJobs();
         }
 
         public async Task DeleteBackupJob(string name)
         {
             await _backupManager.DeleteBackupJob(name);
             await _stateManager.DeleteState(name);
+
+            await ShowBackupJobs();
         }
 
         public async Task ShowBackupJobs()

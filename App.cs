@@ -29,34 +29,25 @@ namespace EasySave
             Resources.Language.Culture = new CultureInfo(_configuration["CurrentCulture"]);
 
             // Traitement des guillemets
-            args = ParseFilePath(args);
+            args = CommandLineParseUtils.ParseFilePath(args);
 
             RootCommand rootCommand = InitCommandLine();
 
             if (args.Length == 0)
             {
+                Console.Clear();
                 await rootCommand.InvokeAsync(new string[] { "--help" });
                 while (true)
                 {
-                    ConsoleView.EnterCommand();
-                    args = Console.ReadLine().Split(' ');
+                    //ConsoleView.EnterCommand();
+                    Console.Write(" > ");
+                    args = CommandLineParseUtils.ParseFilePath(Console.ReadLine().Split(' '));
                     await rootCommand.InvokeAsync(args);
                 }
             }
 
             await rootCommand.InvokeAsync(args);
         }
-
-        private string[] ParseFilePath(string[] args)
-        {
-            // Handling quotes for each argument
-            for (int i = 0; i < args.Length; i++)
-            {
-                args[i] = args[i].Trim('"');
-            }
-            return args;
-        }
-
 
         public RootCommand InitCommandLine()
         {
@@ -95,13 +86,14 @@ namespace EasySave
                 {
                     return CommandLineParseUtils.ParseBackupJobIndex(result.ToString());
                 });
+
             var languageOption = new Option<string>(
             aliases: new[] { "--language", "-l" },
             description: Resources.Language.LanguageCommandDescription,
             isDefault: true,
             parseArgument: result =>
             {
-                var language = RecupLanguage(result.ToString());
+                var language = CommandLineParseUtils.RecupLanguage(result.ToString());
                 if (language == null)
                 {
                     // Quit application if language could not be retrieved
@@ -160,38 +152,6 @@ namespace EasySave
 
             return rootCommand;
         }
-        public static string RecupLanguage(string input)
-        {
-            Regex regex = new Regex(@"<([^>]*)>");
-            Match match = regex.Match(input);
-
-            if (match.Success)
-            {
-                string language = match.Groups[1].Value;
-
-                // Checks if the language is in the dictionary
-                Dictionary<string, string> languageDictionary = new Dictionary<string, string>
-                {
-                    { "fr", "fr-FR" },
-                    { "en", "en-EN" }
-                };
-
-                if (languageDictionary.ContainsKey(language))
-                {
-                    ConsoleView.ChoosenLanguageCommand(languageDictionary, language);
-                    return languageDictionary[language];
-                }
-                else
-                {
-                    ConsoleView.ErrorLanguage1();
-                    return null;
-                }
-            }
-            else
-            {
-                ConsoleView.ErrorLanguage2();
-                return null;
-            }
-        }
+        
     }
 }

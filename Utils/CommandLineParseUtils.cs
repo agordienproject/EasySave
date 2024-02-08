@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasySave.Views;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -56,6 +57,50 @@ namespace EasySave.Utils
             }
 
             return backupNumbers.Distinct().ToList();
+        }
+
+        public static string[] ParseFilePath(string[] args)
+        {
+            // Handling quotes for each argument
+            for (int i = 0; i < args.Length; i++)
+            {
+                args[i] = args[i].Trim('"');
+            }
+            return args;
+        }
+
+        public static string RecupLanguage(string input)
+        {
+            Regex regex = new Regex(@"<([^>]*)>");
+            Match match = regex.Match(input);
+
+            if (match.Success)
+            {
+                string language = match.Groups[1].Value;
+
+                // Checks if the language is in the dictionary
+                Dictionary<string, string> languageDictionary = new Dictionary<string, string>
+                {
+                    { "fr", "fr-FR" },
+                    { "en", "en-EN" }
+                };
+
+                if (languageDictionary.ContainsKey(language))
+                {
+                    ConsoleView.ChoosenLanguageCommand(languageDictionary, language);
+                    return languageDictionary[language];
+                }
+                else
+                {
+                    ConsoleView.ErrorLanguage1();
+                    return null;
+                }
+            }
+            else
+            {
+                ConsoleView.ErrorLanguage2();
+                return null;
+            }
         }
     }
 }
