@@ -110,10 +110,6 @@ namespace EasySave.Services
 
         public async Task CopyFiles(string backupJobName, string sourceDir, string targetDir, BackupType backupType)
         {
-            sourceDir = sourceDir.Trim('"');
-            targetDir = targetDir.Trim('"');
-
-
             if (!Directory.Exists(sourceDir))
             {
                 ConsoleView.NoSourceDirMessage(sourceDir);
