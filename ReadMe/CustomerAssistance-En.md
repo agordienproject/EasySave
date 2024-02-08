@@ -10,8 +10,9 @@
 
 ##  Configuration files folder location
 
-| Data                   | Location                                    |
-|------------------------|---------------------------------------------|
-| Backup jobs            | {Application folder}\Data\BackupJobs\       |
-| Daily logs             | {Application folder}\Data\Logs\             |
-| Backup jobs state      | {Application folder}\Data\State\            |
+| Data                   | Location                                             |
+|------------------------|------------------------------------------------------|
+| Configuration file     | {Application folder}\appsettings.json                |
+| Backup jobs            | {Application folder}\Data\BackupJobs\backupjobs.json |
+| Daily logs             | {Application folder}\Data\Logs\                      |
+| Backup jobs states      | {Application folder}\Data\States\states.json        |
