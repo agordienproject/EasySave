@@ -116,6 +116,14 @@ namespace EasySave.Views
         {
             Console.WriteLine(Resources.Language.EnterCommand);
         }
+        public static void StartingBackupJobExecutionMessage(string backupJobName)
+        {
+            Console.WriteLine(Resources.Language.StartingBackupJobExecutionMessage + backupJobName);
+        }
+        public static void EndBackupJobExecutionMessage()
+        {
+            Console.WriteLine(Resources.Language.EndBackupJobExecutionMessage);
+        }
     }
 }
 

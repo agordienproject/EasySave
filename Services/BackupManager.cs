@@ -100,14 +100,15 @@ namespace EasySave.Services
 
             foreach (var backupJob in backupJobsToExecute)
             {
+                ConsoleView.StartingBackupJobExecutionMessage(backupJob.BackupName);
                 ExecuteBackupJob(backupJob);
+                ConsoleView.EndBackupJobExecutionMessage();
             }
         }
 
         public void ExecuteBackupJob(BackupJob backupJob)
         {
             _stateManager.UpdateState(backupJob.BackupName, backupState: BackupState.Active);
-
 
             int totalFilesNumber = 0;
             long totalFilesSize = 0;

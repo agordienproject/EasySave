@@ -228,4 +228,10 @@
   <data name="LanguageOptionDescription" xml:space="preserve">
     <value>The chosen language: &lt;en|fr&gt;</value>
   </data>
+  <data name="StartingBackupJobExecutionMessage" xml:space="preserve">
+    <value>Execution of backup job : </value>
+  </data>
+  <data name="EndBackupJobExecutionMessage" xml:space="preserve">
+    <value>Backup job ended.</value>
+  </data>
 </root>
