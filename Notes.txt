@@ -1,7 +1,0 @@
-﻿Exemples de commandes : 
-
-EasySave backup save 1-3 
-EasySave backup save 1;3
-EasySave backup show
-EasySave backup add --name {nomDeLaSauvegarde} --source {repertoireSource} --dest {repertoireDestination} --type {typeDeSauvegarde}
-EasySave backup delete {nomDeLaSauvegarde}

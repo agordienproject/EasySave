@@ -4,15 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasySave.Services
+namespace EasySave.Models.Interfaces
 {
-    public class LogService
+    public interface INamedEntity
     {
-        public LogService()
-        {
-            
-        }
-
-
+        string BackupName { get; set; }
     }
 }

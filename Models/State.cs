@@ -1,18 +1,53 @@
-﻿using System;
+﻿using EasySave.Enums;
+using EasySave.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EasySave.Models
 {
-    public class State
+    public class State : INamedEntity
     {
         public string BackupName { get; set; }
-        public DateTime BackupTime { get; set; }
-        public string BackupState { get; set; }
-        public int TotalFileNumber { get; set; }
-        public int TotalFileSize { get; set; }
+        public BackupState BackupState { get; set; }
+        public string? BackupTime { get; set; }
+        public int TotalFilesNumber { get; set; }
+        public long TotalFilesSize { get; set; }
+        public int NbFilesLeftToDo { get; set; }
+        public long FilesSizeLeftToDo { get; set; }
+        public string? SourceTransferingFilePath { get; set; }
+        public string? TargetTransferingFilePath { get; set; }
 
+
+        [JsonConstructor]
+        public State(string backupName, BackupState backupState, string? backupTime, int totalFilesNumber, long totalFilesSize, int nbFilesLeftToDo, long filesSizeLeftToDo, string? sourceTransferingFilePath, string? targetTransferingFilePath)
+        {
+            BackupName = backupName;
+            BackupState = backupState;
+            BackupTime = backupTime;
+            TotalFilesNumber = totalFilesNumber;
+            TotalFilesSize = totalFilesSize;
+            NbFilesLeftToDo = nbFilesLeftToDo;
+            FilesSizeLeftToDo = filesSizeLeftToDo;
+            SourceTransferingFilePath = sourceTransferingFilePath;
+            TargetTransferingFilePath = targetTransferingFilePath;
+        }
+
+        public State(string backupName)
+        {
+            BackupName = backupName;
+            BackupState = Enums.BackupState.Inactive;
+            BackupTime = DateTime.Now.ToString();
+            TotalFilesNumber = 0;
+            TotalFilesSize = (long)0;
+            NbFilesLeftToDo = 0;
+            FilesSizeLeftToDo = (long)0;
+            SourceTransferingFilePath = "";
+            TargetTransferingFilePath = "";
+        }
+        
     }
 }

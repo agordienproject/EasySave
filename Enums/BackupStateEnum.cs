@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasySave.Services
+namespace EasySave.Enums
 {
-    public class BackupService
+    public enum BackupState
     {
-        public BackupService() 
-        {
-            
-        }
-
-
+        Inactive,
+        Active,
+        None
     }
 }
