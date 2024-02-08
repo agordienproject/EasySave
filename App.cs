@@ -78,6 +78,20 @@ namespace EasySave
                 {
                     return CommandLineParseUtils.ParseBackupJobIndex(result.ToString());
                 });
+            var languageOption = new Option<string>(
+            aliases: new[] { "--language", "-l" },
+            description: Resources.Language.LanguageCommandDescription,
+            isDefault: true,
+            parseArgument: result =>
+            {
+                var language = RecupLanguage(result.ToString());
+                if (language == null)
+                {
+                    // Quitter l'application si la langue n'a pas pu être récupérée
+                    Environment.Exit(1); // Utilisez le code d'erreur que vous préférez
+                }
+                return language;
+            });
             #endregion
 
             #region Commands
@@ -106,6 +120,11 @@ namespace EasySave
                 backupIndexesOption,
             };
             rootCommand.AddCommand(executeCommand);
+            var languageCommand = new Command("language", Resources.Language.LanguageCommandDescription)
+            {
+                languageOption,
+            };
+            rootCommand.AddCommand(languageCommand);
             #endregion
 
             #region Handlers
@@ -117,9 +136,45 @@ namespace EasySave
             showCommand.SetHandler(_backupController.ShowBackupJobs);
 
             executeCommand.SetHandler(_backupController.ExecuteBackupJobs, backupIndexesOption);
+            
+            languageCommand.SetHandler(AppSettingsJson.SetCurrentCulture, languageOption);
+
             #endregion
 
             return rootCommand;
+        }
+        public static string RecupLanguage(string input)
+        {
+            Regex regex = new Regex(@"<([^>]*)>");
+            Match match = regex.Match(input);
+
+            if (match.Success)
+            {
+                string language = match.Groups[1].Value;
+
+                // Vérifie si la langue est dans le dictionnaire
+                Dictionary<string, string> languageDictionary = new Dictionary<string, string>
+                {
+                    { "fr", "fr-FR" },
+                    { "en", "en-EN" }
+                };
+
+                if (languageDictionary.ContainsKey(language))
+                {
+                    Console.WriteLine($" {Resources.Language.ChoosenLanguageCommand} : {languageDictionary[language]}");
+                    return languageDictionary[language];
+                }
+                else
+                {
+                    Console.WriteLine($" {Resources.Language.ErrorLanguage1}");
+                    return null;
+                }
+            }
+            else
+            {
+                Console.WriteLine($" {Resources.Language.ErrorLanguage2}");
+                return null;
+            }
         }
     }
 }

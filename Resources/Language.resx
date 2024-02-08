@@ -150,4 +150,22 @@
   <data name="ShowCommandDescription" xml:space="preserve">
     <value>Show all backups</value>
   </data>
+  <data name="ChoosenLanguageCommand" xml:space="preserve">
+    <value>Choosen language</value>
+  </data>
+  <data name="ErrorLanguage1" xml:space="preserve">
+    <value>Error: Unknown language</value>
+  </data>
+  <data name="ErrorLanguage2" xml:space="preserve">
+    <value>Error in language information</value>
+  </data>
+  <data name="ErrorSameLanguage" xml:space="preserve">
+    <value>The chosen language is already current.</value>
+  </data>
+  <data name="LanguageCommandDescription" xml:space="preserve">
+    <value>Change the program's language</value>
+  </data>
+  <data name="UpdateLanguage" xml:space="preserve">
+    <value>The chosen language has been successfully updated</value>
+  </data>
 </root>

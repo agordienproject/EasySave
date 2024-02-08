@@ -88,6 +88,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Choosen language.
+        /// </summary>
+        internal static string ChoosenLanguageCommand {
+            get {
+                return ResourceManager.GetString("ChoosenLanguageCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create a new backup job.
         /// </summary>
         internal static string CreateCommandDescription {
@@ -115,6 +124,33 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error: Unknown language.
+        /// </summary>
+        internal static string ErrorLanguage1 {
+            get {
+                return ResourceManager.GetString("ErrorLanguage1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error in language information.
+        /// </summary>
+        internal static string ErrorLanguage2 {
+            get {
+                return ResourceManager.GetString("ErrorLanguage2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The chosen language is already current..
+        /// </summary>
+        internal static string ErrorSameLanguage {
+            get {
+                return ResourceManager.GetString("ErrorSameLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Execute one or more backup jobs.
         /// </summary>
         internal static string ExecuteCommandDescription {
@@ -129,6 +165,15 @@ namespace EasySave.Resources {
         internal static string HelloWorld {
             get {
                 return ResourceManager.GetString("HelloWorld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change the program&apos;s language.
+        /// </summary>
+        internal static string LanguageCommandDescription {
+            get {
+                return ResourceManager.GetString("LanguageCommandDescription", resourceCulture);
             }
         }
         
@@ -156,6 +201,15 @@ namespace EasySave.Resources {
         internal static string SourceDirectoryPathOptionDescription {
             get {
                 return ResourceManager.GetString("SourceDirectoryPathOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The chosen language has been successfully updated.
+        /// </summary>
+        internal static string UpdateLanguage {
+            get {
+                return ResourceManager.GetString("UpdateLanguage", resourceCulture);
             }
         }
     }
