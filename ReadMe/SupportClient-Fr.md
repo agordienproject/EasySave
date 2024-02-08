@@ -10,8 +10,8 @@
 
 ##  Emplacement des fichiers de configuration
 
-| Données du logiciel  | Emplacement        |
-|----------------------|--------------------|
-| BackupJobs           | .\Data\BackupJobs\ |
-| Logs journaliers     | .\Data\Logs\       |
-| États des BackupJobs | .\Data\State\      |
+| Données du logiciel  | Emplacement                          |
+|----------------------|--------------------------------------|
+| BackupJobs           | {ApplicationFolder}\Data\BackupJobs\ |
+| Logs journaliers     | {ApplicationFolder}\Data\Logs\       |
+| États des BackupJobs | {ApplicationFolder}\Data\State\      |
