@@ -1,6 +1,7 @@
 ﻿using EasySave.Controllers;
 using EasySave.Enums;
 using EasySave.Utils;
+using EasySave.Views;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Specialized;
 using System.CommandLine;
@@ -37,7 +38,7 @@ namespace EasySave
                 await rootCommand.InvokeAsync(new string[] { "--help" });
                 while (true)
                 {
-                    Console.WriteLine($"{Resources.Language.ChooseCommand}");
+                    ConsoleView.EnterCommand();
                     args = Console.ReadLine().Split(' ');
                     await rootCommand.InvokeAsync(args);
                 }
@@ -103,15 +104,15 @@ namespace EasySave
                 var language = RecupLanguage(result.ToString());
                 if (language == null)
                 {
-                    // Quitter l'application si la langue n'a pas pu être récupérée
-                    Environment.Exit(1); // Utilisez le code d'erreur que vous préférez
+                    // Quit application if language could not be retrieved
+                    Environment.Exit(1);
                 }
                 return language;
             });
             #endregion
 
             #region Commands
-            var rootCommand = new RootCommand("EasySave app");
+            var rootCommand = new RootCommand(ConsoleView.Print());
 
             var createCommand = new Command("create", Resources.Language.CreateCommandDescription)
             {
@@ -168,7 +169,7 @@ namespace EasySave
             {
                 string language = match.Groups[1].Value;
 
-                // Vérifie si la langue est dans le dictionnaire
+                // Checks if the language is in the dictionary
                 Dictionary<string, string> languageDictionary = new Dictionary<string, string>
                 {
                     { "fr", "fr-FR" },
@@ -177,18 +178,18 @@ namespace EasySave
 
                 if (languageDictionary.ContainsKey(language))
                 {
-                    Console.WriteLine($" {Resources.Language.ChoosenLanguageCommand} : {languageDictionary[language]}");
+                    ConsoleView.ChoosenLanguageCommand(languageDictionary, language);
                     return languageDictionary[language];
                 }
                 else
                 {
-                    Console.WriteLine($" {Resources.Language.ErrorLanguage1}");
+                    ConsoleView.ErrorLanguage1();
                     return null;
                 }
             }
             else
             {
-                Console.WriteLine($" {Resources.Language.ErrorLanguage2}");
+                ConsoleView.ErrorLanguage2();
                 return null;
             }
         }

@@ -13,7 +13,7 @@ namespace EasySave.Utils
         {
             List<int> backupNumbers = new List<int>();
 
-            // Vérifier le format 'X-Y' ou 'X;Y'
+            // Check 'X-Y' or 'X;Y' format
             Regex regex = new Regex(@"(\d+)[\-;](\d+)");
             Match match = regex.Match(input);
 
@@ -22,7 +22,7 @@ namespace EasySave.Utils
                 int start = int.Parse(match.Groups[1].Value);
                 int end = int.Parse(match.Groups[2].Value);
 
-                // Ajouter les numéros de sauvegarde dans la liste
+                // Add backup numbers to the list
                 if (input.Contains(";"))
                 {
                     backupNumbers.Add(start);
@@ -39,7 +39,7 @@ namespace EasySave.Utils
             }
             else
             {
-                // Vérifier le format unique 'X'
+                // Check the unique format 'X'
                 regex = new Regex(@"(\d+)");
                 match = regex.Match(input);
 
@@ -50,7 +50,7 @@ namespace EasySave.Utils
                 }
                 else
                 {
-                    // Format incorrect
+                    // Incorrect format
                     return null;
                 }
             }

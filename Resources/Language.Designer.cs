@@ -106,6 +106,33 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The backup job is complete.
+        /// </summary>
+        internal static string CompleteBackup {
+            get {
+                return ResourceManager.GetString("CompleteBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Copy of file:.
+        /// </summary>
+        internal static string CopyFile {
+            get {
+                return ResourceManager.GetString("CopyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Copy of new file.
+        /// </summary>
+        internal static string CopyNewFile {
+            get {
+                return ResourceManager.GetString("CopyNewFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create a new backup job.
         /// </summary>
         internal static string CreateCommandDescription {
@@ -129,6 +156,33 @@ namespace EasySave.Resources {
         internal static string DestinationDirectoryPathOptionDescription {
             get {
                 return ResourceManager.GetString("DestinationDirectoryPathOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The backup job is differential.
+        /// </summary>
+        internal static string DifferentialBackup {
+            get {
+                return ResourceManager.GetString("DifferentialBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à already exists in the target directory and is newer than the one selected. The copy will not be made..
+        /// </summary>
+        internal static string DontCopyFile {
+            get {
+                return ResourceManager.GetString("DontCopyFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter a command:.
+        /// </summary>
+        internal static string EnterCommand {
+            get {
+                return ResourceManager.GetString("EnterCommand", resourceCulture);
             }
         }
         
@@ -178,6 +232,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à in.
+        /// </summary>
+        internal static string In {
+            get {
+                return ResourceManager.GetString("In", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Change the program&apos;s language.
         /// </summary>
         internal static string LanguageCommandDescription {
@@ -192,6 +255,42 @@ namespace EasySave.Resources {
         internal static string NameOptionDescription {
             get {
                 return ResourceManager.GetString("NameOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No backupjobs with this name were found.
+        /// </summary>
+        internal static string NoBackupJobFound {
+            get {
+                return ResourceManager.GetString("NoBackupJobFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No backup job to execute.
+        /// </summary>
+        internal static string NoBackupJobToExecute {
+            get {
+                return ResourceManager.GetString("NoBackupJobToExecute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Source Directory doesn&apos;t exist:.
+        /// </summary>
+        internal static string NoSourceDirMessage {
+            get {
+                return ResourceManager.GetString("NoSourceDirMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Two backups can&apos;t have the same name.
+        /// </summary>
+        internal static string SameNameBackup {
+            get {
+                return ResourceManager.GetString("SameNameBackup", resourceCulture);
             }
         }
         
@@ -223,11 +322,65 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à The chosen language has been successfully updated.
+        ///   Recherche une chaîne localisée semblable à CopyFileAndUpdateLog function entry.
+        /// </summary>
+        internal static string StartCopyFileAndUpdateLog {
+            get {
+                return ResourceManager.GetString("StartCopyFileAndUpdateLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à CopyFilesDifferential function entry.
+        /// </summary>
+        internal static string StartCopyFilesDifferential {
+            get {
+                return ResourceManager.GetString("StartCopyFilesDifferential", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Successfuly deleted.
+        /// </summary>
+        internal static string SuccessDelete {
+            get {
+                return ResourceManager.GetString("SuccessDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The file.
+        /// </summary>
+        internal static string TheFile {
+            get {
+                return ResourceManager.GetString("TheFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Too many backups already exist.
+        /// </summary>
+        internal static string TooManyBackup {
+            get {
+                return ResourceManager.GetString("TooManyBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The chosen language has been successfully updated:.
         /// </summary>
         internal static string UpdateLanguage {
             get {
                 return ResourceManager.GetString("UpdateLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Welcome to the EasySave application, where you can make backups..
+        /// </summary>
+        internal static string Welcome {
+            get {
+                return ResourceManager.GetString("Welcome", resourceCulture);
             }
         }
     }

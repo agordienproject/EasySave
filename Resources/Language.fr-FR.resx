@@ -150,8 +150,53 @@
   <data name="ShowCommandDescription" xml:space="preserve">
     <value>Afficher tous les travaux de sauvegarde</value>
   </data>
+  <data name="NoSourceDirMessage" xml:space="preserve">
+    <value>Le répertoire source n'existe pas :</value>
+  </data>
+  <data name="TooManyBackup" xml:space="preserve">
+    <value>Il existe déjà trop de travaux de sauvegarde</value>
+  </data>
+  <data name="SameNameBackup" xml:space="preserve">
+    <value>Deux travaux de sauvegardes ne peuvent pas avoir le même nom</value>
+  </data>
+  <data name="SuccessDelete" xml:space="preserve">
+    <value>A été supprimé avec succès</value>
+  </data>
+  <data name="NoBackupJobToExecute" xml:space="preserve">
+    <value>Aucune tâche de sauvegarde à exécuter</value>
+  </data>
+  <data name="CompleteBackup" xml:space="preserve">
+    <value>La sauvegarde est complète</value>
+  </data>
+  <data name="DifferentialBackup" xml:space="preserve">
+    <value>La sauvegarde est différentielle</value>
+  </data>
+  <data name="StartCopyFilesDifferential" xml:space="preserve">
+    <value>Entrée dans la fonction CopyFilesDifferential</value>
+  </data>
+  <data name="StartCopyFileAndUpdateLog" xml:space="preserve">
+    <value>Entrée dans la fonction CopyFileAndUpdateLog</value>
+  </data>
+  <data name="CopyNewFile" xml:space="preserve">
+    <value>Copie du nouveau fichier</value>
+  </data>
+  <data name="NoBackupJobFound" xml:space="preserve">
+    <value>Aucun travail de sauvegarde à ce nom a été trouvé</value>
+  </data>
+  <data name="CopyFile" xml:space="preserve">
+    <value>Copie du fichier :</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>dans</value>
+  </data>
+  <data name="TheFile" xml:space="preserve">
+    <value>Le fichier</value>
+  </data>
+  <data name="DontCopyFile" xml:space="preserve">
+    <value>existe déjà dans le répertoire cible et il est plus récent que celui sélectionné. La copie ne sera pas faite.</value>
+  </data>
   <data name="ChoosenLanguageCommand" xml:space="preserve">
-    <value>Langue choisie</value>
+    <value>Langue choisie :</value>
   </data>
   <data name="ErrorLanguage1" xml:space="preserve">
     <value>Erreur : Langue inconnue</value>
@@ -166,7 +211,13 @@
     <value>Change la langue du programme</value>
   </data>
   <data name="UpdateLanguage" xml:space="preserve">
-    <value>La langue choisie a été mise à jour avec succès</value>
+    <value>La langue choisie a été mise à jour avec succès :</value>
+  </data>
+  <data name="EnterCommand" xml:space="preserve">
+    <value>Saisissez une commande :</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Bienvenue sur l'application EasySave, elle vous permettra de faire des sauvegardes.</value>
   </data>
   <data name="ChooseCommand" xml:space="preserve">
     <value>Saisissez une commande :</value>

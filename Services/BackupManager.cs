@@ -43,13 +43,13 @@ namespace EasySave.Services
 
             if (_backupJobs.Count >= BACKUPJOBS_LIMIT)
             {
-                Console.WriteLine("Too many backups already exist.");
+                ConsoleView.TooManyBackup();
                 return;
             }
 
             if (_backupJobs.Any(backup => backup.BackupName == backupJob.BackupName))
             {
-                Console.WriteLine("Two backups can't have the same name.");
+                ConsoleView.SameNameBackup();
                 return;
             }
 
@@ -66,12 +66,13 @@ namespace EasySave.Services
 
             if (backupJobToDelete == null)
             {
-                Console.WriteLine($"No backupJob named : {backupJobName} was found !");
+                ConsoleView.NoBackupJobFound();
                 return;
             }
 
             _backupJobs.Remove(backupJobToDelete);
-            Console.WriteLine($"{backupJobName} successfuly deleted");
+            await _stateManager.DeleteState(backupJobName);
+            ConsoleView.SuccessDelete(backupJobName);
 
             await WriteBackups();
         }
@@ -89,7 +90,7 @@ namespace EasySave.Services
 
             if (_backupJobs.Count == 0)
             {
-                Console.WriteLine("No backup job to execute !");
+                ConsoleView.NoBackupJobToExecute();
                 return;
             }
 
@@ -238,7 +239,7 @@ namespace EasySave.Services
                     DateTime.Now.ToString()
                 ));
 
-                Console.WriteLine($"Copie du fichier : {Path.GetFileName(sourceFilePath)}");
+                ConsoleView.CopyFile(sourceFilePath);
             }
         }
 
@@ -248,29 +249,28 @@ namespace EasySave.Services
             FileInfo destFileInfo = new(targetFilePath);
             string sourceFileHash = CalculateMD5(sourceFilePath);
 
-            // Vérifier si le fichier existe déjà dans le répertoire cible
+            // Check if the file already exists in the target directory
             if (File.Exists(targetFilePath))
             {
                 string destFileHash = CalculateMD5(targetFilePath);
 
                 if (sourceFileHash != destFileHash)
                 {
-                    // Le fichier source est plus récent, donc le copier
+                    // The source file is more recent, so we copy it
                     return true;
                 }
                 else
                 {
-                    // Le fichier source n'est pas plus récent, passer au prochain fichier
-                    Console.WriteLine($"Le fichier {destFileInfo} existe déjà dans le répertoire cible et est plus récent ou égal. Ne pas copier.");
+                    // The source file is no newer than the one already there, so we move on to the next file
+                    ConsoleView.DontCopyFile(destFileInfo);
                     return false;
                 }
             }
             else
             {
-
-                Console.WriteLine($"Copie du nouveau fichier");
+                // The file doesn't exist in the target directory, so we copy it
+                ConsoleView.CopyNewFile();
                 return true;
-                // Le fichier n'existe pas dans le répertoire cible, donc le copier
             }
 
         }

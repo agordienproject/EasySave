@@ -150,8 +150,53 @@
   <data name="ShowCommandDescription" xml:space="preserve">
     <value>Show all backups</value>
   </data>
+  <data name="NoSourceDirMessage" xml:space="preserve">
+    <value>Source Directory doesn't exist:</value>
+  </data>
+  <data name="TooManyBackup" xml:space="preserve">
+    <value>Too many backups already exist</value>
+  </data>
+  <data name="SameNameBackup" xml:space="preserve">
+    <value>Two backups can't have the same name</value>
+  </data>
+  <data name="SuccessDelete" xml:space="preserve">
+    <value>Successfuly deleted</value>
+  </data>
+  <data name="NoBackupJobToExecute" xml:space="preserve">
+    <value>No backup job to execute</value>
+  </data>
+  <data name="CompleteBackup" xml:space="preserve">
+    <value>The backup job is complete</value>
+  </data>
+  <data name="DifferentialBackup" xml:space="preserve">
+    <value>The backup job is differential</value>
+  </data>
+  <data name="StartCopyFilesDifferential" xml:space="preserve">
+    <value>CopyFilesDifferential function entry</value>
+  </data>
+  <data name="StartCopyFileAndUpdateLog" xml:space="preserve">
+    <value>CopyFileAndUpdateLog function entry</value>
+  </data>
+  <data name="CopyNewFile" xml:space="preserve">
+    <value>Copy of new file</value>
+  </data>
+  <data name="NoBackupJobFound" xml:space="preserve">
+    <value>No backupjobs with this name were found</value>
+  </data>
+  <data name="CopyFile" xml:space="preserve">
+    <value>Copy of file:</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>in</value>
+  </data>
+  <data name="TheFile" xml:space="preserve">
+    <value>The file</value>
+  </data>
+  <data name="DontCopyFile" xml:space="preserve">
+    <value>already exists in the target directory and is newer than the one selected. The copy will not be made.</value>
+  </data>
   <data name="ChoosenLanguageCommand" xml:space="preserve">
-    <value>Choosen language</value>
+    <value>Choosen language:</value>
   </data>
   <data name="ErrorLanguage1" xml:space="preserve">
     <value>Error: Unknown language</value>
@@ -166,7 +211,13 @@
     <value>Change the program's language</value>
   </data>
   <data name="UpdateLanguage" xml:space="preserve">
-    <value>The chosen language has been successfully updated</value>
+    <value>The chosen language has been successfully updated:</value>
+  </data>
+  <data name="EnterCommand" xml:space="preserve">
+    <value>Enter a command:</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome to the EasySave application, where you can make backups.</value>
   </data>
   <data name="ChooseCommand" xml:space="preserve">
     <value>Enter a comand : </value>
