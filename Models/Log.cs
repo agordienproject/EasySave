@@ -15,9 +15,9 @@ namespace EasySave.Models
         public string TargetFile { get; set;}
         public long FileSize {get; set;}
         public double FileTransferTime {get; set;}
-        public DateTime TimeStamp {get; set;}
+        public string TimeStamp {get; set;}
 
-        public Log(string backupName, string sourceFile, string targetFile, long fileSize, double fileTransferTime, DateTime timeStamp)
+        public Log(string backupName, string sourceFile, string targetFile, long fileSize, double fileTransferTime, string timeStamp)
         {
             this.BackupName = backupName;
             this.SourceFile = sourceFile;

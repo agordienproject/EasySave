@@ -13,16 +13,17 @@ namespace EasySave.Models
     {
         public string BackupName { get; set; }
         public BackupState BackupState { get; set; }
-        public DateTime BackupTime { get; set; }
+        public string? BackupTime { get; set; }
         public int TotalFilesNumber { get; set; }
-        public int TotalFilesSize { get; set; }
+        public long TotalFilesSize { get; set; }
         public int NbFilesLeftToDo { get; set; }
-        public int FilesSizeLeftToDo { get; set; }
+        public long FilesSizeLeftToDo { get; set; }
         public string? SourceTransferingFilePath { get; set; }
         public string? TargetTransferingFilePath { get; set; }
 
+
         [JsonConstructor]
-        public State(string backupName, DateTime backupTime, BackupState backupState, int totalFilesNumber, int totalFilesSize, int nbFilesLeftToDo, int filesSizeLeftToDo, string sourceTransferingFilePath, string targetTransferingFilePath)
+        public State(string backupName, BackupState backupState, string? backupTime, int totalFilesNumber, long totalFilesSize, int nbFilesLeftToDo, long filesSizeLeftToDo, string? sourceTransferingFilePath, string? targetTransferingFilePath)
         {
             BackupName = backupName;
             BackupState = backupState;
@@ -38,7 +39,14 @@ namespace EasySave.Models
         public State(string backupName)
         {
             BackupName = backupName;
-            BackupState = BackupState.Inactive;
+            BackupState = Enums.BackupState.Inactive;
+            BackupTime = DateTime.Now.ToString();
+            TotalFilesNumber = 0;
+            TotalFilesSize = (long)0;
+            NbFilesLeftToDo = 0;
+            FilesSizeLeftToDo = (long)0;
+            SourceTransferingFilePath = "";
+            TargetTransferingFilePath = "";
         }
         
     }

@@ -105,7 +105,19 @@ namespace EasySave.Services
 
         public async Task ExecuteBackupJob(BackupJob backupJob)
         {
+            await _stateManager.UpdateState(backupJob.BackupName, BackupState : BackupState.Active);
+
             await CopyFiles(backupJob.BackupName, backupJob.SourceDirectory, backupJob.TargetDirectory, backupJob.BackupType);
+
+            await _stateManager.UpdateState(
+                backupJob.BackupName, 
+                BackupState: BackupState.Inactive, 
+                TotalFilesNumber : 0,
+                TotalFilesSize : 0,
+                NbFilesLeftToDo: 0,
+                FilesSizeLeftToDo: 0,
+                SourceTransferingFilePath : "",
+                TargetTransferingFilePath: "");
         }
 
         public async Task CopyFiles(string backupJobName, string sourceDir, string targetDir, BackupType backupType)
@@ -116,6 +128,22 @@ namespace EasySave.Services
                 return;
             }
 
+            int totalFilesNumber = 0;
+            long totalFilesSize = 0;
+
+            int nbFilesLeftToDo = totalFilesNumber;
+            long filesSizeLeftToDo = totalFilesSize;
+
+            GetDirectoryInfos(sourceDir, ref totalFilesNumber, ref totalFilesSize);
+
+            await _stateManager.UpdateState(
+                backupJobName, 
+                TotalFilesNumber: totalFilesNumber, 
+                TotalFilesSize: totalFilesSize, 
+                NbFilesLeftToDo : nbFilesLeftToDo, 
+                FilesSizeLeftToDo : filesSizeLeftToDo);
+
+            
             if (!Directory.Exists(targetDir))
             {
                 Directory.CreateDirectory(targetDir);
@@ -123,7 +151,18 @@ namespace EasySave.Services
 
             foreach (string filePath in Directory.GetFiles(sourceDir))
             {
+                FileInfo fileInfo = new FileInfo(filePath);
+
+                string targetPath = Path.Combine(targetDir, fileInfo.Name);
+
+                await _stateManager.UpdateState(backupJobName, NbFilesLeftToDo: nbFilesLeftToDo, FilesSizeLeftToDo: filesSizeLeftToDo, SourceTransferingFilePath: filePath, TargetTransferingFilePath: targetPath);
+
                 await CopyFile(backupJobName, filePath, targetDir, backupType);
+
+                nbFilesLeftToDo--;
+
+                filesSizeLeftToDo -= fileInfo.Length;
+
             }
 
             foreach (string subDir in Directory.GetDirectories(sourceDir))
@@ -131,6 +170,30 @@ namespace EasySave.Services
                 string subDirName = Path.GetFileName(subDir);
                 string targetSubDir = Path.Combine(targetDir, subDirName);
                 await CopyFiles(backupJobName, subDir, targetSubDir, backupType);
+            }
+        }
+
+        static void GetDirectoryInfos(string directory, ref int totalFilesNumber, ref long totalFilesSize)
+        {
+            try
+            {
+                string[] fichiers = Directory.GetFiles(directory);
+                string[] sousDossiers = Directory.GetDirectories(directory);
+
+                foreach (var fichier in fichiers)
+                {
+                    totalFilesNumber++;
+                    totalFilesSize += new FileInfo(fichier).Length;
+                }
+
+                foreach (var sousDossier in sousDossiers)
+                {
+                    GetDirectoryInfos(sousDossier, ref totalFilesNumber, ref totalFilesSize);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($" {directory}: {e.Message}");
             }
         }
 
@@ -172,7 +235,7 @@ namespace EasySave.Services
                     targetFilePath,
                     sourceFileInfo.Length,
                     transferTime,
-                    DateTime.Now
+                    DateTime.Now.ToString()
                 ));
 
                 Console.WriteLine($"Copie du fichier : {Path.GetFileName(sourceFilePath)}");
