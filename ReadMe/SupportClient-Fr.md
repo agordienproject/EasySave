@@ -10,8 +10,9 @@
 
 ##  Emplacement des fichiers de configuration
 
-| Données du logiciel    | Emplacement                                 |
-|------------------------|---------------------------------------------|
-| Travaux de sauvegardes | {Dossier de l'application}\Data\BackupJobs\ |
-| Logs journaliers       | {Dossier de l'application}\Data\Logs\       |
-| États des travaux      | {Dossier de l'application}\Data\State\      |
+| Données du logiciel      | Emplacement                                                |
+|--------------------------|------------------------------------------------------------|
+| Fichier de configuration | {Dossier de l'application}\appsettings.json                |
+| Travaux de sauvegardes   | {Dossier de l'application}\Data\BackupJobs\backupjobs.json |
+| Logs journaliers         | {Dossier de l'application}\Data\Logs\                      |
+| États des travaux        | {Dossier de l'application}\Data\States\states.json         |
