@@ -60,7 +60,7 @@ L'interface de la version 1.0 du logiciel EasySave est la suivante :
 > [!WARNING]
 > Lorsque vous utilisez des chemins comportants des dossiers avec des espaces, vous devez mettre entre guillemets votre chemin, sinon le programme ne vas pas comprendre le chemin que vous lui donnez.
 >
-> Exemple :`create -n job1 -s "C:\temp\source" -d "C:\temp\cible" -t complete`
+> Exemple :`create -n job1 -s "C:\temp\source 1" -d "C:\temp\cible 1" -t complete`
 
 - **EasySave show** : Afficher l'ensemble des travaux de sauvegarde.
 
