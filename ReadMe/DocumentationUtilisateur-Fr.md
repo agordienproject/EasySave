@@ -1,6 +1,6 @@
 # Documentation utilisateur
 
-## I) Instalation de l'exécutable
+## I) Installation de l'exécutable
 
 Pour commencer, ProSoft vous fournit un exécutable qui va s’occuper d’installer tout le programme dont vous avez besoin.
 
