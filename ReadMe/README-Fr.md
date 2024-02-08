@@ -44,10 +44,6 @@ L'utilisation d'un terminal permet d'envoyer une commande sans rester dans l'app
 
 ## II) Guide d'utilisation
 
-### 1/ Accès à l'application
-
-#### Via 
-
 ### 1/ Interface
 
 L'interface de la version 1.0 du logiciel EasySave est la suivante :
@@ -90,11 +86,3 @@ L'interface de la version 1.0 du logiciel EasySave est la suivante :
 - EasySave delete --name {nomDeLaSauvegarde}
 - EasySave execute -r 1-3 
 
-
-### 3/ Emplacements des fichiers
-
-- BackupJobsFolderPath : .\\Data\\BackupJobs\\
-- BackupJobsJsonPath : .\\Data\\BackupJobs\\backupjobs.json
-- StatesFolderPath : .\\Data\\State\\
-- StatesJsonFilePath : .\\Data\\State\\states.json
-- LogsFolderPath : .\\Data\\Logs\\
