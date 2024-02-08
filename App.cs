@@ -17,7 +17,7 @@ namespace EasySave
         private readonly IConfiguration _configuration;
         private readonly IBackupController _backupController;
 
-        public App(IConfiguration configuration, IBackupController backupController) 
+        public App(IConfiguration configuration, IBackupController backupController)
         {
             _configuration = configuration;
             _backupController = backupController;
@@ -28,10 +28,8 @@ namespace EasySave
             // Set app culture from appsettings.json
             Resources.Language.Culture = new CultureInfo(_configuration["CurrentCulture"]);
 
-            Console.WriteLine(args);
             // Traitement des guillemets
             args = CommandLineParseUtils.ParseFilePath(args);
-            Console.WriteLine(args);
             RootCommand rootCommand = InitCommandLine();
 
             if (args.Length == 0)
