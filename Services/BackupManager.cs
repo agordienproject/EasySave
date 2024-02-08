@@ -4,6 +4,7 @@ using EasySave.Models;
 using EasySave.Services.Interfaces;
 using EasySave.Views;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography;
 using System.Xml.Linq;
 
 namespace EasySave.Services
@@ -183,6 +184,17 @@ namespace EasySave.Services
             FileInfo sourceFileInfo = new(sourceFilePath);
             FileInfo destFileInfo = new(targetFilePath);
             return sourceFileInfo.LastWriteTime > destFileInfo.LastWriteTime;
+        }
+        private string CalculateMD5(string filePath)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filePath))
+                {
+                    byte[] hashBytes = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                }
+            }
         }
     }
 }
