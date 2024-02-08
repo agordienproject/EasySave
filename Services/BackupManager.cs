@@ -4,6 +4,7 @@ using EasySave.Models;
 using EasySave.Services.Interfaces;
 using EasySave.Views;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography;
 using System.Xml.Linq;
 
 namespace EasySave.Services
@@ -178,12 +179,15 @@ namespace EasySave.Services
                 FileInfo fileInfo = new FileInfo(filePath);
                 string fileName = Path.GetFileName(filePath);
                 string destFilePath = Path.Combine(targetDir, fileName);
+                string sourceFileHash = CalculateMD5(filePath);
 
                 // Vérifier si le fichier existe déjà dans le répertoire cible
                 if (File.Exists(destFilePath))
                 {
                     FileInfo destFileInfo = new FileInfo(destFilePath);
-                    if (fileInfo.LastWriteTime > destFileInfo.LastWriteTime)
+                    string destFileHash = CalculateMD5(destFilePath);
+
+                    if (sourceFileHash != destFileHash)
                     {
                         // Le fichier source est plus récent, donc le copier
                         CopyFileAndUpdateLog(backupJobName, filePath, destFilePath, fileInfo);
@@ -228,6 +232,17 @@ namespace EasySave.Services
                 DateTime.Now
             ));
             Console.WriteLine($"Copie du fichier : {Path.GetFileName(sourceFilePath)}");
+        }
+        private string CalculateMD5(string filePath)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filePath))
+                {
+                    byte[] hashBytes = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
+                }
+            }
         }
 
     }
