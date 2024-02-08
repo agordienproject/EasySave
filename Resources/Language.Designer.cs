@@ -250,6 +250,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à The chosen language: &lt;en|fr&gt;.
+        /// </summary>
+        internal static string LanguageOptionDescription {
+            get {
+                return ResourceManager.GetString("LanguageOptionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The name of the backup.
         /// </summary>
         internal static string NameOptionDescription {

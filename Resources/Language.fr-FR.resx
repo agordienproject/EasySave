@@ -225,4 +225,7 @@
   <data name="ResetAppAfterChangingLanguage" xml:space="preserve">
     <value>Veuillez redémarrer votre application afin que les modifications prennent effet</value>
   </data>
+  <data name="LanguageOptionDescription" xml:space="preserve">
+    <value>La langue choisie : &lt;en|fr&gt;</value>
+  </data>
 </root>

@@ -28,9 +28,10 @@ namespace EasySave
             // Set app culture from appsettings.json
             Resources.Language.Culture = new CultureInfo(_configuration["CurrentCulture"]);
 
+            Console.WriteLine(args);
             // Traitement des guillemets
             args = CommandLineParseUtils.ParseFilePath(args);
-
+            Console.WriteLine(args);
             RootCommand rootCommand = InitCommandLine();
 
             if (args.Length == 0)
@@ -41,7 +42,10 @@ namespace EasySave
                 {
                     //ConsoleView.EnterCommand();
                     Console.Write(" > ");
-                    args = CommandLineParseUtils.ParseFilePath(Console.ReadLine().Split(' '));
+                    string input = Console.ReadLine();
+                    MatchCollection matches = Regex.Matches(input, @"[\""].+?[\""]|[^ ]+");
+                    args = matches.Select(match => match.Value).ToArray();
+                    args = CommandLineParseUtils.ParseFilePath(args);
                     await rootCommand.InvokeAsync(args);
                 }
             }
@@ -88,8 +92,8 @@ namespace EasySave
                 });
 
             var languageOption = new Option<string>(
-            aliases: new[] { "--language", "-l" },
-            description: Resources.Language.LanguageCommandDescription,
+            aliases: [ "--language", "-l" ],
+            description: Resources.Language.LanguageOptionDescription,
             isDefault: true,
             parseArgument: result =>
             {
