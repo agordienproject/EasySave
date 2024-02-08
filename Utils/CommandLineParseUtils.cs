@@ -69,36 +69,22 @@ namespace EasySave.Utils
             return args;
         }
 
-        public static string RecupLanguage(string input)
+        public static string RecupLanguage(string language)
         {
-            Regex regex = new Regex(@"<([^>]*)>");
-            Match match = regex.Match(input);
-
-            if (match.Success)
+            // Checks if the language is in the dictionary
+            Dictionary<string, string> languageDictionary = new Dictionary<string, string>
             {
-                string language = match.Groups[1].Value;
+                { "fr", "fr-FR" },
+                { "en", "en-EN" }
+            };
 
-                // Checks if the language is in the dictionary
-                Dictionary<string, string> languageDictionary = new Dictionary<string, string>
-                {
-                    { "fr", "fr-FR" },
-                    { "en", "en-EN" }
-                };
-
-                if (languageDictionary.ContainsKey(language))
-                {
-                    ConsoleView.ChoosenLanguageCommand(languageDictionary, language);
-                    return languageDictionary[language];
-                }
-                else
-                {
-                    ConsoleView.ErrorLanguage1();
-                    return null;
-                }
+            if (languageDictionary.ContainsKey(language))
+            {
+                ConsoleView.ChoosenLanguageCommand(languageDictionary, language);
+                return languageDictionary[language];
             }
             else
             {
-                ConsoleView.ErrorLanguage2();
                 return null;
             }
         }

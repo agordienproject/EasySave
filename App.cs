@@ -92,19 +92,9 @@ namespace EasySave
                 });
 
             var languageOption = new Option<string>(
-            aliases: [ "--language", "-l" ],
-            description: Resources.Language.LanguageOptionDescription,
-            isDefault: true,
-            parseArgument: result =>
-            {
-                var language = CommandLineParseUtils.RecupLanguage(result.ToString());
-                if (language == null)
-                {
-                    // Quit application if language could not be retrieved
-                    Environment.Exit(1);
-                }
-                return language;
-            });
+                aliases: [ "--language", "-l" ],
+                description: Resources.Language.LanguageOptionDescription
+                );
             #endregion
 
             #region Commands

@@ -1,4 +1,5 @@
 ﻿using EasySave.Models;
+using EasySave.Utils;
 using EasySave.Views;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -68,38 +69,45 @@ namespace EasySave
         }
         public static async Task SetCurrentCulture(string cultureName)
         {
-            string appRoot = GetApplicationExeDirectory();
-            string fileName = "appsettings.json";
-            string relativeFilePath = Path.Combine(appRoot, fileName);
-
-            // Reading the JSON file
-            using (FileStream fileStream = File.Open(relativeFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            var language = CommandLineParseUtils.RecupLanguage(cultureName.ToString());
+            if(language != null)
             {
-                AppSettings appSettings = JsonSerializer.Deserialize<AppSettings>(fileStream);
-                Console.WriteLine(appSettings.CurrentCulture);
+                string appRoot = GetApplicationExeDirectory();
+                string fileName = "appsettings.json";
+                string relativeFilePath = Path.Combine(appRoot, fileName);
 
-                // Check if the selected language is already current
-                if (appSettings.CurrentCulture != cultureName)
+                // Reading the JSON file
+                using (FileStream fileStream = File.Open(relativeFilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                 {
-                    // Updating the language selected in the JSON
-                    appSettings.CurrentCulture = cultureName;
-                    Console.WriteLine(appSettings.CurrentCulture);
+                    AppSettings appSettings = JsonSerializer.Deserialize<AppSettings>(fileStream);
 
-                    // Reset flux reading position to zero
-                    fileStream.Seek(0, SeekOrigin.Begin);
+                    // Check if the selected language is already current
+                    if (appSettings.CurrentCulture != cultureName)
+                    {
+                        // Updating the language selected in the JSON
+                        appSettings.CurrentCulture = cultureName;
 
-                    // Write the modified JSON to the stream
-                    var options = new JsonSerializerOptions { WriteIndented = true };
-                    JsonSerializer.Serialize(fileStream, appSettings, options);
-                    fileStream.SetLength(fileStream.Position);
+                        // Reset flux reading position to zero
+                        fileStream.Seek(0, SeekOrigin.Begin);
 
-                    ConsoleView.UpdateLanguage(cultureName);
-                }
-                else
-                {
-                    ConsoleView.ErrorSameLanguage();
-                }
-            } // The using block ends here, which ensures that the file flow is closed once the block has been exited
+                        // Write the modified JSON to the stream
+                        var options = new JsonSerializerOptions { WriteIndented = true };
+                        JsonSerializer.Serialize(fileStream, appSettings, options);
+                        fileStream.SetLength(fileStream.Position);
+
+                        ConsoleView.UpdateLanguage(cultureName);
+                    }
+                    else
+                    {
+                        ConsoleView.ErrorSameLanguage();
+                    }
+                } // The using block ends here, which ensures that the file flow is closed once the block has been exited
+            }
+            else
+            {
+                ConsoleView.ErrorLanguage1();
+            }
+
         }
 
 
