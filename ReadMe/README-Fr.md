@@ -6,6 +6,9 @@
 
 ### 1/ Interface
 
+![image](https://github.com/agordienproject/EasySave/assets/127090687/e38a9e2a-3ea8-433e-a6f2-5c71fa5a5a17)
+
+
 ### 2/ Liste des commandes et options
 
 
