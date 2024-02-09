@@ -82,10 +82,10 @@ namespace EasySave
                     AppSettings appSettings = JsonSerializer.Deserialize<AppSettings>(fileStream);
 
                     // Check if the selected language is already current
-                    if (appSettings.CurrentCulture != cultureName)
+                    if (appSettings.CurrentCulture != language)
                     {
                         // Updating the language selected in the JSON
-                        appSettings.CurrentCulture = cultureName;
+                        appSettings.CurrentCulture = language;
 
                         // Reset flux reading position to zero
                         fileStream.Seek(0, SeekOrigin.Begin);
@@ -95,7 +95,7 @@ namespace EasySave
                         JsonSerializer.Serialize(fileStream, appSettings, options);
                         fileStream.SetLength(fileStream.Position);
 
-                        ConsoleView.UpdateLanguage(cultureName);
+                        ConsoleView.UpdateLanguage(language);
                     }
                     else
                     {
