@@ -1,4 +1,6 @@
-﻿using EasySave.Domain.Models;
+﻿using EasySave.DataAccess.Services.Factories;
+using EasySave.Domain.Models;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +12,11 @@ namespace EasySave.Domain.Services
 {
     public class BackupJobService : IBackupJobService
     {
-        private readonly string _filePath;
+        private readonly IFileService _fileService;
 
-        public BackupJobService()
+        public BackupJobService(IConfiguration configuration, IFileServiceFactory fileServiceFactory)
         {
-            _filePath = filePath;
-            InitDataFile(_filePath).Wait(); // Attendez la fin de l'initialisation avant de continuer.
+            _fileService = fileServiceFactory.CreateFileService(configuration["backupJobsFileType"]);
         }
 
         public async Task<bool> InitDataFile(string filePath)
@@ -48,116 +49,65 @@ namespace EasySave.Domain.Services
 
         public async Task<IEnumerable<BackupJob>> GetAll()
         {
-            try
-            {
-                using (FileStream openStream = File.OpenRead(_filePath))
-                {
-                    List<BackupJob>? backupJobs = await JsonSerializer.DeserializeAsync<List<BackupJob>>(openStream);
-                    return backupJobs ?? new List<BackupJob>();
-                }
-            }
-            catch (Exception ex)
-            {
-                // Gérer l'exception (journalisation, remontée, etc.)
-                Console.WriteLine($"Erreur lors de la lecture du fichier : {ex.Message}");
-                return new List<BackupJob>();
-            }
+            List<BackupJob> backupJobs = _fileService.Read<BackupJob>();
+
+            return backupJobs;
         }
 
         public async Task<BackupJob> Get(string name)
         {
-            try
-            {
-                IEnumerable<BackupJob> backupJobs = await GetAll();
-                return backupJobs.FirstOrDefault(backupJob => backupJob.BackupName == name);
-            }
-            catch (Exception ex)
-            {
-                // Gérer l'exception (journalisation, remontée, etc.)
-                Console.WriteLine($"Erreur lors de la récupération de la sauvegarde : {ex.Message}");
-                return null;
-            }
+            List<BackupJob> backupJobs = _fileService.Read<BackupJob>();
+
+            BackupJob backupJob = backupJobs.FirstOrDefault(backupJob => backupJob.BackupName == name); ;
+
+            return backupJob;
         }
 
         public async Task<BackupJob> Create(BackupJob entity)
         {
-            try
-            {
-                List<BackupJob> backupJobs = (List<BackupJob>)await GetAll();
-                backupJobs.Add(entity);
+            List<BackupJob> backupJobs = (List<BackupJob>)await GetAll();
 
-                using (FileStream createStream = File.Create(_filePath))
-                {
-                    await JsonSerializer.SerializeAsync(createStream, backupJobs, new JsonSerializerOptions { WriteIndented = true });
-                }
+            backupJobs.Add(entity);
 
-                return entity;
-            }
-            catch (Exception ex)
-            {
-                // Gérer l'exception (journalisation, remontée, etc.)
-                Console.WriteLine($"Erreur lors de la création de la sauvegarde : {ex.Message}");
-                return null;
-            }
+            _fileService.Write<BackupJob>(backupJobs);
+            
+            return entity;
         }
 
         public async Task<bool> Delete(string name)
         {
-            try
+            List<BackupJob> backupJobs = (List<BackupJob>)await GetAll();
+
+            BackupJob backupToDelete = backupJobs.FirstOrDefault(backupJob => backupJob.BackupName == name);
+
+            if (backupToDelete != null)
             {
-                List<BackupJob> backupJobs = (List<BackupJob>)await GetAll();
-                BackupJob backupToDelete = backupJobs.FirstOrDefault(backupJob => backupJob.BackupName == name);
+                backupJobs.Remove(backupToDelete);
 
-                if (backupToDelete != null)
-                {
-                    backupJobs.Remove(backupToDelete);
+                _fileService.Write(backupJobs);
 
-                    using (FileStream createStream = File.Create(_filePath))
-                    {
-                        await JsonSerializer.SerializeAsync(createStream, backupJobs, new JsonSerializerOptions { WriteIndented = true });
-                    }
-
-                    return true;
-                }
-
-                return false;
+                return true;
             }
-            catch (Exception ex)
-            {
-                // Gérer l'exception (journalisation, remontée, etc.)
-                Console.WriteLine($"Erreur lors de la suppression de la sauvegarde : {ex.Message}");
-                return false;
-            }
+
+            return false;
         }
 
         public async Task<BackupJob> Update(string name, BackupJob entity)
         {
-            try
+            List<BackupJob> backupJobs = (List<BackupJob>)await GetAll();
+            BackupJob existingBackup = backupJobs.FirstOrDefault(backupJob => backupJob.BackupName == name);
+
+            if (existingBackup != null)
             {
-                List<BackupJob> backupJobs = (List<BackupJob>)await GetAll();
-                BackupJob existingBackup = backupJobs.FirstOrDefault(backupJob => backupJob.BackupName == name);
+                int index = backupJobs.IndexOf(existingBackup);
+                backupJobs[index] = entity;
 
-                if (existingBackup != null)
-                {
-                    int index = backupJobs.IndexOf(existingBackup);
-                    backupJobs[index] = entity;
+                _fileService.Write(backupJobs);
 
-                    using (FileStream createStream = File.Create(_filePath))
-                    {
-                        await JsonSerializer.SerializeAsync(createStream, backupJobs, new JsonSerializerOptions { WriteIndented = true });
-                    }
-
-                    return entity;
-                }
-
-                return null;
+                return entity;
             }
-            catch (Exception ex)
-            {
-                // Gérer l'exception (journalisation, remontée, etc.)
-                Console.WriteLine($"Erreur lors de la mise à jour de la sauvegarde : {ex.Message}");
-                return null;
-            }
+
+            return null;
         }
     }
 

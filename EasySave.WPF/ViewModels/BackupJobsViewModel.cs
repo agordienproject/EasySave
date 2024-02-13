@@ -12,7 +12,7 @@ namespace EasySave.WPF.ViewModels
 {
     public class BackupJobsViewModel : ViewModelBase
     {
-        private readonly BackupJobService _backupJobService;
+        private readonly IBackupJobService _backupJobService;
 
         private List<BackupJob> _backupJobs;
         public List<BackupJob> BackupJobs 
@@ -30,9 +30,9 @@ namespace EasySave.WPF.ViewModels
 
         public ICommand LoadBackupJobsCommand { get; set; }
 
-        public BackupJobsViewModel()
+        public BackupJobsViewModel(IBackupJobService backupJobService)
         {
-            _backupJobService = new BackupJobService();
+            _backupJobService = backupJobService;
 
             BackupJobs = new List<BackupJob>();
 

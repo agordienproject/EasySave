@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CryptoSoft": {
+      "commandName": "Project",
+      "commandLineArgs": "-s C:\\Users\\funny\\Desktop\\SourceDirectory\\Dossier1\\dazdacipher.jpg -d C:\\Users\\funny\\Desktop\\SourceDirectory\\Dossier1\\dazdaunciphered.jpg"
+    }
+  }
+}

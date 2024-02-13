@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using EasySave.DataAccess.Services;
+using EasySave.DataAccess.Services.Factories;
+using EasySave.Domain.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +17,10 @@ namespace EasySave.WPF.HostBuilders
         {
             host.ConfigureServices(services =>
             {
-
+                services.AddSingleton<IFileServiceFactory, FileServiceFactory>();
+                services.AddSingleton<IBackupJobService, BackupJobService>();
+                services.AddSingleton<IStateService, StateService>();
+                services.AddSingleton<ILogService, LogService>();
             });
 
             return host;

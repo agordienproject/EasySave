@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasySave.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace EasySave.Domain.Services
 {
-    public interface IFileService
+    public interface IStateService : IDataService<State>
     {
-        List<T>? Read<T>();
-        void Write<T>(List<T> list);
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using EasySave.WPF.ViewModels;
+﻿using EasySave.Domain.Services;
+using EasySave.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +11,18 @@ namespace EasySave.WPF.Commands
     public class LoadBackupJobsCommand : AsyncCommandBase
     {
         private readonly BackupJobsViewModel _backupJobsViewModel;
+        private readonly IBackupJobService _backupJobService;
 
-        public LoadBackupJobsCommand(BackupJobsViewModel backupJobsViewModel) 
+        public LoadBackupJobsCommand(BackupJobsViewModel backupJobsViewModel, IBackupJobService backupJobService) 
         {
             _backupJobsViewModel = backupJobsViewModel;
+            _backupJobService = backupJobService;
         }
 
         public override Task ExecuteAsync(object parameter)
         {
             throw new NotImplementedException();
         }
-
 
     }
 }
