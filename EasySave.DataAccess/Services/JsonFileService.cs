@@ -9,7 +9,10 @@ namespace EasySave.DataAccess.Services
 {
     public class JsonFileService : IFileService
     {
-        public JsonFileService() { }
+        public JsonFileService() 
+        {
+            
+        }
 
         public List<T>? Read<T>()
         {

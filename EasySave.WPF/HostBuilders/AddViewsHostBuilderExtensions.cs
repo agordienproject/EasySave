@@ -15,9 +15,8 @@ namespace EasySave.WPF.HostBuilders
         {
             host.ConfigureServices(services =>
             {
-                services.AddTransient<MainViewModel>();
+                services.AddSingleton<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
 
-                services.AddSingleton(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
             });
 
             return host;

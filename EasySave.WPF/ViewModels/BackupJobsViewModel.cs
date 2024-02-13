@@ -1,6 +1,7 @@
 ﻿using EasySave.Domain.Models;
 using EasySave.Domain.Services;
 using EasySave.WPF.Commands;
+using EasySave.WPF.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,9 @@ namespace EasySave.WPF.ViewModels
         }
 
         public ICommand LoadBackupJobsCommand { get; set; }
+        public ICommand CreateBackupJobCommand { get; set; }
+        public ICommand UpdateBackupJobCommand { get; set; }
+        public ICommand DeleteBackupJobCommand { get; set; }
 
         public BackupJobsViewModel(IBackupJobService backupJobService)
         {
@@ -36,7 +40,10 @@ namespace EasySave.WPF.ViewModels
 
             BackupJobs = new List<BackupJob>();
 
-            LoadBackupJobsCommand = new LoadBackupJobsCommand(this);
+            LoadBackupJobsCommand = new LoadBackupJobsCommand(this, backupJobService);
+            CreateBackupJobCommand = new CreateBackupJobCommand(this, backupJobService);
+            UpdateBackupJobCommand = new UpdateBackupJobCommand(this, backupJobService);
+            DeleteBackupJobCommand = new DeleteBackupJobCommand(this, backupJobService);
         }
 
 
