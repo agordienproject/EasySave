@@ -25,5 +25,6 @@ namespace EasySave.WPF.Commands
             _backupJobsViewModel.BackupJobs = (List<BackupJob>)await _backupJobService.GetAll();
         }
 
+
     }
 }
