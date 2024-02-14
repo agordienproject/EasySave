@@ -25,6 +25,7 @@
             <controls:BackupJobsActionsMenu Grid.Column="1"/>
         </Grid>
 
-        <controls:BackupJobsDataGrid Grid.Row="1"/>
+        <controls:BackupJobsDataGrid Grid.Row="1" />
+      
     </Grid>
 </UserControl>
