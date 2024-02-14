@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EasySave.Domain.Models;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,7 @@ namespace EasySave.Domain.Services
 {
     public interface IAppSettingsService
     {
-
+        Task<AppSettings?> GetAppSettings();
+        Task SetAppSettings(AppSettings appSettings);
     }
 }

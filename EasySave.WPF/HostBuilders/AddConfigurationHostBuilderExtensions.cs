@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using EasySave.DataAccess.Services;
+using EasySave.Domain.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 
 namespace EasySave.WPF.HostBuilders
 {
@@ -14,10 +14,11 @@ namespace EasySave.WPF.HostBuilders
         {
             host.ConfigureAppConfiguration(c =>
             {
-                c.AddJsonFile("appsettings.json");
+                c.SetBasePath(AppDomain.CurrentDomain.BaseDirectory);
+                c.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
                 c.AddEnvironmentVariables();
             });
-
+            
             return host;
         }
     }
