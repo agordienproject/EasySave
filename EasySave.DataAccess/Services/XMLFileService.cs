@@ -14,10 +14,10 @@ namespace EasySave.DataAccess.Services
     {
         private readonly string _filePath;
 
-        public XMLFileService()
+        public XMLFileService(string filePath)
         {
-            _filePath = "";
-            //InitFile(_filePath);
+            _filePath = filePath;
+            InitFile(filePath);
         }
 
         public static void InitFile(string filePath)
@@ -37,7 +37,7 @@ namespace EasySave.DataAccess.Services
             }
         }
 
-        public List<T>? Read<T>()
+        public async Task<List<T>?> Read<T>()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
             using (StreamReader reader = new StreamReader(_filePath))
@@ -46,7 +46,7 @@ namespace EasySave.DataAccess.Services
             }
         }
 
-        public void Write<T>(List<T> list)
+        public async Task Write<T>(List<T> list)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
             using (StreamWriter writer = new StreamWriter(_filePath))

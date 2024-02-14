@@ -27,7 +27,7 @@
                     Content="BackupJobs"
                     Command="{Binding UpdateCurrentViewModelCommand}"
                     CommandParameter="{x:Static navigators:ViewType.BackupJobs}"
-                    IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:BackupJobsViewModel}}" />
+                    IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:BackupJobsListingViewModel}}" />
         <RadioButton Grid.Column="2"
                     Content="Settings"
                     Command="{Binding UpdateCurrentViewModelCommand}"

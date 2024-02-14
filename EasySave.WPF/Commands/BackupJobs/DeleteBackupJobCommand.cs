@@ -10,18 +10,18 @@ namespace EasySave.WPF.Commands
 {
     public class DeleteBackupJobCommand : AsyncCommandBase
     {
-        private readonly BackupJobsViewModel _backupJobsViewModel;
+        private readonly BackupJobsListingViewModel _backupJobsViewModel;
         private readonly IBackupJobService _backupJobService;
 
-        public DeleteBackupJobCommand(BackupJobsViewModel backupJobsViewModel, IBackupJobService backupJobService)
+        public DeleteBackupJobCommand(BackupJobsListingViewModel backupJobsViewModel, IBackupJobService backupJobService)
         {
             _backupJobsViewModel = backupJobsViewModel;
             _backupJobService = backupJobService;
         }
 
-        public override Task ExecuteAsync(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
-            throw new NotImplementedException();
+            await _backupJobService.Delete(_backupJobsViewModel.SelectedBackupJob.BackupName);
         }
 
     }

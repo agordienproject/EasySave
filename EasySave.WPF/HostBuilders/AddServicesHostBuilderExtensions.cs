@@ -1,5 +1,6 @@
 ﻿using EasySave.DataAccess.Services;
 using EasySave.DataAccess.Services.Factories;
+using EasySave.Domain.Models;
 using EasySave.Domain.Services;
 using EasySave.WPF.State.Navigators;
 using Microsoft.Extensions.Configuration;

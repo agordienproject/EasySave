@@ -1,5 +1,7 @@
-﻿using EasySave.Domain.Models;
+﻿using EasySave.DataAccess.Services.Factories;
+using EasySave.Domain.Models;
 using EasySave.Domain.Services;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +10,14 @@ using System.Threading.Tasks;
 
 namespace EasySave.DataAccess.Services
 {
-    public class StateService : IStateService
+    public class StateService : DataService<State>, IStateService
     {
-        public Task<State> Create(State entity)
+        public StateService(IConfiguration configuration, IFileServiceFactory fileServiceFactory) 
         {
-            throw new NotImplementedException();
+            string type = configuration["DataFilesTypes:StatesFileType"];
+            string filePath = Path.Combine(configuration["DataFilesLocation:StatesFolderPath"], configuration["DataFilesLocation:StatesJsonFileName"]);
+            base._fileService = fileServiceFactory.CreateFileService(type, filePath);
         }
 
-        public Task<bool> Delete(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<State> Get(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<State>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<State> Update(string name, State entity)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EasySave.Domain.Services;
+using EasySave.WPF.State.Navigators;
 using EasySave.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,22 @@ namespace EasySave.WPF.Commands
 {
     public class CreateBackupJobCommand : AsyncCommandBase
     {
-        private readonly BackupJobsViewModel _backupJobsViewModel;
+        private readonly BackupJobCreationViewModel _backupJobCreationViewModel;
         private readonly IBackupJobService _backupJobService;
+        private readonly IRenavigator _renavigator;
 
-        public CreateBackupJobCommand(BackupJobsViewModel backupJobsViewModel, IBackupJobService backupJobService)
+        public CreateBackupJobCommand(BackupJobCreationViewModel backupJobCreationViewModel, IBackupJobService backupJobService, IRenavigator backupJobsListingRenavigator)
         {
-            _backupJobsViewModel = backupJobsViewModel;
+            _backupJobCreationViewModel = backupJobCreationViewModel;
             _backupJobService = backupJobService;
+            _renavigator = backupJobsListingRenavigator;
         }
 
-        public override Task ExecuteAsync(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
-            throw new NotImplementedException();
+            await _backupJobService.Create(_backupJobCreationViewModel.BackupJob);
+
+            _renavigator.Renavigate();
         }
 
     }
