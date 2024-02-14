@@ -30,8 +30,9 @@ namespace EasySave.WPF.ViewModels
         {
             LoadAppSettingsCommand = new LoadAppSettingsCommand(this, appSettingsService);
             SaveAppSettingsCommand = new SaveAppSettingsCommand(this, appSettingsService);
-        }
 
+            LoadAppSettingsCommand.Execute(this);
+        }
 
     }
 }

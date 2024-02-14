@@ -2,6 +2,7 @@
 using EasySave.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +20,9 @@ namespace EasySave.WPF.Commands
             _appSettingsService = appSettingsService;
         }
 
-        public override Task ExecuteAsync(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
-            throw new NotImplementedException();
+            _appSettingsViewModel.AppSettings = await _appSettingsService.GetAppSettings();
         }
     }
 }

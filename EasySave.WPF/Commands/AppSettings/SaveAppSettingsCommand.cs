@@ -19,9 +19,9 @@ namespace EasySave.WPF.Commands
             _appSettingsService = appSettingsService;
         }
 
-        public override Task ExecuteAsync(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
-            throw new NotImplementedException();
+            await _appSettingsService.SetAppSettings(_appSettingsViewModel.AppSettings);
         }
     }
 }

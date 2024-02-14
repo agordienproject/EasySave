@@ -16,7 +16,7 @@ namespace EasySave.Domain.Services
 
         public BackupJobService(IConfiguration configuration, IFileServiceFactory fileServiceFactory)
         {
-            _fileService = fileServiceFactory.CreateFileService(configuration["backupJobsFileType"]);
+            _fileService = fileServiceFactory.CreateFileService("json");
         }
 
         public async Task<bool> InitDataFile(string filePath)

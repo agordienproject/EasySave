@@ -2,6 +2,7 @@
 using EasySave.DataAccess.Services.Factories;
 using EasySave.Domain.Services;
 using EasySave.WPF.State.Navigators;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;

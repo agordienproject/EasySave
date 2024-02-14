@@ -1,4 +1,6 @@
-﻿using EasySave.WPF.HostBuilders;
+﻿using EasySave.DataAccess.Services;
+using EasySave.Domain.Models;
+using EasySave.WPF.HostBuilders;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Configuration;
@@ -28,6 +30,16 @@ namespace EasySave.WPF
         protected override void OnStartup(StartupEventArgs e)
         {
             _host.Start();
+
+            //XMLFileService xmlFileService = new XMLFileService();
+
+            //List<Log> logs = new List<Log> ();
+            //xmlFileService.Write(logs);
+
+
+            //List<Log> readlogs = xmlFileService.Read<Log>();
+
+
 
             Window window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();

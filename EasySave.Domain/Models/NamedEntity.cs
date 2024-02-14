@@ -8,7 +8,7 @@ namespace EasySave.Domain.Models
 {
     public class NamedEntity
     {
-        public string BackupName { get; set; }
+        public string? BackupName { get; set; }
         
         public NamedEntity(string backupName)
         {
