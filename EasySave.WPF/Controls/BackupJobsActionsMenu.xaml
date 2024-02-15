@@ -10,31 +10,59 @@
              
              >
 
-    <Grid Background="{StaticResource BrushPrimary2}" Height="100" Width="400">
-        <Border Padding ="10">
-            <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="De" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <ui:TextBox Grid.Column="1" PlaceholderText="placeholderString" />
-                    <TextBlock Grid.Column="2" Text="À" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <TextBox Grid.Column="3" />
-                    <Button Grid.Column="4" Content="Play" Width="50" Foreground="Black" Click="Button_Click"/>
-                    <Button Grid.Column="5" Content="Add" Width="50" Foreground="Black"/>
+    <Grid Background="{StaticResource BrushPrimary2}" Height="100" Width="600">
+        <Border Padding="10" CornerRadius="10" Background="WhiteSmoke">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="De" VerticalAlignment="Center" Foreground="Black" Margin="0,0,10,0"/>
+                <ui:TextBox x:Name="txtFrom" PlaceholderText="ex : 1" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="à" VerticalAlignment="Center" Foreground="Black" Margin="10,0,10,0"/>
+                <ui:TextBox x:Name="txtTo" PlaceholderText="ex : 5" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Button Content="&#xE768;">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Margin" Value="10"/>
+                            <Setter Property="FontSize" Value="20"/>
+                        </Style>
+                    </Button.Style>
+                    <Button.ToolTip>
+                        <ToolTip>
+                            <StackPanel>
+                                <TextBlock FontFamily="Segoe UI">Démarrer</TextBlock>
+                            </StackPanel>
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+                 
 
+                <Button Content="&#xE710;">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Margin" Value="10"/>
+                            <Setter Property="FontSize" Value="20"/>
+                        </Style>
+                    </Button.Style>
+                    <Button.ToolTip>
+                        <ToolTip>
+                            <StackPanel>
+                                <TextBlock FontFamily="Segoe UI">Ajouter</TextBlock>
+                            </StackPanel>
+                        </ToolTip>
+                    </Button.ToolTip>
+                </Button>
+                
 
-
-                </Grid>
             </StackPanel>
         </Border>
-
-
     </Grid>
+
+
+
 </UserControl>
