@@ -9,7 +9,7 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -18,15 +18,14 @@
         <Grid Grid.Row="0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <controls:BackupJobsEditingMenu Grid.Column="0"/>
             <controls:BackupJobsActionsMenu Grid.Column="1"/>
-            <Button Grid.Column="1" Command="{Binding CreateBackupJobCommand}" Content="Créer un backupJob" />
         </Grid>
 
-        <controls:BackupJobsDataGrid Grid.Row="1" Margin="10, 10, 10, 0"/>
+        <controls:BackupJobsDataGrid Grid.Row="1" Margin="10,0,10,0"/>
       
     </Grid>
 </UserControl>

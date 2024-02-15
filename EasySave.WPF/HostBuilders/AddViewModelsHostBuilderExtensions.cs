@@ -40,6 +40,7 @@ namespace EasySave.WPF.HostBuilders
         {
             return new BackupJobsListingViewModel(
                 services.GetRequiredService<IBackupJobService>(),
+                services.GetRequiredService<IStateService>(),
                 services.GetRequiredService<ViewModelDelegateRenavigator<BackupJobCreationViewModel>>());
         }
 
@@ -47,6 +48,7 @@ namespace EasySave.WPF.HostBuilders
         {
             return new BackupJobCreationViewModel(
                 services.GetRequiredService<IBackupJobService>(),
+                services.GetRequiredService<IStateService>(),
                 services.GetRequiredService<ViewModelDelegateRenavigator<BackupJobsListingViewModel>>());
         }
 

@@ -32,13 +32,13 @@ namespace EasySave.WPF.ViewModels
         public ICommand CreateBackupJobCommand { get; set; }
         public ICommand ViewBackupJobsCommand { get; set; }
 
-        public BackupJobCreationViewModel(IBackupJobService backupJobService, IRenavigator backupJobsListingRenavigator)
+        public BackupJobCreationViewModel(IBackupJobService backupJobService, IStateService stateService, IRenavigator backupJobsListingRenavigator)
         {
             _backupJobService = backupJobService;
 
             BackupJob = new BackupJob();
 
-            CreateBackupJobCommand = new CreateBackupJobCommand(this, backupJobService, backupJobsListingRenavigator);
+            CreateBackupJobCommand = new CreateBackupJobCommand(this, backupJobService, stateService, backupJobsListingRenavigator);
 
             ViewBackupJobsCommand = new RenavigateCommand(backupJobsListingRenavigator);
         }

@@ -43,6 +43,7 @@ namespace EasySave.Domain.Models
             FilesSizeLeftToDo = (long)0;
             SourceTransferingFilePath = "";
             TargetTransferingFilePath = "";
+                      
         }
         
     }

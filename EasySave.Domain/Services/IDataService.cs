@@ -14,7 +14,7 @@ namespace EasySave.Domain.Services
 
         Task<T> Create(T entity);
 
-        Task<T?> Update(string name, T entity);
+        Task<T?> Update(T entity);
 
         Task<bool> Delete(string name);
     }
