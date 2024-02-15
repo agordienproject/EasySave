@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:EasySave.WPF.Views"
 
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="637.6" d:DesignWidth="800">
     
     <UserControl.Resources>
         <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
@@ -161,7 +161,7 @@
                 <Button Content="..." Click="BrowseLogsFolder_Click" Style="{StaticResource ButtonStyle}" Width="30" Margin="5,0"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="96">
+            <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
                 <TextBlock Text="Current Culture" FontWeight="Bold" Margin="0,0,0,5"/>
                 <RadioButton Content="French" IsChecked="{Binding AppSettings.Localization.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=fr-FR}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
                 <RadioButton Content="English" IsChecked="{Binding AppSettings.Localization.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=en-EN}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
@@ -185,10 +185,8 @@
                 <RadioButton x:Name="StatesFileTypeXmlRadioButton" Content="xml" IsChecked="{Binding AppSettings.DataFilesTypes.StatesFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
             </StackPanel>
 
-
-
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Save" Margin="5" Command="{Binding SaveAppSettingsCommand}" Style="{StaticResource ButtonStyle}" Width="56"/>
+                <Button Content="Save" Margin="5" Command="{Binding SaveAppSettingsCommand}" Style="{StaticResource ButtonStyle}" Width="100" Height="40"/>
             </StackPanel>
         </StackPanel>
     </Grid>
