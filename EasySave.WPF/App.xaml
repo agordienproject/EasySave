@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="/Styles/Common.xaml" />
                 <ResourceDictionary Source="/Styles/NavigationBar.xaml" />
                 <ui:ThemesDictionary Theme="Light" />
-                <ui:ControlsDictionary />
+                <ui:ControlsDictionary/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewmodels:BackupJobsListingViewModel}">

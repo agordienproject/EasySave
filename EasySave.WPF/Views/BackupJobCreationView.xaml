@@ -1,12 +1,19 @@
-﻿<UserControl x:Class="EasySave.WPF.Views.BackupJobCreationView"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasySave.WPF.Views"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Class="EasySave.WPF.Views.BackupJobCreationView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="70*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -14,10 +21,42 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="0" Text="{Binding BackupJob.Name, Mode=TwoWay}"/>
-        <TextBox Grid.Row="1" Text="{Binding BackupJob.SourceDirectory, Mode=TwoWay}"/>
-        <TextBox Grid.Row="2" Text="{Binding BackupJob.DestinationDirectory, Mode=TwoWay}"/>
-        <TextBox Grid.Row="3" Text="{Binding BackupJob.BackupType, Mode=TwoWay}"/>
-        <Button Grid.Row="4" Command="{Binding CreateBackupJobCommand}" Content="Valider" />
+
+        <!-- Name of backup -->
+        <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Center"/>
+        <ui:TextBox PlaceholderText="Write the name of backupjob"  Grid.Column="1" Grid.Row="0" Text="{Binding BackupJob.Name, Mode=TwoWay}"/>
+       
+        <!-- Source directory of backup -->
+        <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Text="Source Directory" VerticalAlignment="Center"/>
+        <ui:TextBox Name="SourceDirButton" PlaceholderText="Select the source path of backupjob" Grid.Column="1" Grid.Row="1" Text="{Binding BackupJob.SourceDirectory, Mode=TwoWay}"/>
+        <ui:Button Content="..." x:Name="btnOpenSourceFolder" Click="Button_Click_Source_Dir" RenderTransformOrigin="23.492,0.662" Grid.Column="2" Grid.Row="1"/>
+
+        <!-- Destination directory of backup -->
+        <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" Text="Destination Directory" VerticalAlignment="Center"/>
+        <ui:TextBox  Name="DestinationDirButton" PlaceholderText="Select the destincation path of backupjob" Grid.Column="1" Grid.Row="2" Text="{Binding BackupJob.DestinationDirectory, Mode=TwoWay}"/>
+        <ui:Button Content="..." x:Name="btnOpenDestinationFolder" Click="Button_Click_Destination_Dir" RenderTransformOrigin="23.492,0.662" Grid.Column="2" Grid.Row="2"/>
+
+        <!-- Type of backup -->
+        <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="3" TextWrapping="Wrap" Text="Type"  VerticalAlignment="Center"/>
+        <ui:TextBox PlaceholderText="Write the type of backupjob"  Grid.Column="1" Grid.Row="3" Text="{Binding BackupJob.BackupType, Mode=TwoWay}" />
+
+        <!-- Validate Button -->
+        <Button Grid.Row="4" Command="{Binding CreateBackupJobCommand}" Content="Valider" Grid.Column="1" Margin="510,16,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.441,3.495" />
+
+        <!-- Cancel Button -->
+        <Button HorizontalAlignment="Right" Grid.Row="4" Command="{Binding CreateBackupJobCommand}" Content="Cancel" Margin="0,16,96,0" Grid.Column="1" VerticalAlignment="Top" />
+
+
+
+
+
+
+
+
+
+
+
+
+
     </Grid>
 </UserControl>
