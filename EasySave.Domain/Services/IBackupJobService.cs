@@ -9,7 +9,6 @@ namespace EasySave.Domain.Services
 {
     public interface IBackupJobService : IDataService<BackupJob>
     {
-        Task ExecuteBackupJobs(List<int> backupJobsIndex);
-        Task ExecuteBackupJob(BackupJob backupJob);
+
     }
 }

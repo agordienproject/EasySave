@@ -23,7 +23,6 @@ namespace EasySave.WPF.HostBuilders
                 services.AddSingleton<IAppSettingsService, AppSettingsService>();
                 services.AddSingleton<IFileServiceFactory, FileServiceFactory>();
                 services.AddSingleton<IBackupJobService, BackupJobService>();
-                services.AddSingleton<IStateService, StateService>();
                 services.AddSingleton<ILogService, LogService>();
 
                 services.AddSingleton<INavigator, Navigator>();

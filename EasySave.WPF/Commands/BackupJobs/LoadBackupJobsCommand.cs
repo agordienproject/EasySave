@@ -3,6 +3,7 @@ using EasySave.Domain.Services;
 using EasySave.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace EasySave.WPF.Commands
 
         public override async Task ExecuteAsync(object parameter)
         {
-            _backupJobsViewModel.BackupJobs = (List<BackupJob>)await _backupJobService.GetAll();
+            _backupJobsViewModel.BackupJobs = new ObservableCollection<BackupJob>(await _backupJobService.GetAll());
         }
 
 

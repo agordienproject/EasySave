@@ -3,13 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EasySave.Domain.Models
 {
-    public class State : NamedEntity
+    public class BackupJobInfo : INamedEntity
     {
+        public string BackupName { get; set; }
+        public string SourceDirectory { get; set; }
+        public string TargetDirectory { get; set; }
+        public BackupType BackupType { get; set; }
         public BackupState BackupState { get; set; }
         public string? BackupTime { get; set; }
         public int TotalFilesNumber { get; set; }
@@ -19,10 +22,24 @@ namespace EasySave.Domain.Models
         public string? SourceTransferingFilePath { get; set; }
         public string? TargetTransferingFilePath { get; set; }
 
-
-        [JsonConstructor]
-        public State(string backupName, BackupState backupState, string? backupTime, int totalFilesNumber, long totalFilesSize, int nbFilesLeftToDo, long filesSizeLeftToDo, string? sourceTransferingFilePath, string? targetTransferingFilePath) : base(backupName)
+        public BackupJobInfo
+        (   string backupName,
+            string sourceDirectory, 
+            string targetDirectory, 
+            BackupType backupType, 
+            BackupState backupState, 
+            string? backupTime, 
+            int totalFilesNumber, 
+            long totalFilesSize, 
+            int nbFilesLeftToDo, 
+            long filesSizeLeftToDo, 
+            string? sourceTransferingFilePath, 
+            string? targetTransferingFilePath)
         {
+            BackupName = backupName;
+            SourceDirectory = sourceDirectory;
+            TargetDirectory = targetDirectory;
+            BackupType = backupType;
             BackupState = backupState;
             BackupTime = backupTime;
             TotalFilesNumber = totalFilesNumber;
@@ -32,19 +49,21 @@ namespace EasySave.Domain.Models
             SourceTransferingFilePath = sourceTransferingFilePath;
             TargetTransferingFilePath = targetTransferingFilePath;
         }
-
-        public State(string backupName) : base(backupName)
+        
+        public BackupJobInfo()
         {
-            BackupState = Enums.BackupState.Inactive;
-            BackupTime = DateTime.Now.ToString();
+            BackupName = "";
+            SourceDirectory = "";
+            TargetDirectory = "";
+            BackupType = BackupType.Complete;
+            BackupState = BackupState.Inactive;
+            BackupTime = null;
             TotalFilesNumber = 0;
-            TotalFilesSize = (long)0;
+            TotalFilesSize = 0;
             NbFilesLeftToDo = 0;
-            FilesSizeLeftToDo = (long)0;
+            FilesSizeLeftToDo = 0;
             SourceTransferingFilePath = "";
             TargetTransferingFilePath = "";
-                      
         }
-        
     }
 }

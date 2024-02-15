@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EasySave.DataAccess.Services
 {
-    public class DataService<T> : IDataService<T> where T : NamedEntity
+    public class DataService<T> : IDataService<T> where T : INamedEntity
     {
         protected IFileService _fileService { get; set; }
 
@@ -59,7 +59,7 @@ namespace EasySave.DataAccess.Services
                 return entity;
             }
 
-            return null;
+            return default(T);
         }
 
         public async Task<bool> Delete(string name)

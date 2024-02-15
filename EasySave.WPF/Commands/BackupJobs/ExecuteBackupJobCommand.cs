@@ -1,4 +1,5 @@
-﻿using EasySave.Domain.Services;
+﻿using EasySave.Domain.Models;
+using EasySave.Domain.Services;
 using EasySave.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,10 @@ namespace EasySave.WPF.Commands.BackupJobs
 
         public override async Task ExecuteAsync(object parameter)
         {
-            await _backupJobService.ExecuteBackupJob(_backupJobsViewModel.SelectedBackupJob);
+            await _backupJobsViewModel.BackupJobs.First<BackupJob>(backupJob => backupJob == (BackupJob)parameter).Execute();
+
+            //BackupJob backupJob = (BackupJob)parameter;
+            //await backupJob.Execute();
         }
 
     }

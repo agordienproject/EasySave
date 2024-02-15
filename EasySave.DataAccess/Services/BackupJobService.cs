@@ -15,44 +15,17 @@ namespace EasySave.Domain.Services
 {
     public class BackupJobService : DataService<BackupJob>, IBackupJobService
     {
-        private readonly IStateService _stateService;
         private readonly ILogService _logService;
 
-        public BackupJobService(IConfiguration configuration, IFileServiceFactory fileServiceFactory, IStateService stateService, ILogService logService)
+        public BackupJobService(IConfiguration configuration, IFileServiceFactory fileServiceFactory, ILogService logService)
         {
             string type = configuration["DataFilesTypes:BackupJobsFileType"];
             string filePath = Path.Combine(configuration["DataFilesLocation:BackupJobsFolderPath"], configuration["DataFilesLocation:BackupJobsJsonFileName"]);
             base._fileService = fileServiceFactory.CreateFileService(type, filePath);
 
-            _stateService = stateService;
             _logService = logService;
         } 
 
-        public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
-        {
-            List<BackupJob> backupJobs = (List<BackupJob>) await GetAll();
-            
-            if (backupJobs.Count == 0)
-                return;
-
-            List<BackupJob> backupJobsToExecute = backupJobs
-                .Where((item, index) => backupJobsIndex.Contains(index + 1))
-                .ToList();
-
-            foreach (var backupJob in backupJobsToExecute)
-            {
-                BackupJobExecution backupjobExecution = new BackupJobExecution(backupJob, _stateService, _logService);
-
-                await backupjobExecution.Execute();
-            }   
-        }
-
-        public async Task ExecuteBackupJob(BackupJob backupJob)
-        {
-            BackupJobExecution backupjobExecution = new BackupJobExecution(backupJob, _stateService, _logService);
-
-            await backupjobExecution.Execute();
-        }
     }
 
 }

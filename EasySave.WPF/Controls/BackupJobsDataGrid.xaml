@@ -9,7 +9,6 @@
     <Grid>
         <DataGrid 
             ItemsSource="{Binding BackupJobs}" 
-            SelectedItem="{Binding SelectedBackupJob, Mode=TwoWay}"
             AutoGenerateColumns="False" 
             SelectionMode="Single"
             HeadersVisibility="Column"
@@ -30,11 +29,15 @@
                 <DataGridTextColumn Header="Source Directory" Binding="{Binding SourceDirectory}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Target Directory" Binding="{Binding TargetDirectory}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Backup Type" Binding="{Binding BackupType}" IsReadOnly="True"/>
-                
+                <DataGridTextColumn Header="Backup Type" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True"/>
                 <DataGridTemplateColumn Header="Execute">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent" Command="{Binding DataContext.ExecuteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" BorderThickness="0">
+                            <Button Background="Transparent" 
+                                    Command="{Binding DataContext.ExecuteBackupJobCommand, 
+                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                    CommandParameter="{Binding}"
+                                    BorderThickness="0">
                                 <ui:SymbolIcon Symbol="AddCircle28" />
                             </Button>
                         </DataTemplate>
