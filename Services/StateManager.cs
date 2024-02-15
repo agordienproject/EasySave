@@ -1,5 +1,6 @@
 ﻿using EasySave.Enums;
 using EasySave.Models;
+using EasySave.Services.Factories;
 using EasySave.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 
@@ -11,9 +12,9 @@ namespace EasySave.Services
 
         private List<State>? _states;
 
-        public StateManager()
+        public StateManager(IFileServiceFactory fileServiceFactory)
         {
-            _jsonFileManager = new JsonFileManager(AppSettingsJson.GetStatesFilePath());
+            _jsonFileManager = fileServiceFactory.CreateFileService("json", AppSettingsJson.GetStatesFilePath());
         }
 
         public void ReadStates()

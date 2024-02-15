@@ -1,6 +1,7 @@
 ﻿using ConsoleTables;
 using EasySave.Enums;
 using EasySave.Models;
+using EasySave.Services.Factories;
 using EasySave.Services.Interfaces;
 using EasySave.Views;
 using Microsoft.Extensions.Configuration;
@@ -20,9 +21,9 @@ namespace EasySave.Services
 
         private const int BACKUPJOBS_LIMIT = 5;
 
-        public BackupManager(ILogManager logManager, IStateManager stateManager)
+        public BackupManager(IFileServiceFactory fileServiceFactory,ILogManager logManager, IStateManager stateManager)
         {
-            _jsonFileManager = new JsonFileManager(AppSettingsJson.GetBackupJobsFilePath());
+            _jsonFileManager = fileServiceFactory.CreateFileService("json", AppSettingsJson.GetBackupJobsFilePath());
             _logManager = logManager;
             _stateManager = stateManager;
         }

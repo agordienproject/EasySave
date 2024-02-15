@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using EasySave.Services;
 using System.Globalization;
 using EasySave.Services.Interfaces;
+using EasySave.Services.Factories;
 
 namespace EasySave;
 
@@ -29,6 +30,7 @@ class Program
                 services.AddSingleton<IBackupManager, BackupManager>();
                 services.AddSingleton<IStateManager, StateManager>();
                 services.AddSingleton<ILogManager, LogManager>();
+                services.AddSingleton<IFileServiceFactory, FileServiceFactory>();
             }).Build();
 
         using (var scope = host.Services.CreateScope())
