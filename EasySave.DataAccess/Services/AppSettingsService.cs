@@ -36,9 +36,18 @@ namespace EasySave.DataAccess.Services
 
         public async Task SetAppSettings(AppSettings appSettings)
         {
-            var options = new JsonSerializerOptions { WriteIndented = true, };
-            using FileStream openStream = File.Open(_filePath, FileMode.Truncate);
-            await JsonSerializer.SerializeAsync(openStream, appSettings, options);
+            List<string> DataFilesTypes = ["json", "xml"];
+            if ((!DataFilesTypes.Contains(appSettings.DataFilesTypes.LogsFileType)) && (!DataFilesTypes.Contains(appSettings.DataFilesTypes.BackupJobsFileType)) && (!DataFilesTypes.Contains(appSettings.DataFilesTypes.StatesFileType)))
+            {
+                Console.WriteLine("Vous avez choisi un nom de fichier qui n'est pas pris en compte. Vous devez choisir soit 'json', soit 'xml'");
+            }
+            else
+            {
+                var options = new JsonSerializerOptions { WriteIndented = true, };
+                using FileStream openStream = File.Open(_filePath, FileMode.Truncate);
+                await JsonSerializer.SerializeAsync(openStream, appSettings, options);
+            }
+            
         }
 
        

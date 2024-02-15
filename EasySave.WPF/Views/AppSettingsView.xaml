@@ -167,6 +167,26 @@
                 <RadioButton Content="English" IsChecked="{Binding AppSettings.Localization.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=en-EN}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
             </StackPanel>
 
+            <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
+                <TextBlock Text="Backup jobs file type" FontWeight="Bold" Margin="0,0,0,5"/>
+                <RadioButton Content="json" IsChecked="{Binding AppSettings.DataFilesTypes.BackupJobsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
+                <RadioButton Content="xml" IsChecked="{Binding AppSettings.DataFilesTypes.BackupJobsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
+                <TextBlock Text="Logs file type" FontWeight="Bold" Margin="0,0,0,5"/>
+                <RadioButton x:Name="LogsFileTypeJsonRadioButton" Content="json" IsChecked="{Binding AppSettings.DataFilesTypes.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
+                <RadioButton x:Name="LogsFileTypeXmlRadioButton" Content="xml" IsChecked="{Binding AppSettings.DataFilesTypes.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
+                <TextBlock Text="States file type" FontWeight="Bold" Margin="0,0,0,5"/>
+                <RadioButton x:Name="StatesFileTypeJsonRadioButton" Content="json" IsChecked="{Binding AppSettings.DataFilesTypes.StatesFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
+                <RadioButton x:Name="StatesFileTypeXmlRadioButton" Content="xml" IsChecked="{Binding AppSettings.DataFilesTypes.StatesFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
+            </StackPanel>
+
+
+
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Save" Margin="5" Command="{Binding SaveAppSettingsCommand}" Style="{StaticResource ButtonStyle}" Width="56"/>
             </StackPanel>

@@ -15,32 +15,48 @@ namespace EasySave.WPF.Views
     public partial class AppSettingsView : UserControl
     {
         private AppSettingsViewModel _viewModel;
+        private Dictionary<string, Action<string>> RadioButtonActions;
 
         public AppSettingsView()
         {
             InitializeComponent();
             IAppSettingsService appSettingsService = new AppSettingsService(); // Remplacez AppSettingsService par la classe réelle
-
-            // Instanciation de AppSettingsViewModel avec le paramètre IAppSettingsService
             _viewModel = new AppSettingsViewModel(appSettingsService);
+
+            InitializeRadioButtonActions();
         }
+
+        private void InitializeRadioButtonActions()
+        {
+            RadioButtonActions = new Dictionary<string, Action<string>>
+            {
+                { "French", newValue => _viewModel.AppSettings.Localization.CurrentCulture = newValue },
+                { "English", newValue => _viewModel.AppSettings.Localization.CurrentCulture = newValue },
+                { "BackupJobsFileType-json", newValue => _viewModel.AppSettings.DataFilesTypes.BackupJobsFileType = newValue },
+                { "BackupJobsFileType-xml", newValue => _viewModel.AppSettings.DataFilesTypes.BackupJobsFileType = newValue },
+                { "StatesFileType-json", newValue => _viewModel.AppSettings.DataFilesTypes.StatesFileType = newValue },
+                { "StatesFileType-xml", newValue => _viewModel.AppSettings.DataFilesTypes.StatesFileType = newValue },
+                { "LogsFileType-json", newValue => _viewModel.AppSettings.DataFilesTypes.LogsFileType = newValue },
+                { "LogsFileType-xml", newValue => _viewModel.AppSettings.DataFilesTypes.LogsFileType = newValue }
+            };
+        }
+
 
         private void RadioButton_Click(object sender, RoutedEventArgs e)
         {
+            HandleRadioButtonClick(sender, RadioButtonActions);
+        }
 
+        private void HandleRadioButtonClick(object sender, Dictionary<string, Action<string>> actions)
+        {
             var radioButton = sender as RadioButton;
             if (radioButton != null && radioButton.IsChecked == true)
             {
-                string culture = radioButton.Content.ToString(); // Récupérer la culture associée au bouton radio
-                if(culture == "  English")
+                string content = radioButton.Content.ToString();
+                if (actions.TryGetValue(content, out Action<string> action))
                 {
-                    culture = "en-EN";
+                    action(content);
                 }
-                else
-                {
-                    culture = "fr-FR";
-                }
-                _viewModel.AppSettings.Localization.CurrentCulture = culture; // Mettre à jour la propriété CurrentCulture du modèle de vue
             }
         }
         private void SaveAppSettings_Click(object sender, RoutedEventArgs e)
