@@ -18,6 +18,9 @@ namespace EasySave.DataAccess.Services
         {
             List<T> list = await _fileService.Read<T>();
 
+            if(list == null)
+                return new List<T>();
+
             return list;
         }
 

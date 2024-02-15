@@ -39,19 +39,33 @@ namespace EasySave.DataAccess.Services
 
         public async Task<List<T>?> Read<T>()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
-            using (StreamReader reader = new StreamReader(_filePath))
+            try
             {
-                return (List<T>)serializer.Deserialize(reader);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
+                using (StreamReader reader = new StreamReader(_filePath))
+                {
+                    return (List<T>)serializer.Deserialize(reader);
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
 
         public async Task Write<T>(List<T> list)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
-            using (StreamWriter writer = new StreamWriter(_filePath))
+            try
             {
-                serializer.Serialize(writer, list);
+                XmlSerializer serializer = new XmlSerializer(typeof(List<T>));
+                using (StreamWriter writer = new StreamWriter(_filePath))
+                {
+                    serializer.Serialize(writer, list);
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

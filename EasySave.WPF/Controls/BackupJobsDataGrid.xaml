@@ -19,21 +19,22 @@
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="LightBlue" />
+                            <Setter Property="Background" Value="LightCyan" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>
-            
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Backup Name" Binding="{Binding BackupName}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Source Directory" Binding="{Binding SourceDirectory}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Target Directory" Binding="{Binding TargetDirectory}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="Backup Type" Binding="{Binding BackupType}" IsReadOnly="True"/>
+                
                 <DataGridTemplateColumn Header="Execute">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding DataContext.ExecuteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" BorderThickness="0">
+                            <Button Background="Transparent" Command="{Binding DataContext.ExecuteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" BorderThickness="0">
                                 <ui:SymbolIcon Symbol="AddCircle28" />
                             </Button>
                         </DataTemplate>
@@ -43,7 +44,7 @@
                 <DataGridTemplateColumn Header="Delete">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding DataContext.DeleteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" BorderThickness="0">
+                            <Button Background="Transparent" Command="{Binding DataContext.DeleteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" BorderThickness="0">
                                 <ui:SymbolIcon Symbol="DeleteDismiss28"/>
                             </Button>
                         </DataTemplate>

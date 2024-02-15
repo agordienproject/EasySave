@@ -27,7 +27,7 @@ namespace EasySave.DataAccess.Services
             set
             {
                 _backupState = value;
-                _stateService.Update(value);
+                UpdateState(value);
             }
         }
         
@@ -40,26 +40,31 @@ namespace EasySave.DataAccess.Services
             BackupState = new State(backupJob.BackupName);
         }
 
+        public async Task UpdateState(State state)
+        {
+            await _stateService.Update(state);
+        }
+
         public async Task Execute()
         {
-            InitState();
+            await InitState();
             
-            GetDirectoryInfos(_backupJob.SourceDirectory);
+            await GetDirectoryInfos(_backupJob.SourceDirectory);
 
             BackupState.NbFilesLeftToDo = BackupState.TotalFilesNumber;
             BackupState.FilesSizeLeftToDo = BackupState.TotalFilesSize;
 
-            CopyFiles(_backupJob.BackupName, _backupJob.SourceDirectory, _backupJob.TargetDirectory, _backupJob.BackupType);
+            await CopyFiles(_backupJob.BackupName, _backupJob.SourceDirectory, _backupJob.TargetDirectory, _backupJob.BackupType);
 
-            ClearState();
+            await ClearState();
         }
 
-        private void InitState()
+        private async Task InitState()
         {
             BackupState.BackupState = Domain.Enums.BackupState.Active;
         }
 
-        private void ClearState()
+        private async Task ClearState()
         {
             BackupState.BackupState = Domain.Enums.BackupState.Inactive;
             BackupState.BackupTime = DateTime.Now.ToString();
@@ -71,7 +76,7 @@ namespace EasySave.DataAccess.Services
             BackupState.TargetTransferingFilePath = "";
         }
 
-        private void GetDirectoryInfos(string directory)
+        private async Task GetDirectoryInfos(string directory)
         {
             try
             {
@@ -86,7 +91,7 @@ namespace EasySave.DataAccess.Services
 
                 foreach (var subDir in subDirs)
                 {
-                    GetDirectoryInfos(subDir);
+                    await GetDirectoryInfos(subDir);
                 }
             }
             catch (Exception e)
@@ -95,7 +100,7 @@ namespace EasySave.DataAccess.Services
             }
         }
         
-        private void CopyFiles(string backupJobName, string sourceDir, string targetDir, BackupType backupType)
+        private async Task CopyFiles(string backupJobName, string sourceDir, string targetDir, BackupType backupType)
         {
             if (!Directory.Exists(sourceDir))
             {
@@ -116,7 +121,7 @@ namespace EasySave.DataAccess.Services
                 BackupState.SourceTransferingFilePath = filePath;
                 BackupState.TargetTransferingFilePath = targetPath;
 
-                CopyFile(backupJobName, filePath, targetDir, backupType);
+                await CopyFile(backupJobName, filePath, targetDir, backupType);
 
                 BackupState.NbFilesLeftToDo--;
                 BackupState.FilesSizeLeftToDo -= fileInfo.Length;
@@ -126,11 +131,11 @@ namespace EasySave.DataAccess.Services
             {
                 string subDirName = Path.GetFileName(subDir);
                 string targetSubDir = Path.Combine(targetDir, subDirName);
-                CopyFiles(backupJobName, subDir, targetSubDir, backupType);
+                await CopyFiles(backupJobName, subDir, targetSubDir, backupType);
             }
         }
 
-        private void CopyFile(string backupJobName, string sourceFilePath, string targetDir, BackupType backupType)
+        private async Task CopyFile(string backupJobName, string sourceFilePath, string targetDir, BackupType backupType)
         {
             string sourceFileName = Path.GetFileName(sourceFilePath);
             string targetFilePath = Path.Combine(targetDir, sourceFileName);
@@ -162,7 +167,7 @@ namespace EasySave.DataAccess.Services
                     transferTime = -1;
                 }
 
-                _logService.Create(new Log(
+                await _logService.Create(new Log(
                     backupJobName,
                     sourceFilePath,
                     targetFilePath,
