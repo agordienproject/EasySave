@@ -6,7 +6,126 @@
              xmlns:local="clr-namespace:EasySave.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid>
+                            <Border x:Name="Border"
+                                    Background="#EEEEEE"
+                                    BorderBrush="#CCCCCC"
+                                    BorderThickness="1"
+                                    CornerRadius="3"
+                                    Padding="5">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border x:Name="CheckMarkBorder"
+                                            Width="15"
+                                            Height="15"
+                                            Background="#CCCCCC"
+                                            BorderBrush="#666666"
+                                            BorderThickness="1"
+                                            CornerRadius="2"
+                                            Margin="0,0,5,0">
+                                        <Path x:Name="CheckMark"
+                                              Visibility="Collapsed"
+                                              Data="M 0 5 L 5 10 L 15 0"
+                                              Stroke="White"
+                                              StrokeThickness="2"
+                                              SnapsToDevicePixels="True"/>
+                                    </Border>
+                                    <ContentPresenter Grid.Column="1"
+                                                      Margin="5,0,0,0"
+                                                      VerticalAlignment="Center"
+                                                      RecognizesAccessKey="True"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="Border" Property="Background" Value="#007ACC"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#007ACC"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#DDDDDD"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#BBBBBB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="3">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+    
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="10">
+            <TextBlock Text="Backup Jobs" FontWeight="Bold" Margin="0,0,0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding DataFilesLocation.BackupJobsFolderPath, Mode=TwoWay}" x:Name="BackupJobsFolderPathTextBox" Width="200"/>
+                <Button Content="..." Click="BrowseBackupJobsFolder_Click" Style="{StaticResource ButtonStyle}" Width="30" Margin="5,0"/>
+                <TextBox Text="{Binding DataFilesLocation.BackupJobsJsonFileName, Mode=TwoWay}" x:Name="BackupJobsJsonFileNameTextBox" Width="150"/>
+            </StackPanel>
+
+            <TextBlock Text="States" FontWeight="Bold" Margin="0,10,0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding DataFilesLocation.StatesFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"/>
+                <Button Content="..." Click="BrowseStatesFolder_Click" Style="{StaticResource ButtonStyle}" Width="30" Margin="5,0"/>
+                <TextBox Text="{Binding DataFilesLocation.StatesJsonFileName, Mode=TwoWay}" x:Name="StatesJsonFileNameTextBox" Width="150"/>
+            </StackPanel>
+
+            <TextBlock Text="Logs" FontWeight="Bold" Margin="0,10,0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBox Text="{Binding DataFilesLocation.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Width="200"/>
+                <Button Content="..." Click="BrowseLogsFolder_Click" Style="{StaticResource ButtonStyle}" Width="30" Margin="5,0"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="center">
+            <TextBlock Text="Current Culture" FontWeight="Bold" Margin="0,0,0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="English" x:Name="EnglishCheckBox" Style="{StaticResource CheckBoxStyle}" Checked="LanguageCheckBox_Checked"/>
+                <CheckBox Content="French" x:Name="FrenchCheckBox" Style="{StaticResource CheckBoxStyle}" Checked="LanguageCheckBox_Checked"/>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Save" Margin="5" Click="SaveButton_Click" Style="{StaticResource ButtonStyle}" Width="56"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -6,16 +6,44 @@ using System.Threading.Tasks;
 
 namespace EasySave.Domain.Models
 {
+
     public class AppSettings
     {
-        public AppSettings(string backupJobsFolderPath, string backupJobsJsonFileName, string statesFolderPath, string statesJsonFileName, string logsFolderPath, string currentCulture)
+        public AppSettings(Localization localization, DataFilesLocation dataFilesLocation, string backupJobsFileType, string logsFileType, string statesFileType)
+        {
+            Localization = localization;
+            DataFilesLocation = dataFilesLocation;
+            BackupJobsFileType = backupJobsFileType;
+            LogsFileType = logsFileType;
+            StatesFileType = statesFileType;
+        }
+
+        public Localization Localization { get; set; }
+        public DataFilesLocation DataFilesLocation { get; set; }
+        public string BackupJobsFileType { get; set; }
+        public string LogsFileType { get; set; }
+        public string StatesFileType { get; set; }
+    }
+
+    public class Localization
+    {
+        public Localization(string currentCulture)
+        {
+            CurrentCulture = currentCulture;
+        }
+
+        public string CurrentCulture { get; set; }
+    }
+
+    public class DataFilesLocation
+    {
+        public DataFilesLocation(string backupJobsFolderPath, string backupJobsJsonFileName, string statesFolderPath, string statesJsonFileName, string logsFolderPath)
         {
             BackupJobsFolderPath = backupJobsFolderPath;
             BackupJobsJsonFileName = backupJobsJsonFileName;
             StatesFolderPath = statesFolderPath;
             StatesJsonFileName = statesJsonFileName;
             LogsFolderPath = logsFolderPath;
-            CurrentCulture = currentCulture;
         }
 
         public string BackupJobsFolderPath { get; set; }
@@ -23,6 +51,5 @@ namespace EasySave.Domain.Models
         public string StatesFolderPath { get; set; }
         public string StatesJsonFileName { get; set; }
         public string LogsFolderPath { get; set; }
-        public string CurrentCulture { get; set; }
     }
 }
