@@ -9,20 +9,16 @@ namespace EasySave.Domain.Models
 
     public class AppSettings
     {
-        public AppSettings(Localization localization, DataFilesLocation dataFilesLocation, string backupJobsFileType, string logsFileType, string statesFileType)
+        public AppSettings(Localization localization, DataFilesLocation dataFilesLocation, DataFilesTypes dataFilesTypes)
         {
             Localization = localization;
             DataFilesLocation = dataFilesLocation;
-            BackupJobsFileType = backupJobsFileType;
-            LogsFileType = logsFileType;
-            StatesFileType = statesFileType;
+            DataFilesTypes = dataFilesTypes;
         }
 
         public Localization Localization { get; set; }
         public DataFilesLocation DataFilesLocation { get; set; }
-        public string BackupJobsFileType { get; set; }
-        public string LogsFileType { get; set; }
-        public string StatesFileType { get; set; }
+        public DataFilesTypes DataFilesTypes { get; set; }
     }
 
     public class Localization
@@ -51,5 +47,18 @@ namespace EasySave.Domain.Models
         public string StatesFolderPath { get; set; }
         public string StatesJsonFileName { get; set; }
         public string LogsFolderPath { get; set; }
+    }
+
+    public class DataFilesTypes
+    {
+        public DataFilesTypes(string backupJobsFileType, string logsFileType, string statesFileType)
+        {
+            BackupJobsFileType = backupJobsFileType;
+            LogsFileType = logsFileType;
+            StatesFileType = statesFileType;
+        }
+        public string BackupJobsFileType { get; set; }
+        public string LogsFileType { get; set; }
+        public string StatesFileType { get; set; }
     }
 }

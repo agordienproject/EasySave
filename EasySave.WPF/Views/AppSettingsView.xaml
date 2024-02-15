@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasySave.WPF.Views"
+
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -84,6 +85,51 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#333333"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Ellipse x:Name="Border"
+                             Grid.Column="0"
+                             Fill="Transparent"
+                             Stroke="#007ACC"
+                             StrokeThickness="2"
+                             Width="20"
+                             Height="20"/>
+                            <Ellipse x:Name="InnerCircle"
+                             Grid.Column="0"
+                             Fill="#007ACC"
+                             StrokeThickness="0"
+                             Width="12"
+                             Height="12"
+                             Margin="4"
+                             Visibility="Collapsed"/>
+                            <ContentPresenter Grid.Column="1"
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="InnerCircle" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Stroke" Value="#00568B"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <local:LanguageToBooleanConverter x:Key="LanguageConverter" />
 
     </UserControl.Resources>
     
@@ -97,35 +143,35 @@
         <StackPanel Grid.Row="0" Margin="10">
             <TextBlock Text="Backup Jobs" FontWeight="Bold" Margin="0,0,0,5"/>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding DataFilesLocation.BackupJobsFolderPath, Mode=TwoWay}" x:Name="BackupJobsFolderPathTextBox" Width="200"/>
+                <TextBox Text="{Binding AppSettings.DataFilesLocation.BackupJobsFolderPath, Mode=TwoWay}" x:Name="BackupJobsFolderPathTextBox" Width="200"/>
                 <Button Content="..." Click="BrowseBackupJobsFolder_Click" Style="{StaticResource ButtonStyle}" Width="30" Margin="5,0"/>
-                <TextBox Text="{Binding DataFilesLocation.BackupJobsJsonFileName, Mode=TwoWay}" x:Name="BackupJobsJsonFileNameTextBox" Width="150"/>
+                <TextBox Text="{Binding AppSettings.DataFilesLocation.BackupJobsJsonFileName, Mode=TwoWay}" x:Name="BackupJobsJsonFileNameTextBox" Width="150"/>
             </StackPanel>
 
             <TextBlock Text="States" FontWeight="Bold" Margin="0,10,0,5"/>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding DataFilesLocation.StatesFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"/>
+                <TextBox Text="{Binding AppSettings.DataFilesLocation.StatesFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"/>
                 <Button Content="..." Click="BrowseStatesFolder_Click" Style="{StaticResource ButtonStyle}" Width="30" Margin="5,0"/>
-                <TextBox Text="{Binding DataFilesLocation.StatesJsonFileName, Mode=TwoWay}" x:Name="StatesJsonFileNameTextBox" Width="150"/>
+                <TextBox Text="{Binding AppSettings.DataFilesLocation.StatesJsonFileName, Mode=TwoWay}" x:Name="StatesJsonFileNameTextBox" Width="150"/>
             </StackPanel>
 
             <TextBlock Text="Logs" FontWeight="Bold" Margin="0,10,0,5"/>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding DataFilesLocation.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Width="200"/>
+                <TextBox Text="{Binding AppSettings.DataFilesLocation.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Width="200"/>
                 <Button Content="..." Click="BrowseLogsFolder_Click" Style="{StaticResource ButtonStyle}" Width="30" Margin="5,0"/>
             </StackPanel>
-        </StackPanel>
 
-        <StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="center">
-            <TextBlock Text="Current Culture" FontWeight="Bold" Margin="0,0,0,5"/>
-            <StackPanel Orientation="Horizontal">
-                <CheckBox Content="English" x:Name="EnglishCheckBox" Style="{StaticResource CheckBoxStyle}" Checked="LanguageCheckBox_Checked"/>
-                <CheckBox Content="French" x:Name="FrenchCheckBox" Style="{StaticResource CheckBoxStyle}" Checked="LanguageCheckBox_Checked"/>
+            <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="96">
+                <TextBlock Text="Current Culture" FontWeight="Bold" Margin="0,0,0,5"/>
+                <RadioButton Content="French" IsChecked="{Binding AppSettings.Localization.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=fr-FR}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
+                <RadioButton Content="English" IsChecked="{Binding AppSettings.Localization.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=en-EN}" Click="RadioButton_Click" Style="{StaticResource RadioButtonStyle}"/>
             </StackPanel>
-        </StackPanel>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Save" Margin="5" Click="SaveButton_Click" Style="{StaticResource ButtonStyle}" Width="56"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Save" Margin="5" Command="{Binding SaveAppSettingsCommand}" Style="{StaticResource ButtonStyle}" Width="56"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>
+    
+    

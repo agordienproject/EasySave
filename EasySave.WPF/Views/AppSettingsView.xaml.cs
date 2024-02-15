@@ -4,102 +4,49 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Text.Json;
 using EasySave.Domain.Models; // Ajoutez cette ligne pour inclure l'espace de noms contenant ConfigData
+using System.Globalization;
+using System.Windows.Data;
+using EasySave.WPF.ViewModels;
+using EasySave.DataAccess.Services;
+using EasySave.Domain.Services;
 
 namespace EasySave.WPF.Views
 {
-    public partial class AppSettingsView
+    public partial class AppSettingsView : UserControl
     {
-        private AppSettings configData;
+        private AppSettingsViewModel _viewModel;
 
         public AppSettingsView()
         {
             InitializeComponent();
-            LoadConfig();
-            //DataContext = configData;
+            IAppSettingsService appSettingsService = new AppSettingsService(); // Remplacez AppSettingsService par la classe réelle
+
+            // Instanciation de AppSettingsViewModel avec le paramètre IAppSettingsService
+            _viewModel = new AppSettingsViewModel(appSettingsService);
         }
 
-        private void LoadConfig()
+        private void RadioButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+
+            var radioButton = sender as RadioButton;
+            if (radioButton != null && radioButton.IsChecked == true)
             {
-                string jsonFilePath = "appsettings.json";
-                string json = File.ReadAllText(jsonFilePath);
-                var config = JsonSerializer.Deserialize<AppSettings>(json);
-
-                // Mettre à jour les valeurs dans les contrôles de l'interface utilisateur
-                BackupJobsFolderPathTextBox.Text = config.DataFilesLocation.BackupJobsFolderPath;
-                BackupJobsJsonFileNameTextBox.Text = config.DataFilesLocation.BackupJobsJsonFileName;
-                StatesFolderPathTextBox.Text = config.DataFilesLocation.StatesFolderPath;
-                StatesJsonFileNameTextBox.Text = config.DataFilesLocation.StatesJsonFileName;
-                LogsFolderPathTextBox.Text = config.DataFilesLocation.LogsFolderPath;
-
-                // Vérifier la valeur de la langue actuelle et cocher la case correspondante
-                if (config.Localization.CurrentCulture == "en-EN")
+                string culture = radioButton.Content.ToString(); // Récupérer la culture associée au bouton radio
+                if(culture == "  English")
                 {
-                    EnglishCheckBox.IsChecked = true;
+                    culture = "en-EN";
                 }
-                else if (config.Localization.CurrentCulture == "fr-FR")
+                else
                 {
-                    FrenchCheckBox.IsChecked = true;
+                    culture = "fr-FR";
                 }
-
-                // Affecter la configuration chargée à configData
-                configData = config;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Une erreur s'est produite lors du chargement du fichier de configuration : " + ex.Message);
-                //configData = new AppSettings();
+                _viewModel.AppSettings.Localization.CurrentCulture = culture; // Mettre à jour la propriété CurrentCulture du modèle de vue
             }
         }
-
-        private void LanguageCheckBox_Checked(object sender, RoutedEventArgs e)
+        private void SaveAppSettings_Click(object sender, RoutedEventArgs e)
         {
-            // Décocher l'autre case
-            if (sender == EnglishCheckBox)
-            {
-                FrenchCheckBox.IsChecked = false;
-            }
-            else if (sender == FrenchCheckBox)
-            {
-                EnglishCheckBox.IsChecked = false;
-            }
-        }
+            _viewModel.SaveAppSettingsCommand.Execute(null);
 
-        private void SaveConfig()
-        {
-            try
-            {
-                string jsonFilePath = "appsettings.json"; // Chemin vers votre fichier JSON
-                string json = JsonSerializer.Serialize(configData, Formatting.Indented);
-                File.WriteAllText(jsonFilePath, json);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Une erreur s'est produite lors de la sauvegarde du fichier de configuration : " + ex.Message);
-            }
-        }
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (EnglishCheckBox.IsChecked == true)
-            {
-                configData.Localization.CurrentCulture = "en-EN";
-            }
-            else if (FrenchCheckBox.IsChecked == true)
-            {
-                configData.Localization.CurrentCulture = "fr-FR";
-            }
-
-            // Mettre à jour les valeurs dans configData avec celles des contrôles de l'interface utilisateur
-            configData.DataFilesLocation.BackupJobsFolderPath = BackupJobsFolderPathTextBox.Text;
-            configData.DataFilesLocation.BackupJobsJsonFileName = BackupJobsJsonFileNameTextBox.Text;
-            configData.DataFilesLocation.StatesFolderPath = StatesFolderPathTextBox.Text;
-            configData.DataFilesLocation.StatesJsonFileName = StatesJsonFileNameTextBox.Text;
-            configData.DataFilesLocation.LogsFolderPath = LogsFolderPathTextBox.Text;
-
-            // Sauvegarder la configuration mise à jour dans le fichier JSON
-            SaveConfig();
         }
 
         private void BrowseBackupJobsFolder_Click(object sender, RoutedEventArgs e)
@@ -144,4 +91,31 @@ namespace EasySave.WPF.Views
         }
 
     }
+
+    public class LanguageToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null || parameter == null)
+                return false;
+
+            string targetCulture = parameter.ToString();
+            string currentCulture = value.ToString();
+
+            return currentCulture.Equals(targetCulture, StringComparison.OrdinalIgnoreCase);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool isChecked && isChecked)
+            {
+                return parameter; // Retourner la culture associée au bouton radio
+            }
+
+            // Retourner Binding.DoNothing si le bouton n'est pas sélectionné
+            return Binding.DoNothing;
+        }
+    }
+
+
 }

@@ -31,7 +31,6 @@ namespace EasySave.DataAccess.Services
             {
                 
             }
-
             return appSettings;
         }
 
