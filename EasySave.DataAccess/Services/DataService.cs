@@ -41,10 +41,10 @@ namespace EasySave.DataAccess.Services
             return entity;
         }
 
-        public async Task<T?> Update(string name, T entity)
+        public async Task<T?> Update(T entity)
         {
             List<T> list = (List<T>)await GetAll();
-            T? existingEntity = list.FirstOrDefault(entity => entity.BackupName == name);
+            T? existingEntity = list.FirstOrDefault(x => x.BackupName == entity.BackupName);
 
             if (existingEntity != null)
             {

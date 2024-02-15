@@ -24,7 +24,7 @@
 
         <!-- Name of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Center"/>
-        <ui:TextBox PlaceholderText="Write the name of backupjob"  Grid.Column="1" Grid.Row="0" Text="{Binding BackupJob.Name, Mode=TwoWay}"/>
+        <ui:TextBox PlaceholderText="Write the name of backupjob"  Grid.Column="1" Grid.Row="0" Text="{Binding BackupJob.BackupName, Mode=TwoWay}"/>
        
         <!-- Source directory of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Text="Source Directory" VerticalAlignment="Center"/>
@@ -33,7 +33,7 @@
 
         <!-- Destination directory of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" Text="Destination Directory" VerticalAlignment="Center"/>
-        <ui:TextBox  Name="DestinationDirButton" PlaceholderText="Select the destincation path of backupjob" Grid.Column="1" Grid.Row="2" Text="{Binding BackupJob.DestinationDirectory, Mode=TwoWay}"/>
+        <ui:TextBox  Name="DestinationDirButton" PlaceholderText="Select the destincation path of backupjob" Grid.Column="1" Grid.Row="2" Text="{Binding BackupJob.TargetDirectory, Mode=TwoWay}"/>
         <ui:Button Content="..." x:Name="btnOpenDestinationFolder" Click="Button_Click_Destination_Dir" RenderTransformOrigin="23.492,0.662" Grid.Column="2" Grid.Row="2"/>
 
         <!-- Type of backup -->

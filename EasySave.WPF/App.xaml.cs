@@ -32,16 +32,6 @@ namespace EasySave.WPF
         {
             _host.Start();
 
-            //XMLFileService xmlFileService = new XMLFileService(Path.Combine(".\\Data\\Logs\\", $"{DateTime.Now:dd_MM_yyyy}.xml"));
-
-            //List<Log> logs = new List<Log>() { 
-            //    new Log()
-            //};
-            //xmlFileService.Write(logs);
-
-
-            //List<Log> readlogs = await xmlFileService.Read<Log>();
-
             Window window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();
 

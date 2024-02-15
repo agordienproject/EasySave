@@ -1,4 +1,5 @@
-﻿using EasySave.Domain.Services;
+﻿using EasySave.Domain.Models;
+using EasySave.Domain.Services;
 using EasySave.WPF.State.Navigators;
 using EasySave.WPF.ViewModels;
 using System;
@@ -14,18 +15,20 @@ namespace EasySave.WPF.Commands
         private readonly BackupJobCreationViewModel _backupJobCreationViewModel;
         private readonly IBackupJobService _backupJobService;
         private readonly IRenavigator _renavigator;
-
-        public CreateBackupJobCommand(BackupJobCreationViewModel backupJobCreationViewModel, IBackupJobService backupJobService, IRenavigator backupJobsListingRenavigator)
+        private readonly IStateService _stateService;
+        
+        public CreateBackupJobCommand(BackupJobCreationViewModel backupJobCreationViewModel, IBackupJobService backupJobService, IStateService stateService, IRenavigator backupJobsListingRenavigator)
         {
             _backupJobCreationViewModel = backupJobCreationViewModel;
             _backupJobService = backupJobService;
             _renavigator = backupJobsListingRenavigator;
+            _stateService = stateService;
         }
 
         public override async Task ExecuteAsync(object parameter)
         {
             await _backupJobService.Create(_backupJobCreationViewModel.BackupJob);
-
+            await _stateService.Create(new Domain.Models.State(_backupJobCreationViewModel.BackupJob.BackupName));
             _renavigator.Renavigate();
         }
 
