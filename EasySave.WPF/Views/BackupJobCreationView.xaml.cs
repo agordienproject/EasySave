@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace EasySave.WPF.Views
 {
     /// <summary>
-    /// Logique d'interaction pour BackupJobsView.xaml
+    /// Logique d'interaction pour BackupJobCreationView.xaml
     /// </summary>
-    public partial class BackupJobsView : UserControl
+    public partial class BackupJobCreationView : UserControl
     {
-        public BackupJobsView()
+        public BackupJobCreationView()
         {
             InitializeComponent();
         }

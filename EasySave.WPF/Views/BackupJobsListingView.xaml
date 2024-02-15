@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="EasySave.WPF.Views.BackupJobsView"
+﻿<UserControl x:Class="EasySave.WPF.Views.BackupJobsListingView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,7 +15,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -23,9 +23,10 @@
 
             <controls:BackupJobsEditingMenu Grid.Column="0"/>
             <controls:BackupJobsActionsMenu Grid.Column="1"/>
+            <Button Grid.Column="1" Command="{Binding CreateBackupJobCommand}" Content="Créer un backupJob" />
         </Grid>
 
-        <controls:BackupJobsDataGrid Grid.Row="1" />
+        <controls:BackupJobsDataGrid Grid.Row="1" Margin="10, 10, 10, 0"/>
       
     </Grid>
 </UserControl>

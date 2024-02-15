@@ -42,6 +42,6 @@ namespace EasySave.DataAccess.Services
             await JsonSerializer.SerializeAsync(openStream, appSettings, options);
         }
 
-
+       
     }
 }

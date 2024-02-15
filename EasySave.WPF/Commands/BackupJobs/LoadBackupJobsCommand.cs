@@ -11,10 +11,10 @@ namespace EasySave.WPF.Commands
 {
     public class LoadBackupJobsCommand : AsyncCommandBase
     {
-        private readonly BackupJobsViewModel _backupJobsViewModel;
+        private readonly BackupJobsListingViewModel _backupJobsViewModel;
         private readonly IBackupJobService _backupJobService;
 
-        public LoadBackupJobsCommand(BackupJobsViewModel backupJobsViewModel, IBackupJobService backupJobService)
+        public LoadBackupJobsCommand(BackupJobsListingViewModel backupJobsViewModel, IBackupJobService backupJobService)
         {
             _backupJobsViewModel = backupJobsViewModel;
             _backupJobService = backupJobService;

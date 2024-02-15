@@ -9,6 +9,6 @@ namespace EasySave.Domain.Services
 {
     public interface IBackupJobService : IDataService<BackupJob>
     {
-        Task<bool> InitDataFile(string filePath);
+
     }
 }

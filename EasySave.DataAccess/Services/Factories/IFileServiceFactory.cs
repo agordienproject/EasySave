@@ -9,6 +9,6 @@ namespace EasySave.DataAccess.Services.Factories
 {
     public interface IFileServiceFactory
     {
-        public abstract IFileService CreateFileService(string type);
+        public abstract IFileService CreateFileService(string type, string filePath);
     }
 }

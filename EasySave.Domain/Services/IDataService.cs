@@ -10,11 +10,11 @@ namespace EasySave.Domain.Services
     {
         Task<IEnumerable<T>> GetAll();
 
-        Task<T> Get(string name);
+        Task<T?> Get(string name);
 
         Task<T> Create(T entity);
 
-        Task<T> Update(string name, T entity);
+        Task<T?> Update(string name, T entity);
 
         Task<bool> Delete(string name);
     }

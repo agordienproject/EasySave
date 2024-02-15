@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Windows;
 
 namespace EasySave.WPF
@@ -31,15 +32,15 @@ namespace EasySave.WPF
         {
             _host.Start();
 
-            //XMLFileService xmlFileService = new XMLFileService();
+            //XMLFileService xmlFileService = new XMLFileService(Path.Combine(".\\Data\\Logs\\", $"{DateTime.Now:dd_MM_yyyy}.xml"));
 
-            //List<Log> logs = new List<Log> ();
+            //List<Log> logs = new List<Log>() { 
+            //    new Log()
+            //};
             //xmlFileService.Write(logs);
 
 
-            //List<Log> readlogs = xmlFileService.Read<Log>();
-
-
+            //List<Log> readlogs = await xmlFileService.Read<Log>();
 
             Window window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();

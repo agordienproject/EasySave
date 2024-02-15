@@ -9,10 +9,10 @@ namespace EasySave.WPF.ViewModels.Factories
 {
     public class EasySaveViewModelFactory : IEasySaveViewModelFactory
     {
-        private readonly CreateViewModel<BackupJobsViewModel> _createBackupJobsViewModel;
+        private readonly CreateViewModel<BackupJobsListingViewModel> _createBackupJobsViewModel;
         private readonly CreateViewModel<AppSettingsViewModel> _createAppSettingsViewModel;
 
-        public EasySaveViewModelFactory(CreateViewModel<BackupJobsViewModel> createBackupJobsViewModel, CreateViewModel<AppSettingsViewModel> createAppSettingsViewModel)
+        public EasySaveViewModelFactory(CreateViewModel<BackupJobsListingViewModel> createBackupJobsViewModel, CreateViewModel<AppSettingsViewModel> createAppSettingsViewModel)
         {
             _createBackupJobsViewModel = createBackupJobsViewModel;
             _createAppSettingsViewModel = createAppSettingsViewModel;

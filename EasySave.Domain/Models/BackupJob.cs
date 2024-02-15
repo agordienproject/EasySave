@@ -20,6 +20,13 @@ namespace EasySave.Domain.Models
             TargetDirectory = targetDirectory;
             BackupType = backupType;
         }
+
+        public BackupJob() : base("")
+        {
+            SourceDirectory = "";
+            TargetDirectory = "";
+            BackupType = BackupType.Complete;
+        }
         
     }
 }

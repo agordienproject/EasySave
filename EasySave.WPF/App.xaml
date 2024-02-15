@@ -9,20 +9,26 @@
     <Application.Resources>
 
         <ResourceDictionary>
-        
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Styles/Common.xaml" />
                 <ResourceDictionary Source="/Styles/NavigationBar.xaml" />
+                <ui:ThemesDictionary Theme="Light" />
+                <ui:ControlsDictionary />
             </ResourceDictionary.MergedDictionaries>
 
-            <DataTemplate DataType="{x:Type viewmodels:BackupJobsViewModel}">
-                <views:BackupJobsView />
+            <DataTemplate DataType="{x:Type viewmodels:BackupJobsListingViewModel}">
+                <views:BackupJobsListingView />
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewmodels:AppSettingsViewModel}">
                 <views:AppSettingsView />
             </DataTemplate>
-        
+
+            <DataTemplate DataType="{x:Type viewmodels:BackupJobCreationViewModel}">
+                <views:BackupJobCreationView />
+            </DataTemplate>
+
         </ResourceDictionary>
 
     </Application.Resources>
