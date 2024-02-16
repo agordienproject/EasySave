@@ -44,11 +44,11 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\Localization.fr-FR.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.fr-FR.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Localization.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Localization.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

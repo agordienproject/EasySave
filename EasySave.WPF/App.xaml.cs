@@ -1,10 +1,12 @@
 ﻿using EasySave.DataAccess.Services;
 using EasySave.Domain.Models;
 using EasySave.WPF.HostBuilders;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 
@@ -31,6 +33,8 @@ namespace EasySave.WPF
         protected override void OnStartup(StartupEventArgs e)
         {
             _host.Start();
+
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(_host.Services.GetRequiredService<IConfiguration>()["Localization:CurrentCulture"]);
 
             Window window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();

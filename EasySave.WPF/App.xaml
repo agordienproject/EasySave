@@ -5,7 +5,8 @@
     xmlns:local="clr-namespace:EasySave.WPF"
     xmlns:viewmodels="clr-namespace:EasySave.WPF.ViewModels"
     xmlns:views="clr-namespace:EasySave.WPF.Views"
-    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml">
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:localization="clr-namespace:EasySave.WPF.Resources">
     <Application.Resources>
 
         <ResourceDictionary>

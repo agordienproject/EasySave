@@ -4,15 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasySave.WPF.Controls"
+             xmlns:localization="clr-namespace:EasySave.WPF.Resources"
              mc:Ignorable="d" 
              >
 
     <Grid>
         <Border Padding="10" CornerRadius="10">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="De" VerticalAlignment="Center" Foreground="Black" Margin="0,0,10,0"/>
+                <TextBlock Text="{x:Static localization:Localization.From}" VerticalAlignment="Center" Foreground="Black" Margin="0,0,10,0"/>
                 <ui:TextBox x:Name="txtFrom" PlaceholderText="ex : 1" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="à" VerticalAlignment="Center" Foreground="Black" Margin="10,0,10,0"/>
+                <TextBlock Text="{x:Static localization:Localization.At}" VerticalAlignment="Center" Foreground="Black" Margin="10,0,10,0"/>
                 <ui:TextBox x:Name="txtTo" PlaceholderText="ex : 5" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <Button Content="&#xE768;">
                     <Button.Style>

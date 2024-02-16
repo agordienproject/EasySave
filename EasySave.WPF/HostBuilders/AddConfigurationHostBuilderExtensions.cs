@@ -19,6 +19,7 @@ namespace EasySave.WPF.HostBuilders
                 c.AddEnvironmentVariables();
             });
             
+
             return host;
         }
     }

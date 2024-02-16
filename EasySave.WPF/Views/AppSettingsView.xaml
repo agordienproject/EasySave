@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasySave.WPF.Views"
+             xmlns:localization="clr-namespace:EasySave.WPF.Resources" 
              mc:Ignorable="d" 
              d:DesignHeight="637.6" d:DesignWidth="800">
 
@@ -28,21 +29,21 @@
                 <TextBox Text="{Binding AppSettings.DataFilesLocation.BackupJobsJsonFileName, Mode=TwoWay}" x:Name="BackupJobsJsonFileNameTextBox" Width="150"/>
             </StackPanel>
 
-            <TextBlock Text="States" FontWeight="Bold" Margin="0,10,0,5"/>
+            <TextBlock Text="{x:Static localization:Localization.SettingFileState}" FontWeight="Bold" Margin="0,10,0,5"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding AppSettings.DataFilesLocation.StatesFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"/>
                 <Button Content="..." Click="BrowseStatesFolder_Click"/>
                 <TextBox Text="{Binding AppSettings.DataFilesLocation.StatesJsonFileName, Mode=TwoWay}" x:Name="StatesJsonFileNameTextBox" Width="150"/>
             </StackPanel>
 
-            <TextBlock Text="Logs" FontWeight="Bold" Margin="0,10,0,5"/>
+            <TextBlock Text="{x:Static localization:Localization.SettingFileLog}" FontWeight="Bold" Margin="0,10,0,5"/>
             <StackPanel Orientation="Horizontal">
                 <TextBox Text="{Binding AppSettings.DataFilesLocation.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Width="200"/>
                 <Button Content="..." Click="BrowseLogsFolder_Click"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
-                <TextBlock Text="Current Culture" FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBlock Text="{x:Static localization:Localization.SettingCurrentCulture}" FontWeight="Bold" Margin="0,0,0,5"/>
                 <RadioButton Content="French" IsChecked="{Binding AppSettings.Localization.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=fr-FR}" Click="RadioButton_Click"/>
                 <RadioButton Content="English" IsChecked="{Binding AppSettings.Localization.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=en-EN}" Click="RadioButton_Click"/>
             </StackPanel>
@@ -54,7 +55,7 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
-                <TextBlock Text="Logs file type" FontWeight="Bold" Margin="0,0,0,5"/>
+                <TextBlock Text="{x:Static localization:Localization.SettingTypeLogFile}" FontWeight="Bold" Margin="0,0,0,5"/>
                 <RadioButton x:Name="LogsFileTypeJsonRadioButton" Content="json" IsChecked="{Binding AppSettings.DataFilesTypes.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" Click="RadioButton_Click"/>
                 <RadioButton x:Name="LogsFileTypeXmlRadioButton" Content="xml" IsChecked="{Binding AppSettings.DataFilesTypes.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click"/>
             </StackPanel>
@@ -66,7 +67,7 @@
             </StackPanel>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Save" Margin="5" Command="{Binding SaveAppSettingsCommand}"/>
+                <Button Content="{x:Static localization:Localization.ButtonValidate}" Margin="5" Command="{Binding SaveAppSettingsCommand}"/>
             </StackPanel>
 
         </StackPanel>

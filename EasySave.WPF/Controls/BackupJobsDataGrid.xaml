@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasySave.WPF.Controls" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:localization="clr-namespace:EasySave.WPF.Resources"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -26,12 +27,12 @@
             </DataGrid.RowStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Backup Name" Binding="{Binding BackupName}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Source Directory" Binding="{Binding SourceDirectory}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Target Directory" Binding="{Binding TargetDirectory}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Backup Type" Binding="{Binding BackupType}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.Name}" Binding="{Binding BackupName}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.SourceDirectory}" Binding="{Binding SourceDirectory}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.DestinationDirectory}" Binding="{Binding TargetDirectory}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.BackupType}" Binding="{Binding BackupType}" IsReadOnly="True"/>
                 
-                <DataGridTemplateColumn Header="Execute">
+                <DataGridTemplateColumn Header="{x:Static localization:Localization.Execute}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Background="Transparent" Command="{Binding DataContext.ExecuteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" BorderThickness="0">
@@ -41,7 +42,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Delete">
+                <DataGridTemplateColumn Header="{x:Static localization:Localization.Delete}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Background="Transparent" Command="{Binding DataContext.DeleteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" BorderThickness="0">
