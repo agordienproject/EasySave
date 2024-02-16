@@ -17,6 +17,7 @@ namespace EasySave.Domain.Services
     {
         private readonly IStateService _stateService;
         private readonly ILogService _logService;
+        private readonly IConfiguration _configuration;
 
         public BackupJobService(IConfiguration configuration, IFileServiceFactory fileServiceFactory, IStateService stateService, ILogService logService)
         {
@@ -26,6 +27,7 @@ namespace EasySave.Domain.Services
 
             _stateService = stateService;
             _logService = logService;
+            _configuration = configuration;
         } 
 
         public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
@@ -41,7 +43,7 @@ namespace EasySave.Domain.Services
 
             foreach (var backupJob in backupJobsToExecute)
             {
-                BackupJobExecution backupjobExecution = new BackupJobExecution(backupJob, _stateService, _logService);
+                BackupJobExecution backupjobExecution = new BackupJobExecution(backupJob, _stateService, _logService, _configuration);
 
                 await backupjobExecution.Execute();
             }   
@@ -49,7 +51,7 @@ namespace EasySave.Domain.Services
 
         public async Task ExecuteBackupJob(BackupJob backupJob)
         {
-            BackupJobExecution backupjobExecution = new BackupJobExecution(backupJob, _stateService, _logService);
+            BackupJobExecution backupjobExecution = new BackupJobExecution(backupJob, _stateService, _logService, _configuration);
 
             await backupjobExecution.Execute();
         }

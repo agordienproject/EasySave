@@ -1,12 +1,17 @@
 ﻿using EasySave.Domain.Enums;
 using EasySave.Domain.Models;
 using EasySave.Domain.Services;
+using EasySave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using System.Diagnostics; // Ajoutez cette ligne
+
 
 namespace EasySave.DataAccess.Services
 {
@@ -14,16 +19,18 @@ namespace EasySave.DataAccess.Services
     {
         private readonly IStateService _stateService;
         private readonly ILogService _logService;
+        private readonly IConfiguration _configuration;
 
         private BackupJob _backupJob {  get; set; }
 
         private State _backupState { get; set; }
-        
-        public BackupJobExecution(BackupJob backupJob,IStateService stateService, ILogService logService) 
+
+
+        public BackupJobExecution(BackupJob backupJob,IStateService stateService, ILogService logService, IConfiguration configuration) 
         {
             _stateService = stateService;
             _logService = logService;
-
+            _configuration = configuration;
             _backupJob = backupJob;
             _backupState = new State(backupJob.BackupName);
         }
@@ -152,7 +159,27 @@ namespace EasySave.DataAccess.Services
                 try
                 {
                     DateTime before = DateTime.Now;
-                    File.Copy(sourceFilePath, targetFilePath, true);
+
+                    // Récupérer l'extension du fichier actuellement traité
+                    string fileExtension = Path.GetExtension(sourceFilePath);
+                    fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
+
+                    // Vérifier si l'extension est présente dans la liste des extensions autorisées
+                    IConfigurationSection authorizedExtensionsSection = _configuration.GetSection("FileExtensions:AuthorizedExtensions");
+                    List<string> authorizedExtensions = authorizedExtensionsSection.Get<List<string>>();
+
+                    if (authorizedExtensions.Contains(fileExtension))
+                    {
+                        string old_cryptoSoftPath = Path.Combine("..", "..", "..", "..", "CryptoSoft", "bin", "Debug", "net8.0", "CryptoSoft.exe");
+                        string cryptoSoftPath = "C:\\Users\\Alexis\\Documents\\#CESI\\2023-2024\\PROJETS\\BLOC-PROXYS\\LIVRABLE-II\\V2.0\\CryptoSoft\\bin\\Debug\\net8.0\\CryptoSoft.exe";
+                        string cryptoSoftArg = String.Concat("-s ", sourceFilePath, " -d ", targetFilePath);
+                        Process.Start(cryptoSoftPath, cryptoSoftArg);
+
+                    }
+                    else
+                    {
+                        File.Copy(sourceFilePath, targetFilePath, true);
+                    }
                     DateTime after = DateTime.Now;
                     transferTime = after.Subtract(before).TotalSeconds;
                 }
