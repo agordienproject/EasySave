@@ -30,12 +30,12 @@
        
         <!-- Source directory of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Text="{x:Static localization:Localization.SourceDirectory}" VerticalAlignment="Center"/>
-        <ui:TextBox Name="SourceDirButton" PlaceholderText="{x:Static localization:Localization.PlaceHolderSourceDirectory}" Grid.Column="1" Grid.Row="1" Text="{Binding BackupJob.SourceDirectory, Mode=TwoWay}"/>
+        <ui:TextBox Name="SourceDirButton" PlaceholderText="{x:Static localization:Localization.PlaceHolderSourceDirectory}" Grid.Column="1" Grid.Row="1" Text="{Binding BackupJob.SourceDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <ui:Button Content="..." x:Name="btnOpenSourceFolder" Click="Button_Click_Source_Dir" RenderTransformOrigin="23.492,0.662" Grid.Column="2" Grid.Row="1"/>
 
         <!-- Destination directory of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" Text="{x:Static localization:Localization.DestinationDirectory}" VerticalAlignment="Center"/>
-        <ui:TextBox  Name="DestinationDirButton" PlaceholderText="{x:Static localization:Localization.PlaceHolderDestinationDirectory}" Grid.Column="1" Grid.Row="2" Text="{Binding BackupJob.TargetDirectory, Mode=TwoWay}"/>
+        <ui:TextBox  Name="DestinationDirButton" PlaceholderText="{x:Static localization:Localization.PlaceHolderDestinationDirectory}" Grid.Column="1" Grid.Row="2" Text="{Binding BackupJob.TargetDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <ui:Button Content="..." x:Name="btnOpenDestinationFolder" Click="Button_Click_Destination_Dir" RenderTransformOrigin="23.492,0.662" Grid.Column="2" Grid.Row="2"/>
 
         <!-- Type of backup -->

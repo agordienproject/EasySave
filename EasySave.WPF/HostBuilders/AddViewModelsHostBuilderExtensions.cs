@@ -2,6 +2,7 @@
 using EasySave.WPF.State.Navigators;
 using EasySave.WPF.ViewModels;
 using EasySave.WPF.ViewModels.Factories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -48,7 +49,8 @@ namespace EasySave.WPF.HostBuilders
             return new BackupJobCreationViewModel(
                 services.GetRequiredService<IBackupJobService>(),
                 services.GetRequiredService<ViewModelDelegateRenavigator<BackupJobsListingViewModel>>(),
-                services.GetRequiredService<ILogService>());
+                services.GetRequiredService<ILogService>(),
+                services.GetRequiredService<IConfiguration>());
         }
 
     }

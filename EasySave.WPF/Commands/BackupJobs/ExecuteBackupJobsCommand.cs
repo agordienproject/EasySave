@@ -1,0 +1,71 @@
+﻿using EasySave.Domain.Models;
+using EasySave.Domain.Services;
+using EasySave.WPF.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EasySave.WPF.Commands.BackupJobs
+{
+    public class ExecuteBackupJobsCommand : AsyncCommandBase
+    {
+        private readonly BackupJobsListingViewModel _backupJobsViewModel;
+        private readonly IBackupJobService _backupJobService;
+
+        public ExecuteBackupJobsCommand(BackupJobsListingViewModel backupJobsViewModel, IBackupJobService backupJobService)
+        {
+            _backupJobsViewModel = backupJobsViewModel;
+            _backupJobService = backupJobService;
+        }
+
+        public override async Task ExecuteAsync(object parameter)
+        {
+            if (_backupJobsViewModel.BackupJobs.Count == 0)
+            {
+                return;
+            }
+
+            if (_backupJobsViewModel.StartRange == 0 && _backupJobsViewModel.EndRange == 0)
+            {
+                foreach (var backupJob in _backupJobsViewModel.BackupJobs)
+                {
+
+                    await Task.Run(async () =>
+                    {
+                        await backupJob.Execute();
+                    });
+                }
+            }
+
+            List<int> backupJobsIndex = new List<int>();
+
+            int minIndex = Math.Min(_backupJobsViewModel.StartRange, _backupJobsViewModel.EndRange);
+            int maxIndex = Math.Max(_backupJobsViewModel.StartRange, _backupJobsViewModel.EndRange);
+
+            for (int i = minIndex; i <= maxIndex; i++)
+            {
+                backupJobsIndex.Add(i);
+            }
+
+
+            List<BackupJob> backupJobsToExecute = _backupJobsViewModel.BackupJobs
+                .Where((item, index) => backupJobsIndex.Contains(index + 1))
+                .ToList();
+
+            foreach (var backupJob in backupJobsToExecute)
+            {
+
+                await Task.Run(async () =>
+                {
+                    await _backupJobsViewModel.BackupJobs.First<BackupJob>(backupJob => backupJob == (BackupJob)parameter).Execute();
+                });
+            }
+
+
+        }
+
+    }
+}

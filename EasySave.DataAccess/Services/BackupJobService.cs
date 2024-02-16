@@ -26,31 +26,6 @@ namespace EasySave.Domain.Services
             _logService = logService;
         } 
 
-        public async Task ExecuteBackupJobs(List<int> backupJobsIndex)
-        {
-            List<BackupJob> backupJobs = (List<BackupJob>) await GetAll();
-            
-            if (backupJobs.Count == 0)
-                return;
-
-            List<BackupJob> backupJobsToExecute = backupJobs
-                .Where((item, index) => backupJobsIndex.Contains(index + 1))
-                .ToList();
-
-            foreach (var backupJob in backupJobsToExecute)
-            {
-                BackupJobExecution backupjobExecution = new BackupJobExecution(backupJob, _stateService, _logService);
-
-                await backupjobExecution.Execute();
-            }   
-        }
-
-        public async Task ExecuteBackupJob(BackupJob backupJob)
-        {
-            BackupJobExecution backupjobExecution = new BackupJobExecution(backupJob, _stateService, _logService);
-
-            await backupjobExecution.Execute();
-        }
     }
 
 }
