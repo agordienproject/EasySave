@@ -1,4 +1,5 @@
-﻿using EasySave.Domain.Services;
+﻿using EasySave.Domain.Models;
+using EasySave.Domain.Services;
 using EasySave.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,11 @@ namespace EasySave.WPF.Commands.BackupJobs
         {
             await Task.Run(async () =>
             {
-                await _backupJobService.ExecuteBackupJob(_backupJobsViewModel.SelectedBackupJob);
+                await _backupJobsViewModel.BackupJobs.First<BackupJob>(backupJob => backupJob == (BackupJob)parameter).Execute();
+
             });
-        }   
+
+        }
 
     }
 }

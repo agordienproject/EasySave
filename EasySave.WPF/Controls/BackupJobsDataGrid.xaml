@@ -5,12 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasySave.WPF.Controls" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:localization="clr-namespace:EasySave.WPF.Resources"
+             xmlns:converters="clr-namespace:EasySave.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:BackupJobProgressionConverter x:Key="BackupJobProgressionConverter"/>
+    </UserControl.Resources>
+
     <Grid>
+        
         <DataGrid 
             ItemsSource="{Binding BackupJobs}" 
-            SelectedItem="{Binding SelectedBackupJob, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedBackupJob}"
             AutoGenerateColumns="False" 
             SelectionMode="Single"
             HeadersVisibility="Column"
@@ -33,9 +40,22 @@
                 <DataGridTextColumn Header="{x:Static localization:Localization.BackupType}" Binding="{Binding BackupType}" IsReadOnly="True"/>
                 
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Execute}">
+                <DataGridTextColumn Header="Backup Name" Binding="{Binding BackupName}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="Source Directory" Binding="{Binding SourceDirectory}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Target Directory" Binding="{Binding TargetDirectory}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding BackupType}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="State" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
+                <!--<DataGridTextColumn Header="Current Source" Binding="{Binding SourceTransferingFilePath, Mode=TwoWay}" IsReadOnly="True" Width="*"/>-->
+                <!--<DataGridTextColumn Header="Current Destination" Binding="{Binding TargetTransferingFilePath, Mode=TwoWay}" IsReadOnly="True" Width="*"/>-->
+                <DataGridTextColumn Header="Progression" Binding="{Binding Progression, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTemplateColumn Header="Execute" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent" Command="{Binding DataContext.ExecuteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" BorderThickness="0">
+                            <Button Background="Transparent" 
+                                    Command="{Binding DataContext.ExecuteBackupJobCommand, 
+                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                    CommandParameter="{Binding}"
+                                    BorderThickness="0">
                                 <ui:SymbolIcon Symbol="AddCircle28" />
                             </Button>
                         </DataTemplate>
@@ -45,15 +65,19 @@
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Delete}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent" Command="{Binding DataContext.DeleteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" BorderThickness="0">
+                            <Button Background="Transparent" 
+                                    Command="{Binding DataContext.DeleteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                    CommandParameter="{Binding}"
+                                    BorderThickness="0">
                                 <ui:SymbolIcon Symbol="DeleteDismiss28"/>
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-
-                
             </DataGrid.Columns>
         </DataGrid>
+
+        <!--<ProgressBar Minimum="0" Maximum="{Binding SelectedBackupJob.TotalFilesNumber, Mode=TwoWay}" Value="{Binding SelectedBackupJob.NbFilesLeftToDo, Mode=TwoWay}"/>-->
+        
     </Grid>
 </UserControl>

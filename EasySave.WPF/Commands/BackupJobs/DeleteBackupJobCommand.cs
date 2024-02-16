@@ -1,4 +1,5 @@
-﻿using EasySave.Domain.Services;
+﻿using EasySave.Domain.Models;
+using EasySave.Domain.Services;
 using EasySave.WPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -12,19 +13,17 @@ namespace EasySave.WPF.Commands
     {
         private readonly BackupJobsListingViewModel _backupJobsViewModel;
         private readonly IBackupJobService _backupJobService;
-        private readonly IStateService _stateService;
 
-        public DeleteBackupJobCommand(BackupJobsListingViewModel backupJobsViewModel, IBackupJobService backupJobService, IStateService stateService)
+        public DeleteBackupJobCommand(BackupJobsListingViewModel backupJobsViewModel, IBackupJobService backupJobService)
         {
             _backupJobsViewModel = backupJobsViewModel;
             _backupJobService = backupJobService;
-            _stateService = stateService;
         }
 
         public override async Task ExecuteAsync(object parameter)
         {
-            await _backupJobService.Delete(_backupJobsViewModel.SelectedBackupJob.BackupName);
-            await _stateService.Delete(_backupJobsViewModel.SelectedBackupJob.BackupName);
+            await _backupJobService.Delete(_backupJobsViewModel.BackupJobs.FirstOrDefault(bj => bj == (BackupJob)parameter).BackupName);
+
             _backupJobsViewModel.LoadBackupJobsCommand.Execute(parameter);
         }
 

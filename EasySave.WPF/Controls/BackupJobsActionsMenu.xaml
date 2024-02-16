@@ -15,7 +15,7 @@
                 <ui:TextBox x:Name="txtFrom" PlaceholderText="ex : 1" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="{x:Static localization:Localization.At}" VerticalAlignment="Center" Foreground="Black" Margin="10,0,10,0"/>
                 <ui:TextBox x:Name="txtTo" PlaceholderText="ex : 5" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Button Content="&#xE768;">
+                <Button Content="&#xE768;" Command="{Binding ExecuteBackupJobsCommand}">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>

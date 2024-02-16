@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
 using System.IO;
 using System.Threading.Tasks; // Importez ce namespace pour pouvoir utiliser Task
@@ -14,7 +16,7 @@ namespace EasySave.DataAccess.Services
     public class AppSettingsService : IAppSettingsService
     {
         public readonly string _filePath;
-
+        
         public AppSettingsService()
         {
             _filePath = "appsettings.json";
