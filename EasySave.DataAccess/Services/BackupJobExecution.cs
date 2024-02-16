@@ -17,19 +17,7 @@ namespace EasySave.DataAccess.Services
 
         private BackupJob _backupJob {  get; set; }
 
-        private State _backupState;
-        public State BackupState
-        {
-            get
-            {
-                return _backupState;
-            }
-            set
-            {
-                _backupState = value;
-                UpdateState(value);
-            }
-        }
+        private State _backupState { get; set; }
         
         public BackupJobExecution(BackupJob backupJob,IStateService stateService, ILogService logService) 
         {
@@ -37,7 +25,7 @@ namespace EasySave.DataAccess.Services
             _logService = logService;
 
             _backupJob = backupJob;
-            BackupState = new State(backupJob.BackupName);
+            _backupState = new State(backupJob.BackupName);
         }
 
         public async Task UpdateState(State state)
@@ -51,8 +39,9 @@ namespace EasySave.DataAccess.Services
             
             await GetDirectoryInfos(_backupJob.SourceDirectory);
 
-            BackupState.NbFilesLeftToDo = BackupState.TotalFilesNumber;
-            BackupState.FilesSizeLeftToDo = BackupState.TotalFilesSize;
+            _backupState.NbFilesLeftToDo = _backupState.TotalFilesNumber;
+            _backupState.FilesSizeLeftToDo = _backupState.TotalFilesSize;
+            await UpdateState(_backupState);
 
             await CopyFiles(_backupJob.BackupName, _backupJob.SourceDirectory, _backupJob.TargetDirectory, _backupJob.BackupType);
 
@@ -61,19 +50,21 @@ namespace EasySave.DataAccess.Services
 
         private async Task InitState()
         {
-            BackupState.BackupState = Domain.Enums.BackupState.Active;
+            _backupState.BackupState = Domain.Enums.BackupState.Active;
+            await UpdateState(_backupState);
         }
 
         private async Task ClearState()
         {
-            BackupState.BackupState = Domain.Enums.BackupState.Inactive;
-            BackupState.BackupTime = DateTime.Now.ToString();
-            BackupState.TotalFilesNumber = 0;
-            BackupState.TotalFilesSize = (long)0;
-            BackupState.NbFilesLeftToDo = 0;
-            BackupState.FilesSizeLeftToDo = (long)0;
-            BackupState.SourceTransferingFilePath = "";
-            BackupState.TargetTransferingFilePath = "";
+            _backupState.BackupState = Domain.Enums.BackupState.Inactive;
+            _backupState.BackupTime = DateTime.Now.ToString();
+            _backupState.TotalFilesNumber = 0;
+            _backupState.TotalFilesSize = (long)0;
+            _backupState.NbFilesLeftToDo = 0;
+            _backupState.FilesSizeLeftToDo = (long)0;
+            _backupState.SourceTransferingFilePath = "";
+            _backupState.TargetTransferingFilePath = "";
+            await UpdateState(_backupState);
         }
 
         private async Task GetDirectoryInfos(string directory)
@@ -85,8 +76,9 @@ namespace EasySave.DataAccess.Services
 
                 foreach (var fichier in files)
                 {
-                    BackupState.TotalFilesNumber++;
-                    BackupState.TotalFilesSize += new FileInfo(fichier).Length;
+                    _backupState.TotalFilesNumber++;
+                    _backupState.TotalFilesSize += new FileInfo(fichier).Length;
+                    await UpdateState(_backupState);
                 }
 
                 foreach (var subDir in subDirs)
@@ -118,13 +110,15 @@ namespace EasySave.DataAccess.Services
 
                 string targetPath = Path.Combine(targetDir, fileInfo.Name);
 
-                BackupState.SourceTransferingFilePath = filePath;
-                BackupState.TargetTransferingFilePath = targetPath;
+                _backupState.SourceTransferingFilePath = filePath;
+                _backupState.TargetTransferingFilePath = targetPath;
+                await UpdateState(_backupState);
 
                 await CopyFile(backupJobName, filePath, targetDir, backupType);
 
-                BackupState.NbFilesLeftToDo--;
-                BackupState.FilesSizeLeftToDo -= fileInfo.Length;
+                _backupState.NbFilesLeftToDo--;
+                _backupState.FilesSizeLeftToDo -= fileInfo.Length;
+                await UpdateState(_backupState);
             }
 
             foreach (string subDir in Directory.GetDirectories(sourceDir))

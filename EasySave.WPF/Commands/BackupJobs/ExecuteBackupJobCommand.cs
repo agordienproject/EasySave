@@ -21,8 +21,11 @@ namespace EasySave.WPF.Commands.BackupJobs
 
         public override async Task ExecuteAsync(object parameter)
         {
-            await _backupJobService.ExecuteBackupJob(_backupJobsViewModel.SelectedBackupJob);
-        }
+            await Task.Run(async () =>
+            {
+                await _backupJobService.ExecuteBackupJob(_backupJobsViewModel.SelectedBackupJob);
+            });
+        }   
 
     }
 }
