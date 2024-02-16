@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.InteropServices.JavaScript;
 using System.Text.Json;
 
 namespace EasySave.DataAccess.Services
@@ -12,7 +14,7 @@ namespace EasySave.DataAccess.Services
     public class AppSettingsService : IAppSettingsService
     {
         public readonly string _filePath;
-
+        
         public AppSettingsService()
         {
             _filePath = "appsettings.json";

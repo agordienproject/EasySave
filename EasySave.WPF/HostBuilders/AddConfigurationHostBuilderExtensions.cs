@@ -18,7 +18,9 @@ namespace EasySave.WPF.HostBuilders
                 c.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
                 c.AddEnvironmentVariables();
             });
+
             
+
             return host;
         }
     }

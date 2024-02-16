@@ -1,26 +1,197 @@
 ﻿using EasySave.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EasySave.Domain.Models
 {
-    public class BackupJobInfo : INamedEntity
+    public class BackupJobInfo : INamedEntity, INotifyPropertyChanged
     {
-        public string BackupName { get; set; }
-        public string SourceDirectory { get; set; }
-        public string TargetDirectory { get; set; }
-        public BackupType BackupType { get; set; }
-        public BackupState BackupState { get; set; }
-        public string? BackupTime { get; set; }
-        public int TotalFilesNumber { get; set; }
-        public long TotalFilesSize { get; set; }
-        public int NbFilesLeftToDo { get; set; }
-        public long FilesSizeLeftToDo { get; set; }
-        public string? SourceTransferingFilePath { get; set; }
-        public string? TargetTransferingFilePath { get; set; }
+        private string? _backupName;
+        public string? BackupName
+        {
+            get
+            {
+                return _backupName;
+            }
+            set
+            {
+                _backupName = value;
+                OnPropertyChanged(nameof(BackupName));
+            }
+        }
+
+        private string _sourceDirectory;
+        public string SourceDirectory
+        {
+            get
+            {
+                return _sourceDirectory;
+            }
+            set
+            {
+                _sourceDirectory = value;
+                OnPropertyChanged(nameof(SourceDirectory));
+            }
+        }
+
+        private string _targetDirectory;
+        public string TargetDirectory
+        {
+            get
+            {
+                return _targetDirectory;
+            }
+            set
+            {
+                _targetDirectory = value;
+                OnPropertyChanged(nameof(TargetDirectory));
+            }
+        }
+        
+        private BackupType _backupType;
+        public BackupType BackupType
+        {
+            get
+            {
+                return _backupType;
+            }
+            set
+            {
+                _backupType = value;
+                OnPropertyChanged(nameof(BackupType));
+            }
+        }
+
+        private BackupState _backupState;
+        public BackupState BackupState
+        {
+            get
+            {
+                return _backupState;
+            }
+            set
+            {
+                _backupState = value;
+                OnPropertyChanged(nameof(BackupState));
+            }
+        }
+
+        private string? _backupTime;
+        public string? BackupTime
+        {
+            get
+            {
+                return _backupTime;
+            }
+            set
+            {
+                _backupTime = value;
+                OnPropertyChanged(nameof(BackupTime));
+            }
+        }
+
+        private int _totalFilesNumber;
+        public int TotalFilesNumber
+        {
+            get
+            {
+                return _totalFilesNumber;
+            }
+            set
+            {
+                _totalFilesNumber = value;
+                OnPropertyChanged(nameof(TotalFilesNumber));
+            }
+        }
+
+        private double _totalFilesSize;
+        public double TotalFilesSize
+        {
+            get
+            {
+                return _totalFilesSize;
+            }
+            set
+            {
+                    _totalFilesSize = value;
+                    OnPropertyChanged(nameof(TotalFilesSize));
+                    OnPropertyChanged(nameof(Progression)); // Assurez-vous de notifier également pour la propriété calculée
+            }
+        }
+
+        private int _nbFilesLeftToDo;
+        public int NbFilesLeftToDo
+        {
+            get
+            {
+                return _nbFilesLeftToDo;
+            }
+            set
+            {
+                _nbFilesLeftToDo = value;
+                OnPropertyChanged(nameof(NbFilesLeftToDo));
+            }
+        }
+
+        private double _filesSizeLeftToDo;
+        public double FilesSizeLeftToDo
+        {
+            get
+            {
+                return _filesSizeLeftToDo;
+            }
+            set
+            {
+                    _filesSizeLeftToDo = value;
+                    OnPropertyChanged(nameof(FilesSizeLeftToDo));
+                    OnPropertyChanged(nameof(Progression)); // Assurez-vous de notifier également pour la propriété calculée
+            }
+        }
+
+        private string? _sourceTransferingFilePath;
+        public string? SourceTransferingFilePath
+        {
+            get
+            {
+                return _sourceTransferingFilePath;
+            }
+            set
+            {
+                _sourceTransferingFilePath = value;
+                OnPropertyChanged(nameof(SourceTransferingFilePath));
+            }
+        }
+
+        private string? _targetTransferingFilePath;
+        public string? TargetTransferingFilePath
+        {
+            get
+            {
+                return _targetTransferingFilePath;
+            }
+            set
+            {
+                _targetTransferingFilePath = value;
+                OnPropertyChanged(nameof(TargetTransferingFilePath));
+            }
+        }
+
+
+        public string Progression
+        {
+            get
+            {
+                if (TotalFilesSize > 0)
+                {
+                    return (((TotalFilesSize - FilesSizeLeftToDo) / TotalFilesSize) * 100).ToString("#.##") + "%";
+                }
+                return "0";
+            }
+        }
 
         public BackupJobInfo
         (   string backupName,
@@ -64,6 +235,13 @@ namespace EasySave.Domain.Models
             FilesSizeLeftToDo = 0;
             SourceTransferingFilePath = "";
             TargetTransferingFilePath = "";
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

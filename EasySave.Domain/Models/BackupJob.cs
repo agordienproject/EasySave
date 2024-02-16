@@ -1,21 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using EasySave.Domain.Enums;
 using EasySave.Domain.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace EasySave.Domain.Models
 {
     public class BackupJob : BackupJobInfo, INamedEntity
     {
-        //private readonly ILogService _logService;
-
+        private readonly ILogService _logService;
+        private readonly IBackupJobService _backupJobService;
+        
         public BackupJob() : base()
         {
 
+        }
+
+        public BackupJob(IBackupJobService backupJobService, ILogService logService) : base()
+        {
+            _logService = logService;
+            _backupJobService = backupJobService;
+
+            PropertyChanged += async (sender, e) => await _backupJobService.Update(this);
         }
 
         public async Task Execute()

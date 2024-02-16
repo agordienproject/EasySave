@@ -36,7 +36,7 @@ namespace EasySave.WPF.ViewModels
         {
             _backupJobService = backupJobService;
 
-            BackupJob = new BackupJob();
+            this.BackupJob = new BackupJob(backupJobService, logService);
 
             CreateBackupJobCommand = new CreateBackupJobCommand(this, backupJobService, backupJobsListingRenavigator);
 

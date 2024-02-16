@@ -23,16 +23,44 @@ namespace EasySave.WPF.ViewModels
             }
         }
 
-        //private BackupJob _selectedBackupJob;
-        //public BackupJob SelectedBackupJob
-        //{
-        //    get { return _selectedBackupJob; }
-        //    set
-        //    {
-        //        _selectedBackupJob = value;
-        //        OnPropertyChanged(nameof(SelectedBackupJob));
-        //    }
-        //}
+        private BackupJob _selectedBackupJob;
+        public BackupJob SelectedBackupJob
+        {
+            get { return _selectedBackupJob; }
+            set
+            {
+                _selectedBackupJob = value;
+                OnPropertyChanged(nameof(SelectedBackupJob));
+            }
+        }
+
+        private int _startRange;
+        public int StartRange
+        {
+            get
+            {
+                return _startRange;
+            }
+            set
+            {
+                _startRange = value;
+                OnPropertyChanged(nameof(StartRange));
+            }
+        }
+
+        private int _endRange;
+        public int EndRange
+        {
+            get
+            {
+                return _endRange;
+            }
+            set
+            {
+                _endRange = value;
+                OnPropertyChanged(nameof(EndRange));
+            }
+        }
 
         public ICommand LoadBackupJobsCommand { get; set; }
         public ICommand UpdateBackupJobCommand { get; set; }
@@ -41,41 +69,24 @@ namespace EasySave.WPF.ViewModels
         public ICommand CreateBackupJobCommand { get; set; }
         public ICommand ExecuteBackupJobCommand { get; set; }
 
+        public ICommand ExecuteBackupJobsCommand { get; set; }
+
         public BackupJobsListingViewModel(IBackupJobService backupJobService, IRenavigator backupJobCreationRenavigator)
         {
             BackupJobs = new ObservableCollection<BackupJob>();
-
 
             LoadBackupJobsCommand = new LoadBackupJobsCommand(this, backupJobService);
             UpdateBackupJobCommand = new UpdateBackupJobCommand(this, backupJobService);
             DeleteBackupJobCommand = new DeleteBackupJobCommand(this, backupJobService);
             ExecuteBackupJobCommand = new ExecuteBackupJobCommand(this, backupJobService);
 
-            CreateBackupJobCommand = new RenavigateCommand(backupJobCreationRenavigator);
+            ExecuteBackupJobsCommand = new ExecuteBackupJobsCommand(this, backupJobService);
 
-            //BackupJobs.CollectionChanged += items_CollectionChanged;
+            CreateBackupJobCommand = new RenavigateCommand(backupJobCreationRenavigator);
             
             LoadBackupJobsCommand.Execute(this);
         }
 
-
-        //private void items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    if (e.OldItems != null)
-        //    {
-        //        foreach (INotifyPropertyChanged item in e.OldItems)
-        //            item.PropertyChanged -= item_PropertyChanged;
-        //    }
-        //    if (e.NewItems != null)
-        //    {
-        //        foreach (INotifyPropertyChanged item in e.NewItems)
-        //            item.PropertyChanged += item_PropertyChanged;
-        //    }
-        //}
-
-        //private void item_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    LoadBackupJobsCommand.Execute(this);
-        //}
+        
     }
 }

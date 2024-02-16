@@ -9,6 +9,7 @@ using System.Windows.Data;
 using EasySave.WPF.ViewModels;
 using EasySave.DataAccess.Services;
 using EasySave.Domain.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace EasySave.WPF.Views
 {

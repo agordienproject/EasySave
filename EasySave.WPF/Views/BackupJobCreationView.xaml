@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasySave.WPF.Views"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Class="EasySave.WPF.Views.BackupJobCreationView"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
+             x:Class="EasySave.WPF.Views.BackupJobCreationView"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -28,12 +29,12 @@
        
         <!-- Source directory of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Text="Source Directory" VerticalAlignment="Center"/>
-        <ui:TextBox Name="SourceDirButton" PlaceholderText="Select the source path of backupjob" Grid.Column="1" Grid.Row="1" Text="{Binding BackupJob.SourceDirectory, Mode=TwoWay}"/>
+        <ui:TextBox Name="SourceDirButton" PlaceholderText="Select the source path of backupjob" Grid.Column="1" Grid.Row="1" Text="{Binding BackupJob.SourceDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <ui:Button Content="..." x:Name="btnOpenSourceFolder" Click="Button_Click_Source_Dir" RenderTransformOrigin="23.492,0.662" Grid.Column="2" Grid.Row="1"/>
 
         <!-- Destination directory of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" Text="Destination Directory" VerticalAlignment="Center"/>
-        <ui:TextBox  Name="DestinationDirButton" PlaceholderText="Select the destincation path of backupjob" Grid.Column="1" Grid.Row="2" Text="{Binding BackupJob.TargetDirectory, Mode=TwoWay}"/>
+        <ui:TextBox  Name="DestinationDirButton" PlaceholderText="Select the destincation path of backupjob" Grid.Column="1" Grid.Row="2" Text="{Binding BackupJob.TargetDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <ui:Button Content="..." x:Name="btnOpenDestinationFolder" Click="Button_Click_Destination_Dir" RenderTransformOrigin="23.492,0.662" Grid.Column="2" Grid.Row="2"/>
 
         <!-- Type of backup -->
@@ -44,19 +45,7 @@
         <Button Grid.Row="4" Command="{Binding CreateBackupJobCommand}" Content="Valider" Grid.Column="1" Margin="510,16,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.441,3.495" />
 
         <!-- Cancel Button -->
-        <Button HorizontalAlignment="Right" Grid.Row="4" Command="{Binding CreateBackupJobCommand}" Content="Cancel" Margin="0,16,96,0" Grid.Column="1" VerticalAlignment="Top" />
-
-
-
-
-
-
-
-
-
-
-
-
+        <Button HorizontalAlignment="Right" Grid.Row="4" Command="{Binding ViewBackupJobsCommand}" Content="Cancel" Margin="0,16,96,0" Grid.Column="1" VerticalAlignment="Top" />
 
     </Grid>
 </UserControl>
