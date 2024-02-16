@@ -11,6 +11,6 @@ namespace EasySave.Domain.Services
     public interface IAppSettingsService
     {
         Task<AppSettings?> GetAppSettings();
-        Task SetAppSettings(AppSettings appSettings);
+        Task SetAppSettings(AppSettings? appSettings);
     }
 }

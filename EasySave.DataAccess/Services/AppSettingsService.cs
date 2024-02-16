@@ -6,6 +6,8 @@ using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.IO;
+using System.Threading.Tasks; // Importez ce namespace pour pouvoir utiliser Task
 
 namespace EasySave.DataAccess.Services
 {
@@ -29,27 +31,17 @@ namespace EasySave.DataAccess.Services
             }
             catch (Exception ex)
             {
-                
+                // Gérer les exceptions ici
             }
             return appSettings;
         }
 
+        // Implémentation de la méthode SetAppSettings
         public async Task SetAppSettings(AppSettings appSettings)
         {
-            List<string> DataFilesTypes = ["json", "xml"];
-            if ((!DataFilesTypes.Contains(appSettings.DataFilesTypes.LogsFileType)) && (!DataFilesTypes.Contains(appSettings.DataFilesTypes.BackupJobsFileType)) && (!DataFilesTypes.Contains(appSettings.DataFilesTypes.StatesFileType)))
-            {
-                Console.WriteLine("Vous avez choisi un nom de fichier qui n'est pas pris en compte. Vous devez choisir soit 'json', soit 'xml'");
-            }
-            else
-            {
-                var options = new JsonSerializerOptions { WriteIndented = true, };
-                using FileStream openStream = File.Open(_filePath, FileMode.Truncate);
-                await JsonSerializer.SerializeAsync(openStream, appSettings, options);
-            }
-            
+            var options = new JsonSerializerOptions { WriteIndented = true, };
+            using FileStream openStream = File.Open(_filePath, FileMode.Truncate);
+            await JsonSerializer.SerializeAsync(openStream, appSettings, options);
         }
-
-       
     }
 }

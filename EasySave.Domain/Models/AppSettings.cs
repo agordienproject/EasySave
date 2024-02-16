@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace EasySave.Domain.Models
 {
 
     public class AppSettings
     {
-        public AppSettings(Localization localization, DataFilesLocation dataFilesLocation, DataFilesTypes dataFilesTypes)
+        public AppSettings(Localization localization, DataFilesLocation dataFilesLocation, DataFilesTypes dataFilesTypes, FileExtensions fileExtensions)
         {
             Localization = localization;
             DataFilesLocation = dataFilesLocation;
             DataFilesTypes = dataFilesTypes;
+            FileExtensions = fileExtensions;
         }
 
         public Localization Localization { get; set; }
         public DataFilesLocation DataFilesLocation { get; set; }
         public DataFilesTypes DataFilesTypes { get; set; }
+        public FileExtensions FileExtensions { get; set; }
     }
 
     public class Localization
@@ -61,4 +65,16 @@ namespace EasySave.Domain.Models
         public string LogsFileType { get; set; }
         public string StatesFileType { get; set; }
     }
+
+
+    public class FileExtensions
+    {
+        public FileExtensions()
+        {
+            AuthorizedExtensions = new ObservableCollection<string>();
+        }
+
+        public ObservableCollection<string> AuthorizedExtensions { get; set; }
+    }
+
 }

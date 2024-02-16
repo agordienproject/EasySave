@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Text.Json;
-using EasySave.Domain.Models; // Ajoutez cette ligne pour inclure l'espace de noms contenant ConfigData
-using System.Globalization;
 using System.Windows.Data;
-using EasySave.WPF.ViewModels;
 using EasySave.DataAccess.Services;
+using EasySave.Domain.Models;
 using EasySave.Domain.Services;
+using EasySave.WPF.ViewModels;
 
 namespace EasySave.WPF.Views
 {
@@ -16,15 +16,53 @@ namespace EasySave.WPF.Views
     {
         private AppSettingsViewModel _viewModel;
         private Dictionary<string, Action<string>> RadioButtonActions;
+        public List<string> FileExtensions { get; set; } = new List<string>(); // Déclaration de la liste FileExtensions
 
         public AppSettingsView()
         {
             InitializeComponent();
-            IAppSettingsService appSettingsService = new AppSettingsService(); // Remplacez AppSettingsService par la classe réelle
+            IAppSettingsService appSettingsService = new AppSettingsService();
             _viewModel = new AppSettingsViewModel(appSettingsService);
 
             InitializeRadioButtonActions();
         }
+
+        // Méthodes existantes
+
+        private void AddFileExtension_Click(object sender, RoutedEventArgs e)
+        {
+            // Récupérer l'extension de fichier entrée par l'utilisateur
+            string newExtension = NewFileExtensionTextBox.Text;
+
+            // Vérifier si l'extension n'est pas déjà dans la liste
+            if (!_viewModel.AppSettings.FileExtensions.AuthorizedExtensions.Contains(newExtension))
+            {
+                // Ajouter la nouvelle extension à la liste dans le modèle de données
+                _viewModel.AppSettings.FileExtensions.AuthorizedExtensions.Add(newExtension);
+
+                // Effacer le champ de texte après l'ajout
+                NewFileExtensionTextBox.Text = string.Empty;
+
+                listboxextensions.ItemsSource = _viewModel.AppSettings.FileExtensions.AuthorizedExtensions;
+            }
+        }
+
+        private void RemoveExtension_Click(object sender, RoutedEventArgs e)
+        {
+            // Vérifiez si un élément est sélectionné dans la liste
+            if (listboxextensions.SelectedItem != null)
+            {
+                // Récupérez l'extension sélectionnée
+                string selectedExtension = listboxextensions.SelectedItem.ToString();
+
+                // Supprimez l'extension de la liste dans le modèle de données
+                _viewModel.AppSettings.FileExtensions.AuthorizedExtensions.Remove(selectedExtension);
+
+                listboxextensions.ItemsSource = _viewModel.AppSettings.FileExtensions.AuthorizedExtensions;
+
+            }
+        }
+
 
         private void InitializeRadioButtonActions()
         {
@@ -105,7 +143,6 @@ namespace EasySave.WPF.Views
 
             return null;
         }
-
     }
 
     public class LanguageToBooleanConverter : IValueConverter
