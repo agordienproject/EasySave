@@ -1,12 +1,9 @@
-﻿using EasySave.DataAccess.Services;
-using EasySave.Domain.Services;
+﻿using EasySave.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.IO;
-using System.Reflection;
 
-namespace EasySave.WPF.HostBuilders
+namespace EasySave.HostBuilders
 {
     public static class AddConfigurationHostBuilderExtensions
     {
@@ -19,7 +16,13 @@ namespace EasySave.WPF.HostBuilders
                 c.AddEnvironmentVariables();
             });
 
-            
+
+            host.ConfigureServices((hostContext, services) =>
+            {
+                IConfiguration config = hostContext.Configuration;
+                
+                services.Configure<AppSettings>(config);
+            });
 
             return host;
         }

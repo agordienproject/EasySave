@@ -1,21 +1,15 @@
-﻿using EasySave.Domain.Models;
-using EasySave.Domain.Services;
-using EasySave.WPF.State.Navigators;
-using EasySave.WPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EasySave.Services.Interfaces;
+using EasySave.State.Navigators;
+using EasySave.ViewModels;
 
-namespace EasySave.WPF.Commands
+namespace EasySave.Commands.BackupJobs
 {
     public class CreateBackupJobCommand : AsyncCommandBase
     {
         private readonly BackupJobCreationViewModel _backupJobCreationViewModel;
         private readonly IBackupJobService _backupJobService;
         private readonly IRenavigator _renavigator;
-        
+
         public CreateBackupJobCommand(BackupJobCreationViewModel backupJobCreationViewModel, IBackupJobService backupJobService, IRenavigator backupJobsListingRenavigator)
         {
             _backupJobCreationViewModel = backupJobCreationViewModel;

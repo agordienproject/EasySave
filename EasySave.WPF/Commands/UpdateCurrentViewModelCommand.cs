@@ -1,13 +1,8 @@
-﻿using EasySave.WPF.State.Navigators;
-using EasySave.WPF.ViewModels.Factories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EasySave.State.Navigators;
+using EasySave.ViewModels.Factories;
 using System.Windows.Input;
 
-namespace EasySave.WPF.Commands
+namespace EasySave.Commands
 {
     public class UpdateCurrentViewModelCommand : ICommand
     {

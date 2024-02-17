@@ -1,14 +1,11 @@
-﻿using EasySave.Domain.Models;
-using EasySave.Domain.Services;
-using EasySave.WPF.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EasySave.Commands;
+using EasySave.Commands.AppSettings;
+using EasySave.Models;
+using EasySave.Services.Interfaces;
+using System.Windows;
 using System.Windows.Input;
 
-namespace EasySave.WPF.ViewModels
+namespace EasySave.ViewModels
 {
     public class AppSettingsViewModel : ViewModelBase
     {
@@ -26,13 +23,20 @@ namespace EasySave.WPF.ViewModels
         public ICommand LoadAppSettingsCommand { get; set; }
         public ICommand SaveAppSettingsCommand { get; set; }
 
-        public AppSettingsViewModel(IAppSettingsService appSettingsService)
+        public ICommand AddFileExtensionCommand { get; set; }
+        public ICommand RemoveFileExtensionCommand { get; set; }
+
+        public AppSettingsViewModel()
         {
-            LoadAppSettingsCommand = new LoadAppSettingsCommand(this, appSettingsService);
-            SaveAppSettingsCommand = new SaveAppSettingsCommand(this, appSettingsService);
+            LoadAppSettingsCommand = new LoadAppSettingsCommand(this);
+            SaveAppSettingsCommand = new SaveAppSettingsCommand(this);
+
+            AddFileExtensionCommand = new AddFileExtensionCommand(this);
+            RemoveFileExtensionCommand = new RemoveFileExtensionCommand(this);
 
             LoadAppSettingsCommand.Execute(this);
         }
+
 
     }
 }

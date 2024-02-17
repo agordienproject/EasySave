@@ -1,18 +1,11 @@
-﻿using EasySave.DataAccess.Services;
-using EasySave.DataAccess.Services.Factories;
-using EasySave.Domain.Models;
-using EasySave.Domain.Services;
-using EasySave.WPF.State.Navigators;
-using Microsoft.Extensions.Configuration;
+﻿using EasySave.Services;
+using EasySave.Services.Factories;
+using EasySave.Services.Interfaces;
+using EasySave.State.Navigators;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EasySave.WPF.HostBuilders
+namespace EasySave.HostBuilders
 {
     public static class AddServicesHostBuilderExtensions
     {
@@ -20,12 +13,13 @@ namespace EasySave.WPF.HostBuilders
         {
             host.ConfigureServices(services =>
             {
-                services.AddSingleton<IAppSettingsService, AppSettingsService>();
                 services.AddSingleton<IFileServiceFactory, FileServiceFactory>();
                 services.AddSingleton<IBackupJobService, BackupJobService>();
                 services.AddSingleton<ILogService, LogService>();
 
                 services.AddSingleton<INavigator, Navigator>();
+
+                
             });
 
             return host;

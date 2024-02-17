@@ -1,11 +1,6 @@
-﻿using EasySave.WPF.State.Navigators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EasySave.State.Navigators;
 
-namespace EasySave.WPF.ViewModels.Factories
+namespace EasySave.ViewModels.Factories
 {
     public interface IEasySaveViewModelFactory
     {

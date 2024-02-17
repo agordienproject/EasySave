@@ -1,77 +1,58 @@
-﻿using EasySave.Domain.Enums;
-using EasySave.Domain.Models;
-using EasySave.Domain.Services;
-using EasySave;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using EasySave.Enums;
 using System.IO;
-using System.Diagnostics; // Ajoutez cette ligne
+using EasySave.Services.Interfaces;
 
-
-namespace EasySave.DataAccess.Services
+namespace EasySave.Models
 {
-    public class BackupJobExecution
+    public class BackupJob : BackupJobInfo, INamedEntity
     {
-        private readonly IStateService _stateService;
         private readonly ILogService _logService;
-        private readonly IConfiguration _configuration;
+        private readonly IBackupJobService _backupJobService;
 
-        private BackupJob _backupJob {  get; set; }
-
-        private State _backupState { get; set; }
-
-
-        public BackupJobExecution(BackupJob backupJob,IStateService stateService, ILogService logService, IConfiguration configuration) 
+        public BackupJob() : base()
         {
-            _stateService = stateService;
-            _logService = logService;
-            _configuration = configuration;
-            _backupJob = backupJob;
-            _backupState = new State(backupJob.BackupName);
+
         }
 
-        public async Task UpdateState(State state)
+        public BackupJob(IBackupJobService backupJobService, ILogService logService) : base()
         {
-            await _stateService.Update(state);
+            _logService = logService;
+            _backupJobService = backupJobService;
+
+            PropertyChanged += async (sender, e) => await _backupJobService.Update(this);
         }
 
         public async Task Execute()
         {
             await InitState();
-            
-            await GetDirectoryInfos(_backupJob.SourceDirectory);
 
-            _backupState.NbFilesLeftToDo = _backupState.TotalFilesNumber;
-            _backupState.FilesSizeLeftToDo = _backupState.TotalFilesSize;
-            await UpdateState(_backupState);
+            await GetDirectoryInfos(SourceDirectory);
 
-            await CopyFiles(_backupJob.BackupName, _backupJob.SourceDirectory, _backupJob.TargetDirectory, _backupJob.BackupType);
+            NbFilesLeftToDo = TotalFilesNumber;
+            FilesSizeLeftToDo = TotalFilesSize;
+
+            await CopyFiles(BackupName, SourceDirectory, TargetDirectory, BackupType);
 
             await ClearState();
         }
 
         private async Task InitState()
         {
-            _backupState.BackupState = Domain.Enums.BackupState.Active;
-            await UpdateState(_backupState);
+            BackupState = BackupState.Active;
         }
 
         private async Task ClearState()
         {
-            _backupState.BackupState = Domain.Enums.BackupState.Inactive;
-            _backupState.BackupTime = DateTime.Now.ToString();
-            _backupState.TotalFilesNumber = 0;
-            _backupState.TotalFilesSize = (long)0;
-            _backupState.NbFilesLeftToDo = 0;
-            _backupState.FilesSizeLeftToDo = (long)0;
-            _backupState.SourceTransferingFilePath = "";
-            _backupState.TargetTransferingFilePath = "";
-            await UpdateState(_backupState);
+            BackupState = BackupState.Inactive;
+            BackupTime = DateTime.Now.ToString();
+            TotalFilesNumber = 0;
+            TotalFilesSize = (long)0;
+            NbFilesLeftToDo = 0;
+            FilesSizeLeftToDo = (long)0;
+            SourceTransferingFilePath = "";
+            TargetTransferingFilePath = "";
         }
 
         private async Task GetDirectoryInfos(string directory)
@@ -83,9 +64,8 @@ namespace EasySave.DataAccess.Services
 
                 foreach (var fichier in files)
                 {
-                    _backupState.TotalFilesNumber++;
-                    _backupState.TotalFilesSize += new FileInfo(fichier).Length;
-                    await UpdateState(_backupState);
+                    TotalFilesNumber++;
+                    TotalFilesSize += new FileInfo(fichier).Length;
                 }
 
                 foreach (var subDir in subDirs)
@@ -95,10 +75,10 @@ namespace EasySave.DataAccess.Services
             }
             catch (Exception e)
             {
-                
+
             }
         }
-        
+
         private async Task CopyFiles(string backupJobName, string sourceDir, string targetDir, BackupType backupType)
         {
             if (!Directory.Exists(sourceDir))
@@ -117,15 +97,13 @@ namespace EasySave.DataAccess.Services
 
                 string targetPath = Path.Combine(targetDir, fileInfo.Name);
 
-                _backupState.SourceTransferingFilePath = filePath;
-                _backupState.TargetTransferingFilePath = targetPath;
-                await UpdateState(_backupState);
+                SourceTransferingFilePath = filePath;
+                TargetTransferingFilePath = targetPath;
 
                 await CopyFile(backupJobName, filePath, targetDir, backupType);
 
-                _backupState.NbFilesLeftToDo--;
-                _backupState.FilesSizeLeftToDo -= fileInfo.Length;
-                await UpdateState(_backupState);
+                NbFilesLeftToDo--;
+                FilesSizeLeftToDo -= fileInfo.Length;
             }
 
             foreach (string subDir in Directory.GetDirectories(sourceDir))
@@ -165,8 +143,7 @@ namespace EasySave.DataAccess.Services
                     fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
 
                     // Vérifier si l'extension est présente dans la liste des extensions autorisées
-                    IConfigurationSection authorizedExtensionsSection = _configuration.GetSection("FileExtensions:AuthorizedExtensions");
-                    List<string> authorizedExtensions = authorizedExtensionsSection.Get<List<string>>();
+                    List<string> authorizedExtensions = Properties.Settings.Default.AuthorizedExtensions.Cast<string>().ToList();
 
                     if (authorizedExtensions.Contains(fileExtension))
                     {
@@ -188,14 +165,14 @@ namespace EasySave.DataAccess.Services
                     transferTime = -1;
                 }
 
-                await _logService.Create(new Log(
-                    backupJobName,
-                    sourceFilePath,
-                    targetFilePath,
-                    sourceFileInfo.Length,
-                    transferTime,
-                    DateTime.Now.ToString()
-                ));
+                //await _logService.Create(new Log(
+                //    backupJobName,
+                //    sourceFilePath,
+                //    targetFilePath,
+                //    sourceFileInfo.Length,
+                //    transferTime,
+                //    DateTime.Now.ToString()
+                //));
 
             }
         }
@@ -207,19 +184,10 @@ namespace EasySave.DataAccess.Services
             // Check if the file already exists in the target directory
             if (!File.Exists(targetFilePath))
             {
-                shouldCopy = true;
-                return shouldCopy;
+                return true;
             }
 
-            string sourceFileHash = CalculateMD5(sourceFilePath);
-            string destFileHash = CalculateMD5(targetFilePath);
 
-            if (sourceFileHash != destFileHash)
-            {
-                // The source file is more recent, so we copy it
-                shouldCopy = true;
-                return shouldCopy;
-            }
 
             return shouldCopy;
         }

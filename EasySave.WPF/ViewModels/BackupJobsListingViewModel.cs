@@ -1,14 +1,12 @@
-﻿using EasySave.Domain.Models;
-using EasySave.Domain.Services;
-using EasySave.WPF.Commands;
-using EasySave.WPF.Commands.BackupJobs;
-using EasySave.WPF.State.Navigators;
+﻿using EasySave.Commands;
+using EasySave.Commands.BackupJobs;
+using EasySave.Models;
+using EasySave.Services.Interfaces;
+using EasySave.State.Navigators;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Windows.Input;
 
-namespace EasySave.WPF.ViewModels
+namespace EasySave.ViewModels
 {
     public class BackupJobsListingViewModel : ViewModelBase
     {

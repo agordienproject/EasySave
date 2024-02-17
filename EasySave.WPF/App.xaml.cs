@@ -1,16 +1,11 @@
-﻿using EasySave.DataAccess.Services;
-using EasySave.Domain.Models;
-using EasySave.WPF.HostBuilders;
+﻿using EasySave.HostBuilders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
-using System.Data;
 using System.Globalization;
-using System.IO;
 using System.Windows;
 
-namespace EasySave.WPF
+namespace EasySave
 {
     public partial class App : Application
     {
@@ -34,7 +29,8 @@ namespace EasySave.WPF
         {
             _host.Start();
 
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(_host.Services.GetRequiredService<IConfiguration>()["Localization:CurrentCulture"]);
+            EasySave.Properties.Settings.Default.CurrentCulture = "fr-FR";
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);
 
             Window window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();

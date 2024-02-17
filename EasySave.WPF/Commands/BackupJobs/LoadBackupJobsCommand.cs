@@ -1,14 +1,9 @@
-﻿using EasySave.Domain.Models;
-using EasySave.Domain.Services;
-using EasySave.WPF.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using EasySave.Models;
+using EasySave.Services.Interfaces;
+using EasySave.ViewModels;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EasySave.WPF.Commands
+namespace EasySave.Commands.BackupJobs
 {
     public class LoadBackupJobsCommand : AsyncCommandBase
     {

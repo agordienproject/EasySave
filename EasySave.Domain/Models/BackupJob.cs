@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using EasySave.Domain.Enums;
 using EasySave.Domain.Services;
@@ -10,14 +11,14 @@ namespace EasySave.Domain.Models
     {
         private readonly ILogService _logService;
         private readonly IBackupJobService _backupJobService;
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _configuration;
 
         public BackupJob() : base()
         {
 
         }
 
-        public BackupJob(IBackupJobService backupJobService, ILogService logService, IConfiguration configuration) : base()
+        public BackupJob(IBackupJobService backupJobService, ILogService logService, AppSettings configuration) : base()
         {
             _logService = logService;
             _backupJobService = backupJobService;
@@ -145,8 +146,7 @@ namespace EasySave.Domain.Models
                     fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
 
                     // Vérifier si l'extension est présente dans la liste des extensions autorisées
-                    IConfigurationSection authorizedExtensionsSection = _configuration.GetSection("FileExtensions:AuthorizedExtensions");
-                    List<string> authorizedExtensions = authorizedExtensionsSection.Get<List<string>>();
+                    List<string> authorizedExtensions = _configuration.FileExtensions.AuthorizedExtensions.ToList();
 
                     if (authorizedExtensions.Contains(fileExtension))
                     {
@@ -190,7 +190,7 @@ namespace EasySave.Domain.Models
                 return true;
             }
 
-            
+
 
             return shouldCopy;
         }

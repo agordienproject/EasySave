@@ -45,5 +45,21 @@ namespace EasySave.DataAccess.Services
             using FileStream openStream = File.Open(_filePath, FileMode.Truncate);
             await JsonSerializer.SerializeAsync(openStream, appSettings, options);
         }
+
+        public static async Task<AppSettings?> AppSettings()
+        {
+            using FileStream openStream = File.OpenRead("appsettings.json");
+
+            AppSettings? appSettings = null;
+            try
+            {
+                appSettings = await JsonSerializer.DeserializeAsync<AppSettings>(openStream);
+            }
+            catch (Exception ex)
+            {
+                // Gérer les exceptions ici
+            }
+            return appSettings;
+        }
     }
 }

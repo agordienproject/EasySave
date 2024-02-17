@@ -1,16 +1,11 @@
-﻿using EasySave.Domain.Models;
-using EasySave.Domain.Services;
-using EasySave.WPF.Commands;
-using EasySave.WPF.State.Navigators;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EasySave.Commands;
+using EasySave.Commands.BackupJobs;
+using EasySave.Models;
+using EasySave.Services.Interfaces;
+using EasySave.State.Navigators;
 using System.Windows.Input;
 
-namespace EasySave.WPF.ViewModels
+namespace EasySave.ViewModels
 {
     public class BackupJobCreationViewModel : ViewModelBase
     {
@@ -33,11 +28,11 @@ namespace EasySave.WPF.ViewModels
         public ICommand CreateBackupJobCommand { get; set; }
         public ICommand ViewBackupJobsCommand { get; set; }
 
-        public BackupJobCreationViewModel(IBackupJobService backupJobService, IRenavigator backupJobsListingRenavigator, ILogService logService, IConfiguration configuration)
+        public BackupJobCreationViewModel(IBackupJobService backupJobService, IRenavigator backupJobsListingRenavigator, ILogService logService)
         {
             _backupJobService = backupJobService;
 
-            this.BackupJob = new BackupJob(backupJobService, logService, configuration);
+            this.BackupJob = new BackupJob(backupJobService, logService);
 
             CreateBackupJobCommand = new CreateBackupJobCommand(this, backupJobService, backupJobsListingRenavigator);
 
