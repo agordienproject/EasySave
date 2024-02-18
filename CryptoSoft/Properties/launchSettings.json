@@ -2,7 +2,7 @@
   "profiles": {
     "CryptoSoft": {
       "commandName": "Project",
-      "commandLineArgs": "-s C:\\Users\\funny\\Desktop\\SourceDirectory\\Dossier1\\dazdacipher.jpg -d C:\\Users\\funny\\Desktop\\SourceDirectory\\Dossier1\\dazdaunciphered.jpg"
+      "commandLineArgs": "-s C:\\Users\\Alexis\\Documents\\#CESI\\2023-2024\\PROJETS\\BLOC-PROXYS\\source\\state.json -d C:\\Users\\Alexis\\Documents\\#CESI\\2023-2024\\PROJETS\\BLOC-PROXYS\\cible"
     }
   }
 }

@@ -171,22 +171,45 @@ namespace EasySave.DataAccess.Services
                     if (authorizedExtensions.Contains(fileExtension))
                     {
                         string cryptoSoftPath = Path.Combine("..", "..", "..", "..", "CryptoSoft", "bin", "Debug", "net8.0", "CryptoSoft.exe");
-                        //string cryptoSoftPath = "C:\\Users\\Alexis\\Documents\\#CESI\\2023-2024\\PROJETS\\BLOC-PROXYS\\LIVRABLE-II\\V2.0\\CryptoSoft\\bin\\Debug\\net8.0\\CryptoSoft.exe";
-                        string cryptoSoftArg = String.Concat("-s ", sourceFilePath, " -d ", targetFilePath);
-                        Process.Start(cryptoSoftPath, cryptoSoftArg);
+                        string cryptoSoftArg = $"-s \"{sourceFilePath}\" -d \"{targetFilePath}\"";
 
+                        Process process = new Process();
+                        process.StartInfo.FileName = cryptoSoftPath;
+                        process.StartInfo.Arguments = cryptoSoftArg;
+                        process.StartInfo.RedirectStandardOutput = true;
+                        process.StartInfo.UseShellExecute = false;
+
+                        process.Start();
+                        process.WaitForExit();
+
+                        int exitCode = process.ExitCode;
+
+                        if (exitCode < 0)
+                        {
+                            // Gérer l'erreur selon le code de sortie
+                            Console.WriteLine("Il y a eu une erreur lors du traitement.");
+                        }
+                        else
+                        {
+                            double transferCryptTime;
+                            transferCryptTime = exitCode / 1000; 
+                            Console.WriteLine($"Le traitement s'est terminé avec succès. Temps de cryptage : {transferCryptTime} s");
+                        }
                     }
                     else
                     {
                         File.Copy(sourceFilePath, targetFilePath, true);
                     }
+
                     DateTime after = DateTime.Now;
-                    transferTime = after.Subtract(before).TotalSeconds;
+                    transferTime = (after - before).TotalSeconds;
                 }
                 catch (Exception)
                 {
+                    // Gérer l'exception
                     transferTime = -1;
                 }
+
 
                 await _logService.Create(new Log(
                     backupJobName,

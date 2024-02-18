@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.CommandLine;
 using System.CommandLine.Invocation;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Resources;
 
 namespace CryptoSoft
 {
-    public class Program 
+    public class Program
     {
         public static async Task<int> Main(string[] args)
         {
@@ -45,26 +47,57 @@ namespace CryptoSoft
             #region HANDLERS
             rootCommand.SetHandler((sourceFilePath, destinationFilePath) =>
             {
+                double transferTime;
+
                 var key = configuration["cipherKey"];
+                DateTime DateBefore = DateTime.Now;
+                var success = XORCipher(sourceFilePath, destinationFilePath, key);
                 XORCipher(sourceFilePath, destinationFilePath, key);
+                DateTime DateAfter = DateTime.Now;
+                transferTime = (DateAfter - DateBefore).TotalSeconds;
+                Console.WriteLine(transferTime);
+                int exitCode = (int)(transferTime * 1000); // Conversion du temps en millisecondes à un entier
+                Console.WriteLine(exitCode);
+
+
+                if (success)
+                {
+                    Console.WriteLine("Test réussi");
+                    Environment.ExitCode = 1; // Succès
+                }
+                else
+                {
+                    Console.WriteLine("Test échoué");
+                    Environment.ExitCode = -1; // Échec
+                }
+
             }, sourceFilePathOption, destinationFilePathOption);
             #endregion
 
             return await rootCommand.InvokeAsync(args);
         }
 
-        private static void XORCipher(string sourceFilePath, string destinationFilePath, string key)
+        private static bool XORCipher(string sourceFilePath, string destinationFilePath, string key)
         {
-            byte[] sourceBytes = File.ReadAllBytes(sourceFilePath);
-            byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
-
-            // XOR
-            for (int i = 0; i < sourceBytes.Length; i++)
+            try
             {
-                sourceBytes[i] ^= keyBytes[i % keyBytes.Length];
-            }
+                byte[] sourceBytes = File.ReadAllBytes(sourceFilePath);
+                byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
 
-            File.WriteAllBytes(destinationFilePath, sourceBytes);
+                // XOR
+                for (int i = 0; i < sourceBytes.Length; i++)
+                {
+                    sourceBytes[i] ^= keyBytes[i % keyBytes.Length];
+                }
+
+                File.WriteAllBytes(destinationFilePath, sourceBytes);
+                return true; // Succès
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors du chiffrement : {ex.Message}");
+                return false; // Échec
+            }
         }
     }
 

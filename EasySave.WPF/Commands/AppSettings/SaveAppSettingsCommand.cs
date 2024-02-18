@@ -25,8 +25,6 @@ namespace EasySave.WPF.Commands
         public override async Task ExecuteAsync(object parameter)
         {
             await _appSettingsService.SetAppSettings(_appSettingsViewModel.AppSettings);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(_appSettingsViewModel.AppSettings.Localization.CurrentCulture);
-            Application.Current.MainWindow.UpdateLayout();
         }
     }
 }
