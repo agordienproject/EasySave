@@ -47,29 +47,22 @@ namespace CryptoSoft
             #region HANDLERS
             rootCommand.SetHandler((sourceFilePath, destinationFilePath) =>
             {
-                double transferTime;
-
                 var key = configuration["cipherKey"];
+
                 DateTime DateBefore = DateTime.Now;
-                var success = XORCipher(sourceFilePath, destinationFilePath, key);
-                XORCipher(sourceFilePath, destinationFilePath, key);
+                bool success = XORCipher(sourceFilePath, destinationFilePath, key);
+                
+                if (!success)
+                {
+                    Environment.Exit(-1);
+                }
+                
                 DateTime DateAfter = DateTime.Now;
-                transferTime = (DateAfter - DateBefore).TotalSeconds;
-                Console.WriteLine(transferTime);
+
+                double transferTime = (DateAfter - DateBefore).TotalSeconds;
                 int exitCode = (int)(transferTime * 1000); // Conversion du temps en millisecondes à un entier
-                Console.WriteLine(exitCode);
-
-
-                if (success)
-                {
-                    Console.WriteLine("Test réussi");
-                    Environment.ExitCode = exitCode; // Succès
-                }
-                else
-                {
-                    Console.WriteLine("Test échoué");
-                    Environment.ExitCode = -1; // Échec
-                }
+                
+                Environment.Exit(exitCode);
 
             }, sourceFilePathOption, destinationFilePathOption);
             #endregion

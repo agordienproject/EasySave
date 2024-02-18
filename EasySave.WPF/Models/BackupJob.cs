@@ -151,9 +151,8 @@ namespace EasySave.Models
             if ((targetFileExist && shouldCopy) || !targetFileExist)
             {
                 FileInfo sourceFileInfo = new(sourceFilePath);
-
                 double transferTime;
-
+                double encryptionTime = 0;
                 try
                 {
                     DateTime before = DateTime.Now;
@@ -175,22 +174,20 @@ namespace EasySave.Models
                         process.StartInfo.Arguments = cryptoSoftArg;
                         process.StartInfo.RedirectStandardOutput = true;
                         process.StartInfo.UseShellExecute = false;
+                        process.EnableRaisingEvents = true;
 
                         process.Start();
+
                         process.WaitForExit();
 
-                        int exitCode = process.ExitCode;
+                        double exitCode = process.ExitCode;
 
-                        if (exitCode < 0)
+                        if (exitCode >= 0)
                         {
-                            // Gérer l'erreur selon le code de sortie
-                            Console.WriteLine("Il y a eu une erreur lors du traitement.");
-                        }
-                        else
+                            encryptionTime = (exitCode / 1000); 
+                        } else if (exitCode == -1)
                         {
-                            double transferCryptTime;
-                            transferCryptTime = exitCode / 1000; 
-                            Console.WriteLine($"Le traitement s'est terminé avec succès. Temps de cryptage : {transferCryptTime} s");
+                            encryptionTime = exitCode;
                         }
                     }
                     else
@@ -203,10 +200,8 @@ namespace EasySave.Models
                 }
                 catch (Exception)
                 {
-                    // Gérer l'exception
                     transferTime = -1;
                 }
-
 
                 await _logService.Create(new Log(
                     backupJobName,
@@ -214,6 +209,7 @@ namespace EasySave.Models
                     targetFilePath,
                     sourceFileInfo.Length,
                     transferTime,
+                    encryptionTime,
                     DateTime.Now.ToString()
                 ));
 
@@ -238,5 +234,6 @@ namespace EasySave.Models
 
             return shouldCopy;
         }
+
     }
 }
