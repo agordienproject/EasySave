@@ -7,47 +7,58 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
             x:Class="EasySave.Views.BackupJobCreationView"
              xmlns:localization="clr-namespace:EasySave.Resources" 
-            mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    
-    <Grid Background="White" Cursor="IBeam">
+            mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid Cursor="IBeam" Background="{StaticResource BrushPrimary4}" >
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
             <ColumnDefinition Width="70*"/>
             <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--Title-->
+        <ui:TextBlock Margin="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Text="Ajouter une sauvegarde" FontSize="24" Grid.ColumnSpan="2"/>
+
         <!-- Name of backup -->
-        <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="0" TextWrapping="Wrap" Text="{x:Static localization:Localization.Name}" VerticalAlignment="Center"/>
-        <ui:TextBox PlaceholderText="{x:Static localization:Localization.PlaceHolderName}"  Grid.Column="1" Grid.Row="0" Text="{Binding BackupJob.BackupName, Mode=TwoWay}"/>
-       
+        <ui:TextBlock HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Text="{x:Static localization:Localization.Name}" VerticalAlignment="Center" FontSize="14"/>
+        <ui:TextBox Margin="0,15,0,15" PlaceholderText="{x:Static localization:Localization.PlaceHolderName}"  Grid.Column="1" Grid.Row="1" Text="{Binding BackupJob.BackupName, Mode=TwoWay}"/>
+
         <!-- Source directory of backup -->
-        <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Text="{x:Static localization:Localization.SourceDirectory}" VerticalAlignment="Center"/>
-        <ui:TextBox Name="SourceDirButton" PlaceholderText="{x:Static localization:Localization.PlaceHolderSourceDirectory}" Grid.Column="1" Grid.Row="1" Text="{Binding BackupJob.SourceDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <ui:Button Content="..." x:Name="btnOpenSourceFolder" Click="Button_Click_Source_Dir" RenderTransformOrigin="23.492,0.662" Grid.Column="2" Grid.Row="1"/>
+        <ui:TextBlock HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" Text="{x:Static localization:Localization.SourceDirectory}" VerticalAlignment="Center" FontSize="14"/>
+        <ui:TextBox Margin="0,15,0,15" Name="SourceDirButton" PlaceholderText="{x:Static localization:Localization.PlaceHolderSourceDirectory}" Grid.Column="1" Grid.Row="2" Text="{Binding BackupJob.SourceDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <ui:Button Content="..." x:Name="btnOpenSourceFolder" Click="Button_Click_Source_Dir" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center"/>
 
         <!-- Destination directory of backup -->
-        <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="2" TextWrapping="Wrap" Text="{x:Static localization:Localization.DestinationDirectory}" VerticalAlignment="Center"/>
-        <ui:TextBox  Name="DestinationDirButton" PlaceholderText="{x:Static localization:Localization.PlaceHolderDestinationDirectory}" Grid.Column="1" Grid.Row="2" Text="{Binding BackupJob.TargetDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <ui:Button Content="..." x:Name="btnOpenDestinationFolder" Click="Button_Click_Destination_Dir" RenderTransformOrigin="23.492,0.662" Grid.Column="2" Grid.Row="2"/>
+        <ui:TextBlock HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Column="0" Grid.Row="3" TextWrapping="Wrap" Text="{x:Static localization:Localization.DestinationDirectory}" VerticalAlignment="Center" FontSize="14"/>
+        <ui:TextBox  Margin="0,15,0,15" Name="DestinationDirButton" PlaceholderText="{x:Static localization:Localization.PlaceHolderDestinationDirectory}" Grid.Column="1" Grid.Row="3" Text="{Binding BackupJob.TargetDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <ui:Button Content="..." x:Name="btnOpenDestinationFolder" Click="Button_Click_Destination_Dir" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center"/>
 
         <!-- Type of backup -->
-        <ui:TextBlock HorizontalAlignment="Left" Margin="24,0,0,0" Grid.Column="0" Grid.Row="3" TextWrapping="Wrap" Text="{x:Static localization:Localization.BackupType}"  VerticalAlignment="Center"/>
-        <ui:TextBox PlaceholderText="{x:Static localization:Localization.PlaceHolderType}"  Grid.Column="1" Grid.Row="3" Text="{Binding BackupJob.BackupType, Mode=TwoWay}" />
+        <ui:TextBlock HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Column="0" Grid.Row="4" TextWrapping="Wrap" Text="{x:Static localization:Localization.BackupType}"  VerticalAlignment="Center" FontSize="14"/>
+        <ui:TextBox Margin="0,15,0,15" x:Name="TextBoxTypeBackup" PlaceholderText="{x:Static localization:Localization.PlaceHolderType}"  Grid.Column="1" Grid.Row="4" Text="{Binding BackupJob.BackupType, Mode=TwoWay}" IsReadOnly="True"/>
+        <ui:DropDownButton Grid.Column="2" Content="" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <ui:DropDownButton.Flyout>
+                <ContextMenu>
+                    <MenuItem x:Name="CompleteMenuItem" Header="Complete" Click="MenuItem_Click"/>
+                    <MenuItem x:Name="DiferentialMenuItem" Header="Diferential" Click="MenuItem_Click"/>
+                </ContextMenu>
+            </ui:DropDownButton.Flyout>
+        </ui:DropDownButton>
 
         <!-- Validate Button -->
-        <Button Grid.Row="4" Command="{Binding CreateBackupJobCommand}" Content="{x:Static localization:Localization.ButtonValidate}" Grid.Column="1" Margin="510,16,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.441,3.495" />
+        <Button Background="#71D675" HorizontalAlignment="Right" Grid.Row="5" Command="{Binding CreateBackupJobCommand}" Content="{x:Static localization:Localization.ButtonValidate}" Grid.Column="1" Margin="24,12,0,0" VerticalAlignment="Bottom"/>
 
         <!-- Cancel Button -->
-        <Button HorizontalAlignment="Right" Grid.Row="4" Command="{Binding ViewBackupJobsCommand}" Content="{x:Static localization:Localization.ButtonCancel}" Margin="0,16,96,0" Grid.Column="1" VerticalAlignment="Top" />
-        
+        <Button Background="#F85C5C" HorizontalAlignment="Right" Grid.Row="5" Command="{Binding CreateBackupJobCommand}" Content="{x:Static localization:Localization.ButtonCancel}" Margin="0,0,100,0" Grid.Column="1" VerticalAlignment="Bottom" />
 
 
     </Grid>

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace EasySave.Controls
 {
@@ -11,5 +12,21 @@ namespace EasySave.Controls
         {
             InitializeComponent();
         }
+
+        private void MessageBoxDeleteBackup(object sender, RoutedEventArgs e)
+        {
+
+            MessageBox.Show("Backupjob is deleted", "Message");
+
+        }
+
+        private void MessageBoxLaunchBackup(object sender, RoutedEventArgs e)
+        {
+
+            MessageBox.Show("Backupjob is launched", "Message");
+
+        }
     }
+
+
 }

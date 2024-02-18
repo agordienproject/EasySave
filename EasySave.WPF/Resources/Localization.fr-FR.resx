@@ -107,7 +107,7 @@
     <value>Sélectionner le chemin de destination de la sauvegarde</value>
   </data>
   <data name="PlaceHolderType" xml:space="preserve">
-    <value>Ecrire le type de la sauvegarde</value>
+    <value>Sélectionner le type de la sauvegarde</value>
   </data>
   <data name="ButtonValidate" xml:space="preserve">
     <value>Valider</value>

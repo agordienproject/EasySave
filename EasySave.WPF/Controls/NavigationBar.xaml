@@ -10,12 +10,12 @@
              xmlns:localization="clr-namespace:EasySave.Resources"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="#DCDCDC">
     <UserControl.Resources>
         <converters:EqualValueToParameterConverter x:Key="EqualValueToParameterConverter" />
     </UserControl.Resources>
-    
-    <Grid Background="{StaticResource BrushPrimary2}">
+    <Grid>
         <Grid.Resources>
             <Style BasedOn="{StaticResource NavButton}" TargetType="RadioButton" />
         </Grid.Resources>
@@ -26,19 +26,28 @@
         </Grid.RowDefinitions>
 
         <Image Grid.Row="0" Margin="20" HorizontalAlignment="Left" Source="/Resources/prosoft-logo.png" MaxWidth="100" MaxHeight="100"/>
-        <RadioButton Grid.Row="1"
-                     Padding="20, 15"
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="DocumentSave24" FontSize="25" Margin="5,0,0,0"/>
+            <RadioButton
+                    Grid.Row="1"
+                    Padding="20, 15"
                     Content="{x:Static localization:Localization.BackupJobs}"
                     Command="{Binding UpdateCurrentViewModelCommand}"
                     CommandParameter="{x:Static navigators:ViewType.BackupJobs}"
-                    IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:BackupJobsListingViewModel}}" />
-        <RadioButton Grid.Row="2"
-                     Padding="20, 15"
+                    IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:BackupJobsListingViewModel}}" Width="117">
+            </RadioButton>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Settings48" FontSize="25" Margin="5,0,0,0"/>
+            <RadioButton
+                    Grid.Row="2"
+                    Padding="20, 15"
                     Content="{x:Static localization:Localization.Setting}"
                     Command="{Binding UpdateCurrentViewModelCommand}"
                     CommandParameter="{x:Static navigators:ViewType.AppSettings}"
                     IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:AppSettingsViewModel}}" />
-
+        </StackPanel>
         <!--<ui:NavigationView Grid.Column="0" IsBackButtonVisible="Collapsed">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem 
@@ -61,5 +70,6 @@
                 </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
         </ui:NavigationView>-->
+            
     </Grid>
 </UserControl>

@@ -61,7 +61,7 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à At.
+        ///   Recherche une chaîne localisée semblable à To.
         /// </summary>
         public static string At {
             get {
@@ -178,7 +178,7 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Write the type of backupjob.
+        ///   Recherche une chaîne localisée semblable à Select the type of backupjob.
         /// </summary>
         public static string PlaceHolderType {
             get {
