@@ -51,7 +51,7 @@
 
             <ui:SymbolIcon Grid.Column="0" Symbol="Settings48" FontSize="25"/>
             <RadioButton Grid.Column="1" Width="125"
-                    Content="{x:Static localization:Localization.Setting}"
+                    Content="{x:Static localization:Localization.Settings}"
                     Command="{Binding UpdateCurrentViewModelCommand}"
                     CommandParameter="{x:Static navigators:ViewType.AppSettings}"
                     IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:AppSettingsViewModel}}" />

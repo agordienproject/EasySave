@@ -34,7 +34,7 @@
                 <DataGridTextColumn Header="{x:Static localization:Localization.SourceDirectory}" Binding="{Binding SourceDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="{x:Static localization:Localization.DestinationDirectory}" Binding="{Binding TargetDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="{x:Static localization:Localization.BackupType}" Binding="{Binding BackupType, Mode=TwoWay}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="State" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.State}" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
                 <DataGridTextColumn Header="Progression" Binding="{Binding Progression, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Execute}">
                     <DataGridTemplateColumn.CellTemplate>

@@ -21,7 +21,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Settings" FontSize="24" FontWeight="Bold" Margin="30" HorizontalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Text="{x:Static localization:Localization.Settings}" FontSize="24" FontWeight="Bold" Margin="30" HorizontalAlignment="Center"/>
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -78,20 +78,20 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                
-                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="File Extensions" FontWeight="Bold" Margin="10"/>
+
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="{x:Static localization:Localization.SettingTypeLogFile}" FontWeight="Bold" Margin="10"/>
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <ui:TextBox x:Name="NewFileExtensionTextBox" PlaceholderEnabled="True" PlaceholderText="File extension" Width="200" Margin="10" HorizontalAlignment="Right"/>
-                        <Button x:Name="AddFileExtension" Content="Add" Command="{Binding AddFileExtensionCommand}" CommandParameter="{Binding ElementName=NewFileExtensionTextBox, Path=Text}" Width="78" Margin="10" HorizontalAlignment="Right"/>
+                        <ui:TextBox x:Name="NewFileExtensionTextBox" PlaceholderEnabled="True" PlaceholderText="{x:Static localization:Localization.SettingTypeLogFile}" Width="200" Margin="10" HorizontalAlignment="Right"/>
+                        <Button x:Name="AddFileExtension" Content="{x:Static localization:Localization.Add}" Command="{Binding AddFileExtensionCommand}" CommandParameter="{Binding ElementName=NewFileExtensionTextBox, Path=Text}" Width="78" Margin="10" HorizontalAlignment="Right"/>
                     </StackPanel>
                 </Grid>
 
                 <!-- Liste des extensions de fichiers -->
                 <ListView x:Name="listboxextensions" ItemsSource="{Binding FileExtensions}" Margin="10" SelectedItem="{Binding SelectedFileExtension}"/>
-                <Button x:Name="RemoveFileExtension" Content="Remove" Command="{Binding RemoveFileExtensionCommand}" HorizontalAlignment="Right" Width="78" Margin="10"/>
+                <Button x:Name="RemoveFileExtension" Content="Remove" Command="{Binding RemoveFileExtensionCommand}" HorizontalAlignment="Right" Width="78" Margin="10" Background="#F85C5C"/>
 
-                <TextBlock Text="Business Application" FontWeight="Bold" Margin="10"/>
+                <TextBlock Text="{x:Static localization:Localization.BusinessApplication}" FontWeight="Bold" Margin="10"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBox Text="{Binding AppSettings.BusinessAppName, Mode=TwoWay}" x:Name="BusinessAppTextBox" Margin="10" Width="200"/>
                 </StackPanel>
@@ -101,7 +101,8 @@
 
         <Button Grid.Row="2" Margin="30" HorizontalAlignment="Right" VerticalAlignment="Top"
                 Content="{x:Static localization:Localization.ButtonValidate}" 
-                Command="{Binding SaveAppSettingsCommand}"/>
+                Command="{Binding SaveAppSettingsCommand}"
+                Background="#71D675"/>
     </Grid>
 </UserControl>
     
