@@ -63,7 +63,7 @@ namespace CryptoSoft
                 if (success)
                 {
                     Console.WriteLine("Test réussi");
-                    Environment.ExitCode = 1; // Succès
+                    Environment.ExitCode = exitCode; // Succès
                 }
                 else
                 {
