@@ -8,11 +8,13 @@
              xmlns:viewmodels="clr-namespace:EasySave.ViewModels"
              xmlns:converters="clr-namespace:EasySave.Converters"
              xmlns:localization="clr-namespace:EasySave.Resources"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:EqualValueToParameterConverter x:Key="EqualValueToParameterConverter" />
     </UserControl.Resources>
+    
     <Grid Background="{StaticResource BrushPrimary2}">
         <Grid.Resources>
             <Style BasedOn="{StaticResource NavButton}" TargetType="RadioButton" />
@@ -36,5 +38,28 @@
                     Command="{Binding UpdateCurrentViewModelCommand}"
                     CommandParameter="{x:Static navigators:ViewType.AppSettings}"
                     IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:AppSettingsViewModel}}" />
+
+        <!--<ui:NavigationView Grid.Column="0" IsBackButtonVisible="Collapsed">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem 
+                    Content="{x:Static localization:Localization.BackupJobs}" 
+                    Command="{Binding UpdateCurrentViewModelCommand}" 
+                    CommandParameter="{x:Static navigators:ViewType.BackupJobs}"
+                    IsActive="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:BackupJobsListingViewModel}}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="List24" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+                <ui:NavigationViewItem 
+                    Content="{x:Static localization:Localization.Setting}" 
+                    Command="{Binding UpdateCurrentViewModelCommand}" 
+                    CommandParameter="{x:Static navigators:ViewType.AppSettings}"
+                    IsActive="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:AppSettingsViewModel}}">
+                    <ui:NavigationViewItem.Icon>
+                        <ui:SymbolIcon Symbol="Settings24" />
+                    </ui:NavigationViewItem.Icon>
+                </ui:NavigationViewItem>
+            </ui:NavigationView.MenuItems>
+        </ui:NavigationView>-->
     </Grid>
 </UserControl>

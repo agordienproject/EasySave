@@ -180,11 +180,11 @@ namespace EasySave.Models
         {
             get
             {
-                if (TotalFilesSize > 0)
+                if (TotalFilesSize > 0 && FilesSizeLeftToDo != 0)
                 {
                     return (((TotalFilesSize - FilesSizeLeftToDo) / TotalFilesSize) * 100).ToString("#.##") + "%";
                 }
-                return "0";
+                return "";
             }
         }
 

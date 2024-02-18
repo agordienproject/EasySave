@@ -20,6 +20,7 @@ namespace EasySave.Commands.BackupJobs
 
         public override async Task ExecuteAsync(object parameter)
         {
+            _backupJobsViewModel.BackupJobs = new ObservableCollection<BackupJob>();
             foreach (var backupJobInfo in await _backupJobService.GetAll())
             {
                 _backupJobsViewModel.BackupJobs.Add(new BackupJob(_backupJobService, _logService, backupJobInfo));

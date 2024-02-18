@@ -5,16 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EasySave"
         xmlns:controls="clr-namespace:EasySave.Controls"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:localization="clr-namespace:EasySave.Resources"
         mc:Ignorable="d"
         Title="EasySave" MinHeight="450" MinWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <controls:NavigationBar Grid.Column="0"/>
 
+
         <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}"/>
+
     </Grid>
 </Window>

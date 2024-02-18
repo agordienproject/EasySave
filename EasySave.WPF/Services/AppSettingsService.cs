@@ -3,6 +3,8 @@ using System.Text.Json;
 using System.IO;
 using EasySave.Services.Interfaces;
 using System.Collections.Specialized;
+using System.Diagnostics;
+using System.Windows;
 
 namespace EasySave.Services
 {
@@ -33,6 +35,9 @@ namespace EasySave.Services
             Properties.Settings.Default.AuthorizedExtensions = strings;
 
             Properties.Settings.Default.Save();
+
+            Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+            Application.Current.Shutdown();
         }
     }
 }

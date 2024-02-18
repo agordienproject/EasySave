@@ -5,16 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasySave.Controls" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:localization="clr-namespace:EasySave.Resources"
-             xmlns:converters="clr-namespace:EasySave.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <UserControl.Resources>
-        <converters:BackupJobProgressionConverter x:Key="BackupJobProgressionConverter"/>
-    </UserControl.Resources>
-
     <Grid>
-        
         <DataGrid 
             ItemsSource="{Binding BackupJobs}" 
             SelectedItem="{Binding SelectedBackupJob}"
@@ -43,12 +37,11 @@
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Execute}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent" 
-                                    Command="{Binding DataContext.ExecuteBackupJobCommand, 
-                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Command="{Binding DataContext.ExecuteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                     CommandParameter="{Binding}"
                                     BorderThickness="0">
-                                <ui:SymbolIcon Symbol="AddCircle28" />
+                                <ui:SymbolIcon Symbol="Play48" />
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -56,7 +49,7 @@
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Delete}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Background="Transparent" 
+                            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                     Command="{Binding DataContext.DeleteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                     CommandParameter="{Binding}"
                                     BorderThickness="0">
@@ -67,8 +60,5 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-
-        <!--<ProgressBar Minimum="0" Maximum="{Binding SelectedBackupJob.TotalFilesNumber, Mode=TwoWay}" Value="{Binding SelectedBackupJob.NbFilesLeftToDo, Mode=TwoWay}"/>-->
-        
     </Grid>
 </UserControl>

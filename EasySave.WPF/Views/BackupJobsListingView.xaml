@@ -15,7 +15,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <controls:BackupJobsActionsMenu Grid.Row="0" HorizontalAlignment="Right"/>
+        <controls:BackupJobsActionsMenu Grid.Row="0" HorizontalAlignment="Right" Margin="0,0,10,0"/>
         <controls:BackupJobsDataGrid Grid.Row="1" Margin="10,0,10,0"/>
     </Grid>
 </UserControl>

@@ -54,6 +54,13 @@ namespace EasySave.Models
         private async Task InitState()
         {
             BackupState = BackupState.Active;
+            BackupTime = DateTime.Now.ToString();
+            TotalFilesNumber = 0;
+            TotalFilesSize = (long)0;
+            NbFilesLeftToDo = 0;
+            FilesSizeLeftToDo = (long)0;
+            SourceTransferingFilePath = "";
+            TargetTransferingFilePath = "";
         }
 
         private async Task ClearState()
@@ -136,7 +143,7 @@ namespace EasySave.Models
 
             if (backupType == BackupType.Differential)
             {
-                shouldCopy = ShouldCopyFile(sourceFilePath, targetFilePath);
+                shouldCopy = ShouldCopyFileDifferential(sourceFilePath, targetFilePath);
             }
 
             bool targetFileExist = File.Exists(targetFilePath);
@@ -213,7 +220,7 @@ namespace EasySave.Models
             }
         }
 
-        private static bool ShouldCopyFile(string sourceFilePath, string targetFilePath)
+        private static bool ShouldCopyFileDifferential(string sourceFilePath, string targetFilePath)
         {
             bool shouldCopy = false;
 
@@ -223,21 +230,13 @@ namespace EasySave.Models
                 return true;
             }
 
+            FileInfo sourceFile = new FileInfo(sourceFilePath);
+            FileInfo targetFile = new FileInfo(targetFilePath);
 
+            if (sourceFile.LastWriteTime > targetFile.LastWriteTime)
+                return true;
 
             return shouldCopy;
-        }
-
-        private static string CalculateMD5(string filePath)
-        {
-            using (var md5 = MD5.Create())
-            {
-                using (var stream = File.OpenRead(filePath))
-                {
-                    byte[] hashBytes = md5.ComputeHash(stream);
-                    return BitConverter.ToString(hashBytes).Replace("-", "").ToLowerInvariant();
-                }
-            }
         }
     }
 }
