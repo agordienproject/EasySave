@@ -97,5 +97,17 @@ namespace EasySave.Properties {
                 this["AuthorizedExtensions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("calc")]
+        public string BusinessAppName {
+            get {
+                return ((string)(this["BusinessAppName"]));
+            }
+            set {
+                this["BusinessAppName"] = value;
+            }
+        }
     }
 }

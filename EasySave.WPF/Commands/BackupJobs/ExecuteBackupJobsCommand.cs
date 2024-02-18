@@ -1,6 +1,7 @@
 ﻿using EasySave.Models;
 using EasySave.Services.Interfaces;
 using EasySave.ViewModels;
+using EasySave.WPF.Utils;
 
 namespace EasySave.Commands.BackupJobs
 {
@@ -17,6 +18,9 @@ namespace EasySave.Commands.BackupJobs
 
         public override async Task ExecuteAsync(object parameter)
         {
+            if (BusinessAppChecker.IsBusinessAppRunning(Properties.Settings.Default.BusinessAppName))
+                return;
+
             if (_backupJobsViewModel.BackupJobs.Count == 0)
             {
                 return;
@@ -26,7 +30,8 @@ namespace EasySave.Commands.BackupJobs
             {
                 foreach (var backupJob in _backupJobsViewModel.BackupJobs)
                 {
-
+                    if (BusinessAppChecker.IsBusinessAppRunning(Properties.Settings.Default.BusinessAppName))
+                        return;
                     await Task.Run(async () =>
                     {
                         await backupJob.Execute();
@@ -51,7 +56,8 @@ namespace EasySave.Commands.BackupJobs
 
             foreach (var backupJob in backupJobsToExecute)
             {
-
+                if (BusinessAppChecker.IsBusinessAppRunning(Properties.Settings.Default.BusinessAppName))
+                    return;
                 await Task.Run(async () =>
                 {
                     await _backupJobsViewModel.BackupJobs.First(backupJob => backupJob == (BackupJob)parameter).Execute();

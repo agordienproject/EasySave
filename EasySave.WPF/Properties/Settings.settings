@@ -25,5 +25,8 @@
   &lt;string&gt;html&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
+    <Setting Name="BusinessAppName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">calc</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
