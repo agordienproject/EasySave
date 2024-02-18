@@ -9,7 +9,7 @@ namespace EasySave.Services
     {
         private readonly IFileManager _fileService;
 
-        private List<Log>? _logs;
+        private List<Log> _logs;
 
         public LogManager(IConfiguration configuration, IFileServiceFactory fileServiceFactory)
         {

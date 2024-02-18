@@ -61,12 +61,13 @@ namespace EasySave
             string appRoot = GetApplicationExeDirectory();
 
             string folderPath = GetAppSettings()["LogsFolderPath"];
-            string fileName = $"{DateTime.Now:dd_MM_yyyy}.json";
+            string fileName = $"{DateTime.Now:dd_MM_yyyy}." + GetAppSettings()["LogFileType"];
 
             string relativeFilePath = Path.Combine(folderPath, fileName);
 
             return Path.Combine(appRoot, relativeFilePath);
         }
+
         public static async Task SetCurrentCulture(string cultureName)
         {
             var language = CommandLineParseUtils.RecupLanguage(cultureName.ToString());
