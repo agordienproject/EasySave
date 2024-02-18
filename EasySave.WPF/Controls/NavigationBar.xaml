@@ -16,17 +16,16 @@
     </UserControl.Resources>
     
     <Grid Background="{StaticResource BrushPrimary2}">
-        <Grid.Resources>
+        <!--<Grid.Resources>
             <Style BasedOn="{StaticResource NavButton}" TargetType="RadioButton" />
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
 
-        <Image Grid.Row="0" Margin="20" HorizontalAlignment="Left" Source="/Resources/prosoft-logo.png" MaxWidth="100" MaxHeight="100"/>
-        <RadioButton Grid.Row="1"
+        <!--<RadioButton Grid.Row="1"
                      Padding="20, 15"
                     Content="{x:Static localization:Localization.BackupJobs}"
                     Command="{Binding UpdateCurrentViewModelCommand}"
@@ -37,9 +36,9 @@
                     Content="{x:Static localization:Localization.Setting}"
                     Command="{Binding UpdateCurrentViewModelCommand}"
                     CommandParameter="{x:Static navigators:ViewType.AppSettings}"
-                    IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:AppSettingsViewModel}}" />
+                    IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:AppSettingsViewModel}}" />-->
 
-        <!--<ui:NavigationView Grid.Column="0" IsBackButtonVisible="Collapsed">
+        <ui:NavigationView Grid.Column="0" IsBackButtonVisible="Collapsed" HeaderVisibility="Hidden">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem 
                     Content="{x:Static localization:Localization.BackupJobs}" 
@@ -47,7 +46,7 @@
                     CommandParameter="{x:Static navigators:ViewType.BackupJobs}"
                     IsActive="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:BackupJobsListingViewModel}}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:SymbolIcon Symbol="List24" />
+                        <ui:SymbolIcon Symbol="DocumentSave24" FontSize="25"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem 
@@ -56,10 +55,10 @@
                     CommandParameter="{x:Static navigators:ViewType.AppSettings}"
                     IsActive="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:AppSettingsViewModel}}">
                     <ui:NavigationViewItem.Icon>
-                        <ui:SymbolIcon Symbol="Settings24" />
+                        <ui:SymbolIcon Symbol="Settings24" FontSize="25"/>
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
             </ui:NavigationView.MenuItems>
-        </ui:NavigationView>-->
+        </ui:NavigationView>
     </Grid>
 </UserControl>
