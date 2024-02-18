@@ -1,0 +1,32 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="EasySave.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="CurrentCulture" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en-EN</Value>
+    </Setting>
+    <Setting Name="StateFolderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\\Data\\States\\</Value>
+    </Setting>
+    <Setting Name="StateFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">states.json</Value>
+    </Setting>
+    <Setting Name="LogsFolderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\\Data\\Logs\\</Value>
+    </Setting>
+    <Setting Name="LogsFileType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">json</Value>
+    </Setting>
+    <Setting Name="AuthorizedExtensions" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;json&lt;/string&gt;
+  &lt;string&gt;xml&lt;/string&gt;
+  &lt;string&gt;html&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+    <Setting Name="BusinessAppName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">calc</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

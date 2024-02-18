@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
-namespace EasySave.WPF.Commands
+namespace EasySave.Commands
 {
     public abstract class AsyncCommandBase : ICommand
     {

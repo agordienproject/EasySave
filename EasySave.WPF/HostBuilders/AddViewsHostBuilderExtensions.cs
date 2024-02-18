@@ -1,13 +1,8 @@
-﻿using EasySave.WPF.ViewModels;
+﻿using EasySave.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EasySave.WPF.HostBuilders
+namespace EasySave.HostBuilders
 {
     public static class AddViewsHostBuilderExtensions
     {

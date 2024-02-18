@@ -1,18 +1,17 @@
-﻿<UserControl x:Class="EasySave.WPF.Views.AppSettingsView"
+﻿<UserControl x:Class="EasySave.Views.AppSettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EasySave.WPF.Views"
-             xmlns:localization="clr-namespace:EasySave.WPF.Resources" 
+             xmlns:local="clr-namespace:EasySave.Views"
+             xmlns:localization="clr-namespace:EasySave.Resources" 
+             xmlns:converters="clr-namespace:EasySave.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="637.6" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <local:LanguageToBooleanConverter x:Key="LanguageConverter" />
-
+        <converters:LanguageToBooleanConverter x:Key="LanguageConverter"/>
     </UserControl.Resources>
-
 
     <Grid>
         <Grid.RowDefinitions>
@@ -22,48 +21,29 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="10,10,378,10">
-            <TextBlock Text="Backup Jobs" FontWeight="Bold" Margin="0,0,0,5"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding AppSettings.DataFilesLocation.BackupJobsFolderPath, Mode=TwoWay}" x:Name="BackupJobsFolderPathTextBox" Width="200"/>
-                <Button Content="..." Click="BrowseBackupJobsFolder_Click"/>
-                <TextBox Text="{Binding AppSettings.DataFilesLocation.BackupJobsJsonFileName, Mode=TwoWay}" x:Name="BackupJobsJsonFileNameTextBox" Width="150"/>
-            </StackPanel>
-
             <TextBlock Text="{x:Static localization:Localization.SettingFileState}" FontWeight="Bold" Margin="0,10,0,5"/>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding AppSettings.DataFilesLocation.StatesFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"/>
+                <TextBox Text="{Binding AppSettings.StateFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"/>
                 <Button Content="..." Click="BrowseStatesFolder_Click"/>
-                <TextBox Text="{Binding AppSettings.DataFilesLocation.StatesJsonFileName, Mode=TwoWay}" x:Name="StatesJsonFileNameTextBox" Width="150"/>
+                <TextBox Text="{Binding AppSettings.StateFileName, Mode=TwoWay}" x:Name="StatesJsonFileNameTextBox" Width="150"/>
             </StackPanel>
 
             <TextBlock Text="{x:Static localization:Localization.SettingFileLog}" FontWeight="Bold" Margin="0,10,0,5"/>
             <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding AppSettings.DataFilesLocation.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Width="200"/>
+                <TextBox Text="{Binding AppSettings.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Width="200"/>
                 <Button Content="..." Click="BrowseLogsFolder_Click"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
                 <TextBlock Text="{x:Static localization:Localization.SettingCurrentCulture}" FontWeight="Bold" Margin="0,0,0,5"/>
-                <RadioButton Content="French" IsChecked="{Binding AppSettings.Localization.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=fr-FR}" Click="RadioButton_Click"/>
-                <RadioButton Content="English" IsChecked="{Binding AppSettings.Localization.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=en-EN}" Click="RadioButton_Click"/>
-            </StackPanel>
-
-            <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
-                <TextBlock Text="Backup jobs file type" FontWeight="Bold" Margin="0,0,0,5"/>
-                <RadioButton Content="json" IsChecked="{Binding AppSettings.DataFilesTypes.BackupJobsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" Click="RadioButton_Click"/>
-                <RadioButton Content="xml" IsChecked="{Binding AppSettings.DataFilesTypes.BackupJobsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click"/>
+                <RadioButton Content="French" IsChecked="{Binding AppSettings.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=fr-FR}" Click="RadioButton_Click"/>
+                <RadioButton Content="English" IsChecked="{Binding AppSettings.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=en-EN}" Click="RadioButton_Click"/>
             </StackPanel>
 
             <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
                 <TextBlock Text="{x:Static localization:Localization.SettingTypeLogFile}" FontWeight="Bold" Margin="0,0,0,5"/>
-                <RadioButton x:Name="LogsFileTypeJsonRadioButton" Content="json" IsChecked="{Binding AppSettings.DataFilesTypes.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" Click="RadioButton_Click"/>
-                <RadioButton x:Name="LogsFileTypeXmlRadioButton" Content="xml" IsChecked="{Binding AppSettings.DataFilesTypes.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click"/>
-            </StackPanel>
-
-            <StackPanel Grid.Row="1" Margin="0,5" HorizontalAlignment="left" Width="145">
-                <TextBlock Text="States file type" FontWeight="Bold" Margin="0,0,0,5"/>
-                <RadioButton x:Name="StatesFileTypeJsonRadioButton" Content="json" IsChecked="{Binding AppSettings.DataFilesTypes.StatesFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" Click="RadioButton_Click"/>
-                <RadioButton x:Name="StatesFileTypeXmlRadioButton" Content="xml" IsChecked="{Binding AppSettings.DataFilesTypes.StatesFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click"/>
+                <RadioButton x:Name="LogsFileTypeJsonRadioButton" Content="json" IsChecked="{Binding AppSettings.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" Click="RadioButton_Click"/>
+                <RadioButton x:Name="LogsFileTypeXmlRadioButton" Content="xml" IsChecked="{Binding AppSettings.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -71,20 +51,23 @@
             </StackPanel>
 
         </StackPanel>
+        
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="545,10,0,474" Width="234">
             <TextBlock Text="File Extensions" FontWeight="Bold" Margin="0,0,0,5"/>
             <!-- Liste des extensions de fichiers -->
-            <ListBox x:Name="listboxextensions" ItemsSource="{Binding AppSettings.FileExtensions.AuthorizedExtensions, Mode=TwoWay}" Margin="0,0,0,5"/>
+            <ListBox x:Name="listboxextensions" ItemsSource="{Binding AppSettings.AuthorizedExtensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5"/>
             <!-- Champ de texte pour ajouter une nouvelle extension de fichier -->
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="NewFileExtensionTextBox" Width="150" Margin="0,0,5,0"/>
-                <Button Content="Add" Click="AddFileExtension_Click" Width="78"/>
+                <Button Content="Add" Command="{Binding AddFileExtensionCommand}" CommandParameter="{Binding ElementName=NewFileExtensionTextBox,Path=Text}" Width="78"/>
                 <!-- Bouton pour valider l'ajout -->
 
             </StackPanel>
-            <Button Content="Remove" Click="RemoveExtension_Click" HorizontalAlignment="Right" Width="78"/>
+            <Button Content="Remove" Command="{Binding RemoveFileExtensionCommand}" CommandParameter="{Binding ElementName=NewFileExtensionTextBox,Path=Text}" HorizontalAlignment="Right" Width="78"/>
 
         </StackPanel>
+
+        <Button Content="Switch lang"  Click="Button_Click"/>
     </Grid>
 </UserControl>
     
