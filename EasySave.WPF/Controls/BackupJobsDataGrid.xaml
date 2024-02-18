@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:EasySave.Controls" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:localization="clr-namespace:EasySave.Resources"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="#FFFFFF">
 
     <Grid>
         <DataGrid 
@@ -28,7 +29,8 @@
             </DataGrid.RowStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static localization:Localization.Name}" Binding="{Binding BackupName, Mode=TwoWay}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.Name}" Binding="{Binding BackupName, Mode=TwoWay}" IsReadOnly="True">
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="{x:Static localization:Localization.SourceDirectory}" Binding="{Binding SourceDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="{x:Static localization:Localization.DestinationDirectory}" Binding="{Binding TargetDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
                 <DataGridTextColumn Header="{x:Static localization:Localization.BackupType}" Binding="{Binding BackupType, Mode=TwoWay}" IsReadOnly="True"/>
@@ -52,7 +54,8 @@
                             <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                     Command="{Binding DataContext.DeleteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                     CommandParameter="{Binding}"
-                                    BorderThickness="0">
+                                    BorderThickness="0" 
+                                    Click="MessageBoxDeleteBackup">
                                 <ui:SymbolIcon Symbol="DeleteDismiss28"/>
                             </Button>
                         </DataTemplate>

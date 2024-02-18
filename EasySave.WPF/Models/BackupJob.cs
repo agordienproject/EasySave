@@ -173,6 +173,7 @@ namespace EasySave.Models
                         process.StartInfo.FileName = cryptoSoftPath;
                         process.StartInfo.Arguments = cryptoSoftArg;
                         process.StartInfo.RedirectStandardOutput = true;
+                        process.StartInfo.CreateNoWindow = true;
                         process.StartInfo.UseShellExecute = false;
                         process.EnableRaisingEvents = true;
 

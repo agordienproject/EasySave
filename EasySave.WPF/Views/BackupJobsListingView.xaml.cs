@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace EasySave.Views
 {
@@ -11,5 +12,7 @@ namespace EasySave.Views
         {
             InitializeComponent();
         }
+
+
     }
 }

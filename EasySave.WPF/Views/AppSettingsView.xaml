@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:EasySave.Views"
              xmlns:localization="clr-namespace:EasySave.Resources" 
              xmlns:converters="clr-namespace:EasySave.Converters"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
              mc:Ignorable="d" 
              d:DesignHeight="637.6" d:DesignWidth="800">
 
@@ -18,82 +19,88 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- TextBlock SettingFileState -->
-        <TextBlock Text="{x:Static localization:Localization.SettingFileState}" FontWeight="Bold" Grid.Row="0"  Margin="0,0,0,35"/>
+        <TextBlock Grid.Row="0" Text="Settings" FontSize="24" FontWeight="Bold" Margin="30" HorizontalAlignment="Center"/>
 
-        <!-- Grid for SettingFileState TextBox and Button -->
-        <Grid Grid.Row="0" Grid.Column="1" Margin="0,10,0,5">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding AppSettings.StateFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200" Margin="0,18,5,18"/>
-            <Button Content="..." Click="BrowseStatesFolder_Click" Grid.Column="1" HorizontalAlignment="Center" Margin="0,21,0,0" VerticalAlignment="Top"/>
+
+            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="10">
+                
+                <!--State file-->
+                <TextBlock Text="{x:Static localization:Localization.SettingFileState}" FontWeight="Bold" Margin="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{Binding AppSettings.StateFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"  Margin="10"/>
+                    <Button Content="..." Click="BrowseStatesFolder_Click"  Margin="0,10,10,10"/>
+                    <TextBox Text="{Binding AppSettings.StateFileName, Mode=TwoWay}" x:Name="StatesJsonFileNameTextBox" Width="150"  Margin="10"/>
+                </StackPanel>
+
+                <!--Log file-->
+                <TextBlock Text="{x:Static localization:Localization.SettingFileLog}" FontWeight="Bold" Margin="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{Binding AppSettings.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Margin="10" Width="200"/>
+                    <Button Content="..." Click="BrowseLogsFolder_Click"  Margin="0,10,10,10"/>
+                </StackPanel>
+
+                <!--Log file type-->
+                <TextBlock Text="{x:Static localization:Localization.SettingTypeLogFile}" FontWeight="Bold" Margin="10"/>
+                <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="left">
+                    <RadioButton GroupName="LogFileTypeGroup"
+                        x:Name="LogsFileTypeJsonRadioButton" 
+                        Content="json" 
+                        IsChecked="{Binding AppSettings.LogsFileType, Mode=TwoWay, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" />
+                    <RadioButton GroupName="LogFileTypeGroup"
+                        x:Name="LogsFileTypeXmlRadioButton" 
+                        Content="xml"
+                        IsChecked="{Binding AppSettings.LogsFileType, Mode=TwoWay, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" />
+                </StackPanel>
+
+                <!--Current Culture-->
+                <TextBlock Text="{x:Static localization:Localization.SettingCurrentCulture}" FontWeight="Bold" Margin="10"/>
+                <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="left">
+                    <RadioButton GroupName="CurrentCultureGroup"
+                        Content="French" 
+                        IsChecked="{Binding AppSettings.CurrentCulture, Mode=TwoWay, Converter={StaticResource LanguageConverter}, ConverterParameter=fr-FR}"/>
+                    <RadioButton GroupName="CurrentCultureGroup"
+                        Content="English" 
+                        IsChecked="{Binding AppSettings.CurrentCulture, Mode=TwoWay, Converter={StaticResource LanguageConverter}, ConverterParameter=en-EN}"/>
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
+                <!-- Champ de texte pour ajouter une nouvelle extension de fichier -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                
+                    <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="File Extensions" FontWeight="Bold" Margin="10"/>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <ui:TextBox x:Name="NewFileExtensionTextBox" PlaceholderEnabled="True" PlaceholderText="File extension" Width="200" Margin="10" HorizontalAlignment="Right"/>
+                        <Button x:Name="AddFileExtension" Content="Add" Command="{Binding AddFileExtensionCommand}" CommandParameter="{Binding ElementName=NewFileExtensionTextBox, Path=Text}" Width="78" Margin="10" HorizontalAlignment="Right"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Liste des extensions de fichiers -->
+                <ListView x:Name="listboxextensions" ItemsSource="{Binding FileExtensions}" Margin="10" SelectedItem="{Binding SelectedFileExtension}"/>
+                <Button x:Name="RemoveFileExtension" Content="Remove" Command="{Binding RemoveFileExtensionCommand}" HorizontalAlignment="Right" Width="78" Margin="10"/>
+
+                <TextBlock Text="Business Application" FontWeight="Bold" Margin="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{Binding AppSettings.BusinessAppName, Mode=TwoWay}" x:Name="BusinessAppTextBox" Margin="10" Width="200"/>
+                </StackPanel>
+
+            </StackPanel>
         </Grid>
 
-        <!-- TextBlock SettingFileLog -->
-        <TextBlock Text="{x:Static localization:Localization.SettingFileLog}" FontWeight="Bold" Grid.Row="1" Margin="0,0,0,5"/>
-
-        <!-- Grid for SettingFileLog TextBox and Button -->
-        <Grid Grid.Row="1" Grid.Column="1" Margin="0,20,0,5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding AppSettings.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Width="200" Margin="0,10,5,0"/>
-            <Button Content="..." Click="BrowseLogsFolder_Click" Grid.Column="1" HorizontalAlignment="Center" Margin="0,13,0,0" VerticalAlignment="Top"/>
-        </Grid>
-
-        <!-- TextBlock SettingCurrentCulture -->
-        <TextBlock Text="{x:Static localization:Localization.SettingCurrentCulture}" FontWeight="Bold" Grid.Row="1" Margin="0,69,0,5" Grid.RowSpan="2"/>
-
-        <!-- Grid for SettingCurrentCulture RadioButtons -->
-        <Grid Grid.Row="2" Grid.Column="1" Margin="0,20,0,5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <RadioButton Content="French" IsChecked="{Binding AppSettings.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=fr-FR}" Click="RadioButton_Click" Height="40" HorizontalAlignment="Center"/>
-            <RadioButton Content="English" IsChecked="{Binding AppSettings.CurrentCulture, Converter={StaticResource LanguageConverter}, ConverterParameter=en-EN}" Click="RadioButton_Click" Margin="10,0,0,0" Grid.Column="1"/>
-        </Grid>
-
-        <!-- TextBlock SettingTypeLogFile -->
-        <TextBlock Text="{x:Static localization:Localization.SettingTypeLogFile}" FontWeight="Bold" Grid.Row="2" Margin="0,65,0,5" Grid.RowSpan="2"/>
-
-        <!-- Grid for SettingTypeLogFile RadioButtons -->
-        <Grid Grid.Row="3" Grid.Column="1" Margin="0,20,0,5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <RadioButton x:Name="LogsFileTypeJsonRadioButton" Content="json" IsChecked="{Binding AppSettings.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" Click="RadioButton_Click" Height="32" HorizontalAlignment="Center"/>
-            <RadioButton x:Name="LogsFileTypeXmlRadioButton" Content="xml" IsChecked="{Binding AppSettings.LogsFileType, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" Click="RadioButton_Click" Margin="10,0,0,0" Grid.Column="1"/>
-        </Grid>
-
-        <!-- TextBlock File Extensions -->
-        <TextBlock Text="File Extensions" FontWeight="Bold" Grid.Row="3" Margin="0,57,0,5" Grid.RowSpan="2"/>
-
-        <!-- Grid for File Extensions ListBox -->
-        <Grid Grid.Row="4" Margin="0,20,0,-10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <ListBox x:Name="listboxextensions" ItemsSource="{Binding AppSettings.AuthorizedExtensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,20,229,5" Grid.ColumnSpan="2"/>
-            <TextBox x:Name="NewFileExtensionTextBox" Width="150" Height="30" Margin="114,25,65,63" Grid.Column="1"/>
-            <Button Content="Add" Command="{Binding AddFileExtensionCommand}" CommandParameter="{Binding Text, ElementName=NewFileExtensionTextBox}" Width="68" Height="30" Margin="196,59,0,0" Grid.Column="1" VerticalAlignment="Top"/>
-            <Button Content="Remove" Command="{Binding RemoveFileExtensionCommand}" CommandParameter="{Binding Text, ElementName=NewFileExtensionTextBox}" Width="75" Height="30" Margin="114,59,0,0" Grid.Column="1" VerticalAlignment="Top"/>
-        </Grid>
-
-        <Grid Grid.Row="4" Margin="0,132,0,-100">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Button Content="{x:Static localization:Localization.ButtonValidate}" Margin="561,0,0,0" Command="{Binding SaveAppSettingsCommand}"/>
-        </Grid>
+        <Button Grid.Row="2" Margin="30" HorizontalAlignment="Right" VerticalAlignment="Top"
+                Content="{x:Static localization:Localization.ButtonValidate}" 
+                Command="{Binding SaveAppSettingsCommand}"/>
     </Grid>
 </UserControl>

@@ -9,7 +9,8 @@ namespace EasySave.Models
             string stateFileName, 
             string logsFolderPath, 
             string logsFileType, 
-            List<string> authorizedExtensions)
+            List<string> authorizedExtensions,
+            string businessAppName)
         {
             CurrentCulture = currentCulture;
             StateFolderPath = stateFolderPath;
@@ -17,6 +18,7 @@ namespace EasySave.Models
             LogsFolderPath = logsFolderPath;
             LogsFileType = logsFileType;
             AuthorizedExtensions = authorizedExtensions;
+            BusinessAppName = businessAppName;
         }
 
         public string CurrentCulture { get; set; }
@@ -25,6 +27,7 @@ namespace EasySave.Models
         public string LogsFolderPath { get; set; }
         public string LogsFileType { get; set; }
         public List<string> AuthorizedExtensions { get; set; }
+        public string BusinessAppName { get; set; }
     }
 
 

@@ -33,5 +33,14 @@ namespace EasySave.Views
                 valueBox.Text = filePath;
             }
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is MenuItem menuItem)
+            {
+                // Mettez à jour le texte de la TextBox avec le contenu de l'élément de menu sélectionné
+                TextBoxTypeBackup.Text = menuItem.Header.ToString();
+            }
+        }
     }
 }
