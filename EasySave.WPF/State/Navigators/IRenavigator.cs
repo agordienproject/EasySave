@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EasySave.WPF.State.Navigators
+﻿namespace EasySave.State.Navigators
 {
     public interface IRenavigator
     {

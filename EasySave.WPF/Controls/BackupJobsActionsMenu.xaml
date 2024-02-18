@@ -1,10 +1,11 @@
-﻿<UserControl xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"  x:Class="EasySave.WPF.Controls.BackupJobsActionsMenu"
+﻿<UserControl xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"  
+             x:Class="EasySave.Controls.BackupJobsActionsMenu"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EasySave.WPF.Controls"
-             xmlns:localization="clr-namespace:EasySave.WPF.Resources"
+             xmlns:local="clr-namespace:EasySave.Controls"
+             xmlns:localization="clr-namespace:EasySave.Resources"
              mc:Ignorable="d" 
              >
 
@@ -15,7 +16,7 @@
                 <ui:TextBox x:Name="txtFrom" PlaceholderText="ex : 1" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="{x:Static localization:Localization.At}" VerticalAlignment="Center" Foreground="Black" Margin="10,0,10,0"/>
                 <ui:TextBox x:Name="txtTo" PlaceholderText="ex : 5" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Button Content="&#xE768;">
+                <Button Content="&#xE768;" Command="{Binding ExecuteBackupJobsCommand}">
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>

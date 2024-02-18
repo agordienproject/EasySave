@@ -1,11 +1,6 @@
-﻿using EasySave.WPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Windows.Input;
+﻿using EasySave.ViewModels;
 
-namespace EasySave.WPF.State.Navigators
+namespace EasySave.State.Navigators
 {
     public class Navigator : INavigator
     {
@@ -26,6 +21,5 @@ namespace EasySave.WPF.State.Navigators
         }
 
         public event Action StateChanged;
-
     }
 }

@@ -1,9 +1,6 @@
-﻿using EasySave.WPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EasySave.ViewModels;
 
-namespace EasySave.WPF.State.Navigators
+namespace EasySave.State.Navigators
 {
     public class ViewModelDelegateRenavigator<TViewModel> : IRenavigator where TViewModel : ViewModelBase
     {

@@ -1,17 +1,18 @@
-﻿using EasySave.Domain.Models;
-using EasySave.Domain.Services;
-using EasySave.WPF.Commands;
-using EasySave.WPF.Commands.BackupJobs;
-using EasySave.WPF.State.Navigators;
+﻿using EasySave.Commands;
+using EasySave.Commands.BackupJobs;
+using EasySave.Models;
+using EasySave.Services;
+using EasySave.Services.Interfaces;
+using EasySave.State.Navigators;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace EasySave.WPF.ViewModels
+namespace EasySave.ViewModels
 {
     public class BackupJobsListingViewModel : ViewModelBase
     {
-        private List<BackupJob> _backupJobs;
-        public List<BackupJob> BackupJobs 
+        private ObservableCollection<BackupJob> _backupJobs;
+        public ObservableCollection<BackupJob> BackupJobs 
         { 
             get { return _backupJobs; } 
             set 
@@ -32,6 +33,34 @@ namespace EasySave.WPF.ViewModels
             }
         }
 
+        private int _startRange;
+        public int StartRange
+        {
+            get
+            {
+                return _startRange;
+            }
+            set
+            {
+                _startRange = value;
+                OnPropertyChanged(nameof(StartRange));
+            }
+        }
+
+        private int _endRange;
+        public int EndRange
+        {
+            get
+            {
+                return _endRange;
+            }
+            set
+            {
+                _endRange = value;
+                OnPropertyChanged(nameof(EndRange));
+            }
+        }
+
         public ICommand LoadBackupJobsCommand { get; set; }
         public ICommand UpdateBackupJobCommand { get; set; }
         public ICommand DeleteBackupJobCommand { get; set; }
@@ -39,19 +68,24 @@ namespace EasySave.WPF.ViewModels
         public ICommand CreateBackupJobCommand { get; set; }
         public ICommand ExecuteBackupJobCommand { get; set; }
 
-        public BackupJobsListingViewModel(IBackupJobService backupJobService, IStateService stateService, IRenavigator backupJobCreationRenavigator)
-        {
-            BackupJobs = new List<BackupJob>();
+        public ICommand ExecuteBackupJobsCommand { get; set; }
 
-            LoadBackupJobsCommand = new LoadBackupJobsCommand(this, backupJobService);
+        public BackupJobsListingViewModel(IBackupJobService backupJobService, ILogService logService,IRenavigator backupJobCreationRenavigator)
+        {
+            BackupJobs = new ObservableCollection<BackupJob>();
+
+            LoadBackupJobsCommand = new LoadBackupJobsCommand(this, backupJobService, logService);
             UpdateBackupJobCommand = new UpdateBackupJobCommand(this, backupJobService);
-            DeleteBackupJobCommand = new DeleteBackupJobCommand(this, backupJobService, stateService);
+            DeleteBackupJobCommand = new DeleteBackupJobCommand(this, backupJobService);
             ExecuteBackupJobCommand = new ExecuteBackupJobCommand(this, backupJobService);
 
-            CreateBackupJobCommand = new RenavigateCommand(backupJobCreationRenavigator);
+            ExecuteBackupJobsCommand = new ExecuteBackupJobsCommand(this, backupJobService);
 
+            CreateBackupJobCommand = new RenavigateCommand(backupJobCreationRenavigator);
+            
             LoadBackupJobsCommand.Execute(this);
         }
 
+        
     }
 }

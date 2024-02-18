@@ -1,28 +1,21 @@
-﻿using EasySave.Domain.Services;
-using EasySave.WPF.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EasySave.Services;
+using EasySave.Services.Interfaces;
+using EasySave.ViewModels;
 
-namespace EasySave.WPF.Commands
+namespace EasySave.Commands.AppSettings
 {
     public class LoadAppSettingsCommand : AsyncCommandBase
     {
         private readonly AppSettingsViewModel _appSettingsViewModel;
-        private readonly IAppSettingsService _appSettingsService;
 
-        public LoadAppSettingsCommand(AppSettingsViewModel appSettingsViewModel, IAppSettingsService appSettingsService)
+        public LoadAppSettingsCommand(AppSettingsViewModel appSettingsViewModel)
         {
             _appSettingsViewModel = appSettingsViewModel;
-            _appSettingsService = appSettingsService;
         }
 
         public override async Task ExecuteAsync(object parameter)
         {
-            _appSettingsViewModel.AppSettings = await _appSettingsService.GetAppSettings();
+            _appSettingsViewModel.AppSettings = await AppSettingsService.LoadAppSettings();
         }
     }
 }

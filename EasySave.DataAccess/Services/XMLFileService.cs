@@ -65,7 +65,7 @@ namespace EasySave.DataAccess.Services
             }
             catch (Exception ex)
             {
-
+                return;
             }
         }
 
