@@ -108,7 +108,7 @@
     <value>Select the destincation path of backupjob</value>
   </data>
   <data name="PlaceHolderType" xml:space="preserve">
-    <value>Write the type of backupjob</value>
+    <value>Select the type of backupjob</value>
   </data>
   <data name="ButtonValidate" xml:space="preserve">
     <value>Validate</value>
@@ -141,7 +141,7 @@
     <value>From</value>
   </data>
   <data name="At" xml:space="preserve">
-    <value>At</value>
+    <value>To</value>
   </data>
   <data name="BackupType" xml:space="preserve">
     <value>Backup Type</value>

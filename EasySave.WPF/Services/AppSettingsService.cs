@@ -19,7 +19,8 @@ namespace EasySave.Services
                 Properties.Settings.Default.StateFileName,
                 Properties.Settings.Default.LogsFolderPath,
                 Properties.Settings.Default.LogsFileType,
-                Properties.Settings.Default.AuthorizedExtensions.Cast<string>().ToList()
+                Properties.Settings.Default.AuthorizedExtensions.Cast<string>().ToList(),
+                Properties.Settings.Default.BusinessAppName
             );
         }
 
@@ -30,9 +31,12 @@ namespace EasySave.Services
             Properties.Settings.Default.StateFileName = appSettings.StateFileName;
             Properties.Settings.Default.LogsFolderPath = appSettings.LogsFolderPath;
             Properties.Settings.Default.LogsFileType = appSettings.LogsFileType;
+            
             StringCollection strings = new StringCollection();
             strings.AddRange([.. appSettings.AuthorizedExtensions]);
             Properties.Settings.Default.AuthorizedExtensions = strings;
+
+            Properties.Settings.Default.BusinessAppName = appSettings.BusinessAppName;
 
             Properties.Settings.Default.Save();
 

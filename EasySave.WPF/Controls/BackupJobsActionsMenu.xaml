@@ -9,14 +9,15 @@
              mc:Ignorable="d" 
              >
 
-    <Grid>
-        <Border Padding="10" CornerRadius="10">
+    <Grid >
+        <Border Padding="10" CornerRadius="5" BorderBrush="LightGray" BorderThickness="0.5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="{x:Static localization:Localization.From}" VerticalAlignment="Center" Foreground="Black" Margin="0,0,10,0"/>
                 <ui:TextBox x:Name="txtFrom" PlaceholderText="ex : 1" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="{x:Static localization:Localization.At}" VerticalAlignment="Center" Foreground="Black" Margin="10,0,10,0"/>
                 <ui:TextBox x:Name="txtTo" PlaceholderText="ex : 5" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Button Content="&#xE768;" Command="{Binding ExecuteBackupJobsCommand}">
+                <Button Command="{Binding ExecuteBackupJobsCommand}">
+                    <ui:SymbolIcon Symbol="Play48"/>
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
@@ -36,7 +37,8 @@
                     </Button.ToolTip>
                 </Button>
 
-                <Button Content="&#xE710;" Command="{Binding CreateBackupJobCommand}">
+                <Button Command="{Binding CreateBackupJobCommand}">
+                    <ui:SymbolIcon Symbol="Add48"/>
                     <Button.Style>
                         <Style TargetType="Button">
                             <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>

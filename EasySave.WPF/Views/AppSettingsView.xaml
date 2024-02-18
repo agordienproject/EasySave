@@ -90,6 +90,12 @@
                 <!-- Liste des extensions de fichiers -->
                 <ListView x:Name="listboxextensions" ItemsSource="{Binding FileExtensions}" Margin="10" SelectedItem="{Binding SelectedFileExtension}"/>
                 <Button x:Name="RemoveFileExtension" Content="Remove" Command="{Binding RemoveFileExtensionCommand}" HorizontalAlignment="Right" Width="78" Margin="10"/>
+
+                <TextBlock Text="Business Application" FontWeight="Bold" Margin="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{Binding AppSettings.BusinessAppName, Mode=TwoWay}" x:Name="BusinessAppTextBox" Margin="10" Width="200"/>
+                </StackPanel>
+
             </StackPanel>
         </Grid>
 
