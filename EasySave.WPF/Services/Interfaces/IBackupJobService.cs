@@ -2,7 +2,7 @@
 
 namespace EasySave.Services.Interfaces
 {
-    public interface IBackupJobService : IDataService<BackupJob>
+    public interface IBackupJobService : IDataService<BackupJobInfo>
     {
 
     }

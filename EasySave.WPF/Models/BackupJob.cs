@@ -3,29 +3,40 @@ using System.Security.Cryptography;
 using EasySave.Enums;
 using System.IO;
 using EasySave.Services.Interfaces;
+using EasySave.Services;
+using EasySave.Services.Factories;
 
 namespace EasySave.Models
 {
     public class BackupJob : BackupJobInfo, INamedEntity
     {
-        private readonly ILogService _logService;
         private readonly IBackupJobService _backupJobService;
+        private readonly ILogService _logService;
 
-        public BackupJob() : base()
+        public BackupJob(IBackupJobService backupJobService, ILogService logService, BackupJobInfo backupJobInfo)
         {
+            BackupName = backupJobInfo.BackupName;
+            SourceDirectory = backupJobInfo.SourceDirectory;
+            TargetDirectory = backupJobInfo.TargetDirectory;
+            BackupType = backupJobInfo.BackupType;
+            BackupState = backupJobInfo.BackupState;
+            BackupTime = backupJobInfo.BackupTime;
+            TotalFilesNumber = backupJobInfo.TotalFilesNumber;
+            TotalFilesSize = backupJobInfo.TotalFilesSize;
+            NbFilesLeftToDo = backupJobInfo.NbFilesLeftToDo;
+            FilesSizeLeftToDo = backupJobInfo.FilesSizeLeftToDo;
+            SourceTransferingFilePath = backupJobInfo.SourceTransferingFilePath;
+            TargetTransferingFilePath = backupJobInfo.TargetTransferingFilePath;
 
-        }
-
-        public BackupJob(IBackupJobService backupJobService, ILogService logService) : base()
-        {
-            _logService = logService;
             _backupJobService = backupJobService;
-
-            PropertyChanged += async (sender, e) => await _backupJobService.Update(this);
+            _logService = logService;
+         
         }
 
         public async Task Execute()
         {
+            PropertyChanged += (sender, e) => _backupJobService.Update(this);
+
             await InitState();
 
             await GetDirectoryInfos(SourceDirectory);
@@ -36,6 +47,8 @@ namespace EasySave.Models
             await CopyFiles(BackupName, SourceDirectory, TargetDirectory, BackupType);
 
             await ClearState();
+
+            PropertyChanged -= (sender, e) => _backupJobService.Update(this);
         }
 
         private async Task InitState()
@@ -165,14 +178,14 @@ namespace EasySave.Models
                     transferTime = -1;
                 }
 
-                //await _logService.Create(new Log(
-                //    backupJobName,
-                //    sourceFilePath,
-                //    targetFilePath,
-                //    sourceFileInfo.Length,
-                //    transferTime,
-                //    DateTime.Now.ToString()
-                //));
+                await _logService.Create(new Log(
+                    backupJobName,
+                    sourceFilePath,
+                    targetFilePath,
+                    sourceFileInfo.Length,
+                    transferTime,
+                    DateTime.Now.ToString()
+                ));
 
             }
         }

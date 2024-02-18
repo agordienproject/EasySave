@@ -1,6 +1,7 @@
 ﻿using EasySave.Services;
 using EasySave.Services.Interfaces;
 using EasySave.ViewModels;
+using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.IO;
 using System.Windows;
@@ -124,6 +125,24 @@ namespace EasySave.Views
 
             return null;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Properties.Settings.Default.CurrentCulture == "fr-FR")
+            {
+                Properties.Settings.Default.CurrentCulture = "en-EN";
+            } else
+            {
+                Properties.Settings.Default.CurrentCulture = "fr-FR";
+            }
+                Properties.Settings.Default.Save();
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);
+
+            
+        }
+
     }
 
 }

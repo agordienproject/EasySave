@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace EasySave
 {
@@ -9,6 +11,8 @@ namespace EasySave
             InitializeComponent();
 
             DataContext = dataContext;
+
         }
+
     }
 }

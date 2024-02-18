@@ -13,7 +13,6 @@
         <converters:LanguageToBooleanConverter x:Key="LanguageConverter"/>
     </UserControl.Resources>
 
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -67,6 +66,8 @@
             <Button Content="Remove" Command="{Binding RemoveFileExtensionCommand}" CommandParameter="{Binding ElementName=NewFileExtensionTextBox,Path=Text}" HorizontalAlignment="Right" Width="78"/>
 
         </StackPanel>
+
+        <Button Content="Switch lang"  Click="Button_Click"/>
     </Grid>
 </UserControl>
     

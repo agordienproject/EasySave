@@ -1,6 +1,7 @@
 ﻿using EasySave.Commands;
 using EasySave.Commands.BackupJobs;
 using EasySave.Models;
+using EasySave.Services;
 using EasySave.Services.Interfaces;
 using EasySave.State.Navigators;
 using System.Collections.ObjectModel;
@@ -69,11 +70,11 @@ namespace EasySave.ViewModels
 
         public ICommand ExecuteBackupJobsCommand { get; set; }
 
-        public BackupJobsListingViewModel(IBackupJobService backupJobService, IRenavigator backupJobCreationRenavigator)
+        public BackupJobsListingViewModel(IBackupJobService backupJobService, ILogService logService,IRenavigator backupJobCreationRenavigator)
         {
             BackupJobs = new ObservableCollection<BackupJob>();
 
-            LoadBackupJobsCommand = new LoadBackupJobsCommand(this, backupJobService);
+            LoadBackupJobsCommand = new LoadBackupJobsCommand(this, backupJobService, logService);
             UpdateBackupJobCommand = new UpdateBackupJobCommand(this, backupJobService);
             DeleteBackupJobCommand = new DeleteBackupJobCommand(this, backupJobService);
             ExecuteBackupJobCommand = new ExecuteBackupJobCommand(this, backupJobService);

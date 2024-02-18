@@ -31,34 +31,6 @@ namespace EasySave.Services
             }
         }
 
-        //public async Task<bool> InitDataFile(string filePath)
-        //{
-        //    try
-        //    {
-        //        string directoryPath = Path.GetDirectoryName(filePath);
-
-        //        if (!Directory.Exists(directoryPath))
-        //        {
-        //            Directory.CreateDirectory(directoryPath);
-        //        }
-
-        //        if (!File.Exists(filePath))
-        //        {
-        //            using (FileStream fs = File.Create(filePath))
-        //            {
-        //            }
-        //        }
-
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Gérer l'exception (journalisation, remontée, etc.)
-        //        Console.WriteLine($"Erreur lors de l'initialisation du fichier : {ex.Message}");
-        //        return false;
-        //    }
-        //}
-
         public async Task<List<T>?> Read<T>()
         {
             using FileStream openStream = File.OpenRead(_filePath);

@@ -28,8 +28,7 @@ namespace EasySave
         protected override void OnStartup(StartupEventArgs e)
         {
             _host.Start();
-
-            EasySave.Properties.Settings.Default.CurrentCulture = "fr-FR";
+            
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);
 
             Window window = _host.Services.GetRequiredService<MainWindow>();
