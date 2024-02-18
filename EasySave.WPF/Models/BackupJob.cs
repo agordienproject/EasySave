@@ -166,7 +166,9 @@ namespace EasySave.Models
 
                     if (authorizedExtensions.Contains(fileExtension))
                     {
-                        string cryptoSoftPath = Path.Combine("..", "..", "..", "..", "CryptoSoft", "bin", "Debug", "net8.0", "CryptoSoft.exe");
+                        var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                        var appRoot = Path.GetDirectoryName(location);
+                        string cryptoSoftPath = Path.Combine(appRoot, "CryptoSoft", "CryptoSoft.exe");
                         string cryptoSoftArg = $"-s \"{sourceFilePath}\" -d \"{targetFilePath}\"";
 
                         Process process = new Process();
