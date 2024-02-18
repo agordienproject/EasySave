@@ -18,8 +18,7 @@ namespace EasySave.Commands.AppSettings
 
         public override async Task ExecuteAsync(object parameter)
         {
-            if (_appSettingsViewModel.AppSettings.AuthorizedExtensions.Contains(parameter.ToString()))
-                _appSettingsViewModel.AppSettings.AuthorizedExtensions.Remove(parameter.ToString());
+            _appSettingsViewModel.AppSettings.AuthorizedExtensions.Remove(_appSettingsViewModel.SelectedFileExtension);
         }
 
     }

@@ -4,6 +4,7 @@ using EasySave.Models;
 using EasySave.Services.Interfaces;
 using System.Windows;
 using System.Windows.Input;
+using Wpf.Ui.Input;
 
 namespace EasySave.ViewModels
 {
@@ -19,6 +20,29 @@ namespace EasySave.ViewModels
                 OnPropertyChanged(nameof(AppSettings));
             }
         }
+
+        private List<string> _fileExtensions;
+        public List<string> FileExtensions
+        {
+            get { return _fileExtensions; }
+            set
+            {
+                _fileExtensions = value;
+                OnPropertyChanged(nameof(FileExtensions));
+            }
+        }
+
+        private string _selectedFileExtension;
+        public string SelectedFileExtension
+        {
+            get { return _selectedFileExtension; }
+            set
+            {
+                _selectedFileExtension = value;
+                OnPropertyChanged(nameof(SelectedFileExtension));
+            }
+        }
+        
 
         public ICommand LoadAppSettingsCommand { get; set; }
         public ICommand SaveAppSettingsCommand { get; set; }
@@ -36,7 +60,6 @@ namespace EasySave.ViewModels
 
             LoadAppSettingsCommand.Execute(this);
         }
-
-
+                
     }
 }
