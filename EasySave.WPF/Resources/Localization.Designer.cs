@@ -61,11 +61,38 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add a backupjob.
+        /// </summary>
+        public static string AddBackJobs {
+            get {
+                return ResourceManager.GetString("AddBackJobs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à To.
         /// </summary>
         public static string At {
             get {
                 return ResourceManager.GetString("At", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à BackupJobs manager.
+        /// </summary>
+        public static string BackupJobManager {
+            get {
+                return ResourceManager.GetString("BackupJobManager", resourceCulture);
             }
         }
         
@@ -88,6 +115,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Business application.
+        /// </summary>
+        public static string BusinessApplication {
+            get {
+                return ResourceManager.GetString("BusinessApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Cancel.
         /// </summary>
         public static string ButtonCancel {
@@ -106,6 +142,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Complete.
+        /// </summary>
+        public static string Complete {
+            get {
+                return ResourceManager.GetString("Complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Delete.
         /// </summary>
         public static string Delete {
@@ -120,6 +165,15 @@ namespace EasySave.Resources {
         public static string DestinationDirectory {
             get {
                 return ResourceManager.GetString("DestinationDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Differential.
+        /// </summary>
+        public static string Differential {
+            get {
+                return ResourceManager.GetString("Differential", resourceCulture);
             }
         }
         
@@ -187,15 +241,6 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Setting.
-        /// </summary>
-        public static string Setting {
-            get {
-                return ResourceManager.GetString("Setting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à Current Culture.
         /// </summary>
         public static string SettingCurrentCulture {
@@ -223,6 +268,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Log file extension.
         /// </summary>
         public static string SettingTypeLogFile {
@@ -237,6 +291,24 @@ namespace EasySave.Resources {
         public static string SourceDirectory {
             get {
                 return ResourceManager.GetString("SourceDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Start.
+        /// </summary>
+        public static string Start {
+            get {
+                return ResourceManager.GetString("Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à State.
+        /// </summary>
+        public static string State {
+            get {
+                return ResourceManager.GetString("State", resourceCulture);
             }
         }
     }

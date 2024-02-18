@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
 
         <!--Title-->
-        <ui:TextBlock Margin="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Text="Ajouter une sauvegarde" FontSize="24" Grid.ColumnSpan="2"/>
+        <ui:TextBlock Margin="15" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Text="{x:Static localization:Localization.AddBackJobs}" FontSize="24" Grid.ColumnSpan="2"/>
 
         <!-- Name of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Column="0" Grid.Row="1" TextWrapping="Wrap" Text="{x:Static localization:Localization.Name}" VerticalAlignment="Center" FontSize="14"/>
@@ -48,8 +48,8 @@
         <ui:DropDownButton Grid.Column="2" Content="" Grid.Row="4" HorizontalAlignment="Center" VerticalAlignment="Center" >
             <ui:DropDownButton.Flyout>
                 <ContextMenu>
-                    <MenuItem x:Name="CompleteMenuItem" Header="Complete" Click="MenuItem_Click"/>
-                    <MenuItem x:Name="DiferentialMenuItem" Header="Diferential" Click="MenuItem_Click"/>
+                    <MenuItem x:Name="CompleteMenuItem" Header="{x:Static localization:Localization.Complete}" Click="MenuItem_Click"/>
+                    <MenuItem x:Name="DiferentialMenuItem" Header="{x:Static localization:Localization.Differential}" Click="MenuItem_Click"/>
                 </ContextMenu>
             </ui:DropDownButton.Flyout>
         </ui:DropDownButton>

@@ -155,7 +155,31 @@
   <data name="BackupJobs" xml:space="preserve">
     <value>BackupJobs</value>
   </data>
-  <data name="Setting" xml:space="preserve">
-    <value>Setting</value>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="AddBackJobs" xml:space="preserve">
+    <value>Add a backupjob</value>
+  </data>
+  <data name="Differential" xml:space="preserve">
+    <value>Differential</value>
+  </data>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
+  </data>
+  <data name="BackupJobManager" xml:space="preserve">
+    <value>BackupJobs manager</value>
+  </data>
+  <data name="BusinessApplication" xml:space="preserve">
+    <value>Business application</value>
   </data>
 </root>
