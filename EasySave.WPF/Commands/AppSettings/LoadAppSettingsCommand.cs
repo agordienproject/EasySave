@@ -1,6 +1,7 @@
 ﻿using EasySave.Services;
 using EasySave.Services.Interfaces;
 using EasySave.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace EasySave.Commands.AppSettings
 {
@@ -17,7 +18,7 @@ namespace EasySave.Commands.AppSettings
         {
             _appSettingsViewModel.AppSettings = await AppSettingsService.LoadAppSettings();
 
-            _appSettingsViewModel.FileExtensions = _appSettingsViewModel.AppSettings.AuthorizedExtensions;
+            _appSettingsViewModel.FileExtensions = new ObservableCollection<string>(_appSettingsViewModel.AppSettings.AuthorizedExtensions);
         }
     }
 }

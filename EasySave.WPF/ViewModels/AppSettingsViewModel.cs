@@ -2,6 +2,7 @@
 using EasySave.Commands.AppSettings;
 using EasySave.Models;
 using EasySave.Services.Interfaces;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Wpf.Ui.Input;
@@ -11,18 +12,18 @@ namespace EasySave.ViewModels
     public class AppSettingsViewModel : ViewModelBase
     {
         private AppSettings _appSettings;
-        public AppSettings? AppSettings 
-        { 
+        public AppSettings? AppSettings
+        {
             get { return _appSettings; }
-            set 
-            { 
+            set
+            {
                 _appSettings = value;
                 OnPropertyChanged(nameof(AppSettings));
             }
         }
 
-        private List<string> _fileExtensions;
-        public List<string> FileExtensions
+        private ObservableCollection<string> _fileExtensions;
+        public ObservableCollection<string> FileExtensions
         {
             get { return _fileExtensions; }
             set
@@ -42,7 +43,6 @@ namespace EasySave.ViewModels
                 OnPropertyChanged(nameof(SelectedFileExtension));
             }
         }
-        
 
         public ICommand LoadAppSettingsCommand { get; set; }
         public ICommand SaveAppSettingsCommand { get; set; }
@@ -55,11 +55,21 @@ namespace EasySave.ViewModels
             LoadAppSettingsCommand = new LoadAppSettingsCommand(this);
             SaveAppSettingsCommand = new SaveAppSettingsCommand(this);
 
-            AddFileExtensionCommand = new AddFileExtensionCommand(this);
-            RemoveFileExtensionCommand = new RemoveFileExtensionCommand(this);
+            AddFileExtensionCommand = new RelayCommand(AddFileExtension);
+            RemoveFileExtensionCommand = new RelayCommand(RemoveFileExtension);
 
             LoadAppSettingsCommand.Execute(this);
         }
-                
+
+        public void AddFileExtension(object parameter)
+        {
+            if (!FileExtensions.Contains(parameter.ToString()) && !String.IsNullOrWhiteSpace((string)parameter))
+                FileExtensions.Add(parameter.ToString());
+        }
+
+        public void RemoveFileExtension(object parameter)
+        {
+            FileExtensions.Remove(SelectedFileExtension);
+        }
     }
 }
