@@ -83,7 +83,10 @@
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                         <ui:TextBox x:Name="NewFileExtensionTextBox" PlaceholderEnabled="True" PlaceholderText="{x:Static localization:Localization.SettingTypeLogFile}" Width="200" Margin="10" HorizontalAlignment="Right"/>
-                        <Button x:Name="AddFileExtension" Content="{x:Static localization:Localization.Add}" Command="{Binding AddFileExtensionCommand}" CommandParameter="{Binding ElementName=NewFileExtensionTextBox, Path=Text}" Width="78" Margin="10" HorizontalAlignment="Right"/>
+                        <Button x:Name="AddFileExtension" Width="78" Margin="10" HorizontalAlignment="Right"
+                                Content="{x:Static localization:Localization.Add}" 
+                                Command="{Binding AddFileExtensionCommand}" 
+                                CommandParameter="{Binding ElementName=NewFileExtensionTextBox, Path=Text}"/>
                     </StackPanel>
                 </Grid>
 

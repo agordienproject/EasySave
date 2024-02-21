@@ -56,11 +56,6 @@ namespace EasySave.Views
             listboxextensions.Items.Refresh();
         }
 
-        private void AddFileExtension_Click(object sender, RoutedEventArgs e)
-        {
-            listboxextensions.Items.Add(NewFileExtensionTextBox.Text);
-            
-        }
     }
 
 }
