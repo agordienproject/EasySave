@@ -20,7 +20,8 @@ namespace EasySave.Services
                 Properties.Settings.Default.LogsFolderPath,
                 Properties.Settings.Default.LogsFileType,
                 Properties.Settings.Default.AuthorizedExtensions.Cast<string>().ToList(),
-                Properties.Settings.Default.BusinessAppName
+                Properties.Settings.Default.BusinessAppName,
+                Properties.Settings.Default.MaxKoToTransfert
             );
         }
 
@@ -37,6 +38,8 @@ namespace EasySave.Services
             Properties.Settings.Default.AuthorizedExtensions = strings;
 
             Properties.Settings.Default.BusinessAppName = appSettings.BusinessAppName;
+
+            Properties.Settings.Default.MaxKoToTransfert = appSettings.MaxKoToTransfert;
 
             Properties.Settings.Default.Save();
 

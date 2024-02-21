@@ -91,9 +91,16 @@
                 <ListView x:Name="listboxextensions" ItemsSource="{Binding FileExtensions}" Margin="10" SelectedItem="{Binding SelectedFileExtension}"/>
                 <Button x:Name="RemoveFileExtension" Content="Remove" Command="{Binding RemoveFileExtensionCommand}" HorizontalAlignment="Right" Width="78" Margin="10" Background="#F85C5C"/>
 
+                <!-- Application métier -->
+
                 <TextBlock Text="{x:Static localization:Localization.BusinessApplication}" FontWeight="Bold" Margin="10"/>
                 <StackPanel Orientation="Horizontal">
                     <TextBox Text="{Binding AppSettings.BusinessAppName, Mode=TwoWay}" x:Name="BusinessAppTextBox" Margin="10" Width="200"/>
+                </StackPanel>
+
+                <TextBlock Text="{x:Static localization:Localization.MaxKoToTransfert}" FontWeight="Bold" Margin="10"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{Binding AppSettings.MaxKoToTransfert, Mode=TwoWay}" x:Name="MaxFileSize" Margin="10" Width="200"/>
                 </StackPanel>
 
             </StackPanel>

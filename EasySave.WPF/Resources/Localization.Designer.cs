@@ -196,6 +196,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Maximum number of Ko to copy a file.
+        /// </summary>
+        public static string MaxKoToTransfert {
+            get {
+                return ResourceManager.GetString("MaxKoToTransfert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Backup Name.
         /// </summary>
         public static string Name {

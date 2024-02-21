@@ -109,5 +109,17 @@ namespace EasySave.Properties {
                 this["BusinessAppName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public int MaxKoToTransfert {
+            get {
+                return ((int)(this["MaxKoToTransfert"]));
+            }
+            set {
+                this["MaxKoToTransfert"] = value;
+            }
+        }
     }
 }

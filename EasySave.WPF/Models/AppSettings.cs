@@ -9,8 +9,9 @@ namespace EasySave.Models
             string stateFileName, 
             string logsFolderPath, 
             string logsFileType, 
-            List<string> authorizedExtensions,
-            string businessAppName)
+            List<string> authorizedExtensions, 
+            string businessAppName, 
+            int maxKoToTransfert)
         {
             CurrentCulture = currentCulture;
             StateFolderPath = stateFolderPath;
@@ -19,6 +20,7 @@ namespace EasySave.Models
             LogsFileType = logsFileType;
             AuthorizedExtensions = authorizedExtensions;
             BusinessAppName = businessAppName;
+            MaxKoToTransfert = maxKoToTransfert;
         }
 
         public string CurrentCulture { get; set; }
@@ -28,6 +30,7 @@ namespace EasySave.Models
         public string LogsFileType { get; set; }
         public List<string> AuthorizedExtensions { get; set; }
         public string BusinessAppName { get; set; }
+        public int MaxKoToTransfert { get; set; }
     }
 
 
