@@ -70,6 +70,8 @@ namespace EasySave.ViewModels
 
         public ICommand ExecuteBackupJobsCommand { get; set; }
 
+        public ICommand StopBackupJobExecutionCommand { get; set; }
+
         public BackupJobsListingViewModel(IBackupJobService backupJobService, ILogService logService,IRenavigator backupJobCreationRenavigator)
         {
             BackupJobs = new ObservableCollection<BackupJob>();
@@ -82,10 +84,21 @@ namespace EasySave.ViewModels
             ExecuteBackupJobsCommand = new ExecuteBackupJobsCommand(this, backupJobService);
 
             CreateBackupJobCommand = new RenavigateCommand(backupJobCreationRenavigator);
-            
+
+            StopBackupJobExecutionCommand = new RelayCommand(StopBackupJobExecution);
+
             LoadBackupJobsCommand.Execute(this);
         }
 
-        
+        private void StopBackupJobExecution(object parameter)
+        {
+            BackupJob backupJob = BackupJobs.First(backupJob => backupJob == (BackupJob)parameter);
+
+            if (backupJob.IsPaused)
+            {
+                backupJob.Resume();
+            }
+            backupJob.Stop();
+        }
     }
 }

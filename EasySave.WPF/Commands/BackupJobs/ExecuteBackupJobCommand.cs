@@ -23,8 +23,19 @@ namespace EasySave.Commands.BackupJobs
 
             BackupJob backupJob = _backupJobsViewModel.BackupJobs.First(backupJob => backupJob == (BackupJob)parameter);
 
-            Thread thread = new Thread(() => backupJob.Execute());
-            thread.Start();
+            if (backupJob.IsFinished)
+            {
+                Thread thread = new Thread(backupJob.Execute);
+                thread.Start();
+            }
+            else if (backupJob.IsRunning)
+            {
+                backupJob.Pause();
+            }
+            else if (backupJob.IsPaused)
+            {
+                backupJob.Resume();
+            }
 
         }
 

@@ -13,6 +13,15 @@ namespace EasySave.Models
         private readonly IBackupJobService _backupJobService;
         private readonly ILogService _logService;
 
+        public bool IsRunning { get { return BackupState == BackupState.Active; } }
+        public bool IsFinished { get { return BackupState == BackupState.Finished; } }
+        public bool IsPaused { get { return BackupState == BackupState.Paused; } }
+
+        private readonly object _lock = new object();
+        private readonly ManualResetEvent _pauseEvent = new ManualResetEvent(true);
+
+        public CancellationTokenSource TokenSource;
+
         public BackupJob(IBackupJobService backupJobService, ILogService logService, BackupJobInfo backupJobInfo)
         {
             BackupName = backupJobInfo.BackupName;
@@ -30,26 +39,52 @@ namespace EasySave.Models
 
             _backupJobService = backupJobService;
             _logService = logService;
+
+            ClearState();
+        }
+
+        public void Pause()
+        {
+            BackupState = BackupState.Paused;
+            _pauseEvent.Reset(); // Resets the event, blocking threads
+        }
+
+        public void Resume()
+        {
+            BackupState = BackupState.Active;
+            _pauseEvent.Set(); // Sets the event, allowing threads to proceed
+        }
+
+        public void Stop()
+        {
+            TokenSource.Cancel();
         }
 
         public void Execute()
         {
-            if (!Directory.Exists(SourceDirectory))
+            lock (_lock) 
             {
-                return;
+                if (!Directory.Exists(SourceDirectory))
+                {
+                    return;
+                }
+
+                TokenSource = new();
+
+                PropertyChanged += (sender, e) => { _backupJobService.Update(this); };
+
+                InitState();
+
+                List<FileInfo> files = GetDirectoryInfos();
+
+                CopyFiles(files);
+
+                ClearState();
+
+                TokenSource.Dispose();
+
+                PropertyChanged -= (sender, e) => _backupJobService.Update(this);
             }
-
-            PropertyChanged += (sender, e) => {_backupJobService.Update(this);};
-
-            InitState();
-
-            List<FileInfo> files = GetDirectoryInfos();
-
-            CopyFiles(files);
-
-            ClearState();
-
-            PropertyChanged -= (sender, e) => _backupJobService.Update(this);
         }
 
         private void InitState()
@@ -105,12 +140,22 @@ namespace EasySave.Models
 
             foreach (FileInfo fileInfo in filesInfo)
             {
+                if (TokenSource.IsCancellationRequested)
+                    return;
+
+                _pauseEvent.WaitOne();
+
                 SourceTransferingFilePath = fileInfo.FullName;
 
                 string targetPath = TargetDirectory + SourceTransferingFilePath.Substring(SourceDirectory.Length);
                 TargetTransferingFilePath = targetPath;
 
-                if (ShouldBeCopied(SourceTransferingFilePath, TargetTransferingFilePath))
+                // Differential
+                bool shouldCopy = true;
+                if (BackupType == BackupType.Differential)
+                    shouldCopy = ShouldBeCopied(SourceTransferingFilePath, TargetTransferingFilePath);
+
+                if (shouldCopy)
                 {
                     double transferTime = 0;
                     double encryptionTime = 0;

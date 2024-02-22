@@ -4,6 +4,6 @@
     {
         Finished,
         Active,
-        None
+        Paused
     }
 }

@@ -33,27 +33,44 @@ namespace EasySave.Services
 
         public List<T>? Read<T>()
         {
-            using FileStream openStream = File.OpenRead(_filePath);
-
-            List<T>? list = new();
-
-            try
+            if (string.IsNullOrWhiteSpace(_filePath) || !File.Exists(_filePath))
             {
-                list = JsonSerializer.Deserialize<List<T>?>(openStream);
-            }
-            catch (JsonException e)
-            {
-
+                return null;
             }
 
-            return list;
+            using (FileStream openStream = File.OpenRead(_filePath))
+            {
+                try
+                {
+                    return JsonSerializer.Deserialize<List<T>>(openStream);
+                }
+                catch (JsonException ex)
+                {
+                    return null;
+                }
+            }
         }
 
         public void Write<T>(List<T> list)
         {
-            var options = new JsonSerializerOptions { WriteIndented = true, };
-            using FileStream openStream = File.Open(_filePath, FileMode.Truncate);
-            JsonSerializer.Serialize(openStream, list, options);
+            if (string.IsNullOrWhiteSpace(_filePath))
+            {
+                return;
+            }
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+
+            using (FileStream openStream = File.Open(_filePath, FileMode.Create))
+            {
+                try
+                {
+                    JsonSerializer.Serialize(openStream, list, options);
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+            }
         }
     }
 }
