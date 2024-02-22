@@ -18,7 +18,9 @@ namespace EasySave.Commands.AppSettings
 
         public override async Task ExecuteAsync(object parameter)
         {
-            _appSettingsViewModel.AppSettings.AuthorizedExtensions = new List<string>(_appSettingsViewModel.FileExtensions);
+            _appSettingsViewModel.AppSettings.EncryptedExtensions = new List<string>(_appSettingsViewModel.EncryptedFileExtensions);
+            _appSettingsViewModel.AppSettings.PrioritizedExtensions= new List<string>(_appSettingsViewModel.PrioritizedFileExtensions);
+
             await AppSettingsService.SaveAppSettings(_appSettingsViewModel.AppSettings);
         }
     }

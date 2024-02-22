@@ -17,7 +17,7 @@
     <Setting Name="LogsFileType" Type="System.String" Scope="User">
       <Value Profile="(Default)">json</Value>
     </Setting>
-    <Setting Name="AuthorizedExtensions" Type="System.Collections.Specialized.StringCollection" Scope="User">
+    <Setting Name="EncryptedExtensions" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
   &lt;string&gt;json&lt;/string&gt;
@@ -30,6 +30,14 @@
     </Setting>
     <Setting Name="MaxKoToTransfert" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="PrioritizedExtensions" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;json&lt;/string&gt;
+  &lt;string&gt;xml&lt;/string&gt;
+  &lt;string&gt;html&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
   </Settings>
 </SettingsFile>

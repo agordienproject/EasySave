@@ -19,7 +19,8 @@ namespace EasySave.Services
                 Properties.Settings.Default.StateFileName,
                 Properties.Settings.Default.LogsFolderPath,
                 Properties.Settings.Default.LogsFileType,
-                Properties.Settings.Default.AuthorizedExtensions.Cast<string>().ToList(),
+                Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList(),
+                Properties.Settings.Default.PrioritizedExtensions.Cast<string>().ToList(),
                 Properties.Settings.Default.BusinessAppName,
                 Properties.Settings.Default.MaxKoToTransfert
             );
@@ -33,9 +34,13 @@ namespace EasySave.Services
             Properties.Settings.Default.LogsFolderPath = appSettings.LogsFolderPath;
             Properties.Settings.Default.LogsFileType = appSettings.LogsFileType;
             
-            StringCollection strings = new StringCollection();
-            strings.AddRange([.. appSettings.AuthorizedExtensions]);
-            Properties.Settings.Default.AuthorizedExtensions = strings;
+            StringCollection strings_encrypted = new StringCollection();
+            strings_encrypted.AddRange([.. appSettings.EncryptedExtensions]);
+            Properties.Settings.Default.EncryptedExtensions = strings_encrypted;
+
+            StringCollection strings_prioritized = new StringCollection();
+            strings_prioritized.AddRange([.. appSettings.PrioritizedExtensions]);
+            Properties.Settings.Default.PrioritizedExtensions = strings_prioritized;
 
             Properties.Settings.Default.BusinessAppName = appSettings.BusinessAppName;
 

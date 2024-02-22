@@ -204,4 +204,13 @@
   <data name="MaxKoToTransfert" xml:space="preserve">
     <value>Nombre de Ko maximum pour copier un fichier</value>
   </data>
+  <data name="SettingEncryptedFileExtension" xml:space="preserve">
+    <value>Extensions à chiffrer</value>
+  </data>
+  <data name="SettingNameFileExtension" xml:space="preserve">
+    <value>Nom de l'extension</value>
+  </data>
+  <data name="SettingPrioritizedFileExtension" xml:space="preserve">
+    <value>Extensions prioritaires</value>
+  </data>
 </root>

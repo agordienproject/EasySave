@@ -259,6 +259,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Extensions to encrypt.
+        /// </summary>
+        public static string SettingEncryptedFileExtension {
+            get {
+                return ResourceManager.GetString("SettingEncryptedFileExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The path of log file.
         /// </summary>
         public static string SettingFileLog {
@@ -273,6 +282,24 @@ namespace EasySave.Resources {
         public static string SettingFileState {
             get {
                 return ResourceManager.GetString("SettingFileState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Name of the extension.
+        /// </summary>
+        public static string SettingNameFileExtension {
+            get {
+                return ResourceManager.GetString("SettingNameFileExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Priority extensions.
+        /// </summary>
+        public static string SettingPrioritizedFileExtension {
+            get {
+                return ResourceManager.GetString("SettingPrioritizedFileExtension", resourceCulture);
             }
         }
         

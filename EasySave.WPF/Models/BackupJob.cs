@@ -162,7 +162,7 @@ namespace EasySave.Models
                     fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
 
                     // Vérifier si l'extension est présente dans la liste des extensions autorisées
-                    List<string> authorizedExtensions = Properties.Settings.Default.AuthorizedExtensions.Cast<string>().ToList();
+                    List<string> authorizedExtensions = Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList();
 
                     if (authorizedExtensions.Contains(fileExtension))
                     {

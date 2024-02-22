@@ -49,11 +49,17 @@ namespace EasySave.Views
             return null;
         }
 
-        private void RemoveFileExtension_Click(object sender, RoutedEventArgs e)
+        private void RemoveEncryptedFileExtension_Click(object sender, RoutedEventArgs e)
         {
-            listboxextensions.Items.Remove(listboxextensions.SelectedIndex);
+            listboxencryptedextensions.Items.Remove(listboxencryptedextensions.SelectedIndex);
 
-            listboxextensions.Items.Refresh();
+            listboxencryptedextensions.Items.Refresh();
+        }
+        private void RemovePrioritizedFileExtension_Click(object sender, RoutedEventArgs e)
+        {
+            listboxprioritizedextensions.Items.Remove(listboxprioritizedextensions.SelectedIndex);
+
+            listboxprioritizedextensions.Items.Refresh();
         }
 
     }
