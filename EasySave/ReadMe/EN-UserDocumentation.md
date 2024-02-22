@@ -72,7 +72,7 @@ The interface for this 1.0 version is the following:
 
 - **--range -r** : backups range to execute.
 
-- **--language -l** : change the language (English or Frensh).
+- **--language -l** : change the language (English or French).
 
 #### Examples
 

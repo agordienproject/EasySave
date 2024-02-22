@@ -277,6 +277,7 @@ namespace EasySave.Services
             }
 
         }
+        
         private static string CalculateMD5(string filePath)
         {
             using (var md5 = MD5.Create())
