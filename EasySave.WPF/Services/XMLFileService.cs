@@ -31,7 +31,7 @@ namespace EasySave.Services
             }
         }
 
-        public async Task<List<T>?> Read<T>()
+        public List<T>? Read<T>()
         {
             try
             {
@@ -47,7 +47,7 @@ namespace EasySave.Services
             }
         }
 
-        public async Task Write<T>(List<T> list)
+        public void Write<T>(List<T> list)
         {
             try
             {

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using EasySave.Enums;
 using Microsoft.Win32;
 
 namespace EasySave.Views
@@ -12,6 +13,7 @@ namespace EasySave.Views
         public BackupJobCreationView()
         {
             InitializeComponent();
+            BackupTypeComboBox.ItemsSource = Enum.GetValues(typeof(BackupType)).Cast<BackupType>();
         }
 
         private void Button_Click_Source_Dir(object sender, RoutedEventArgs e)
@@ -34,13 +36,5 @@ namespace EasySave.Views
             }
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is MenuItem menuItem)
-            {
-                // Mettez à jour le texte de la TextBox avec le contenu de l'élément de menu sélectionné
-                TextBoxTypeBackup.Text = menuItem.Header.ToString();
-            }
-        }
     }
 }

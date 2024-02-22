@@ -2,7 +2,7 @@
 {
     public enum BackupState
     {
-        Inactive,
+        Finished,
         Active,
         None
     }

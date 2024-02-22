@@ -221,8 +221,8 @@ namespace EasySave.Models
             BackupName = "";
             SourceDirectory = "";
             TargetDirectory = "";
-            BackupType = BackupType.Complete;
-            BackupState = BackupState.Inactive;
+            BackupType = BackupType.Full;
+            BackupState = BackupState.Finished;
             BackupTime = null;
             TotalFilesNumber = 0;
             TotalFilesSize = 0;

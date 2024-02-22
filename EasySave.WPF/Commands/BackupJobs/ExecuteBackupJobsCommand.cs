@@ -2,6 +2,7 @@
 using EasySave.Services.Interfaces;
 using EasySave.ViewModels;
 using EasySave.WPF.Utils;
+using System.Reflection.Metadata;
 
 namespace EasySave.Commands.BackupJobs
 {
@@ -30,13 +31,9 @@ namespace EasySave.Commands.BackupJobs
             {
                 foreach (var backupJob in _backupJobsViewModel.BackupJobs)
                 {
-                    if (BusinessAppChecker.IsBusinessAppRunning(Properties.Settings.Default.BusinessAppName))
-                        return;
-                    await Task.Run(async () =>
-                    {
-                        await backupJob.Execute();
-                    });
+                    ExecuteBackupJob(backupJob);
                 }
+                return;
             }
 
             List<int> backupJobsIndex = new List<int>();
@@ -49,22 +46,24 @@ namespace EasySave.Commands.BackupJobs
                 backupJobsIndex.Add(i);
             }
 
-
             List<BackupJob> backupJobsToExecute = _backupJobsViewModel.BackupJobs
                 .Where((item, index) => backupJobsIndex.Contains(index + 1))
                 .ToList();
 
             foreach (var backupJob in backupJobsToExecute)
             {
-                if (BusinessAppChecker.IsBusinessAppRunning(Properties.Settings.Default.BusinessAppName))
-                    return;
-                await Task.Run(async () =>
-                {
-                    await _backupJobsViewModel.BackupJobs.First(backupJob => backupJob == (BackupJob)parameter).Execute();
-                });
+                ExecuteBackupJob(backupJob);
             }
 
+        }
 
+        private void ExecuteBackupJob(BackupJob backupJob)
+        {
+            if (BusinessAppChecker.IsBusinessAppRunning(Properties.Settings.Default.BusinessAppName))
+                return;
+
+            Thread thread = new Thread(() => backupJob.Execute());
+            thread.Start();
         }
 
     }

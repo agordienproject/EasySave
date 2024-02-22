@@ -11,7 +11,7 @@ namespace EasySave.Services
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            List<T> list = await _fileService.Read<T>();
+            List<T> list = _fileService.Read<T>();
 
             if(list == null)
                 return new List<T>();
@@ -34,7 +34,7 @@ namespace EasySave.Services
 
             list.Add(entity);
 
-            await _fileService.Write<T>(list);
+            _fileService.Write<T>(list);
 
             return entity;
         }
@@ -49,7 +49,7 @@ namespace EasySave.Services
                 int index = list.IndexOf(existingEntity);
                 list[index] = entity;
 
-                await _fileService.Write(list);
+                _fileService.Write(list);
 
                 return entity;
             }
@@ -67,7 +67,7 @@ namespace EasySave.Services
             {
                 list.Remove(entityToDelete);
 
-                await _fileService.Write(list);
+                _fileService.Write(list);
 
                 return true;
             }

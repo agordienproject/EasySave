@@ -30,28 +30,29 @@ namespace EasySave.Models
 
             _backupJobService = backupJobService;
             _logService = logService;
-         
         }
 
-        public async Task Execute()
+        public void Execute()
         {
-            PropertyChanged += (sender, e) => _backupJobService.Update(this);
+            if (!Directory.Exists(SourceDirectory))
+            {
+                return;
+            }
 
-            await InitState();
+            PropertyChanged += (sender, e) => {_backupJobService.Update(this);};
 
-            await GetDirectoryInfos(SourceDirectory);
+            InitState();
 
-            NbFilesLeftToDo = TotalFilesNumber;
-            FilesSizeLeftToDo = TotalFilesSize;
+            List<FileInfo> files = GetDirectoryInfos();
 
-            await CopyFiles(BackupName, SourceDirectory, TargetDirectory, BackupType);
+            CopyFiles(files);
 
-            await ClearState();
+            ClearState();
 
             PropertyChanged -= (sender, e) => _backupJobService.Update(this);
         }
 
-        private async Task InitState()
+        private void InitState()
         {
             BackupState = BackupState.Active;
             BackupTime = DateTime.Now.ToString();
@@ -63,9 +64,9 @@ namespace EasySave.Models
             TargetTransferingFilePath = "";
         }
 
-        private async Task ClearState()
+        private void ClearState()
         {
-            BackupState = BackupState.Inactive;
+            BackupState = BackupState.Finished;
             BackupTime = DateTime.Now.ToString();
             TotalFilesNumber = 0;
             TotalFilesSize = (long)0;
@@ -75,155 +76,133 @@ namespace EasySave.Models
             TargetTransferingFilePath = "";
         }
 
-        private async Task GetDirectoryInfos(string directory)
+        private List<FileInfo> GetDirectoryInfos()
         {
-            try
+            List<FileInfo> filesInfo = new List<FileInfo>();
+            string[] files = Directory.GetFiles(SourceDirectory, "*.*", SearchOption.AllDirectories);
+
+            TotalFilesNumber = files.Length;
+
+            foreach (var fichier in files)
             {
-                string[] files = Directory.GetFiles(directory);
-                string[] subDirs = Directory.GetDirectories(directory);
-
-                foreach (var fichier in files)
-                {
-                    TotalFilesNumber++;
-                    TotalFilesSize += new FileInfo(fichier).Length;
-                }
-
-                foreach (var subDir in subDirs)
-                {
-                    await GetDirectoryInfos(subDir);
-                }
+                FileInfo fileInfo = new FileInfo(fichier);
+                TotalFilesSize += fileInfo.Length;
+                filesInfo.Add(fileInfo);
             }
-            catch (Exception e)
-            {
 
-            }
+            NbFilesLeftToDo = TotalFilesNumber;
+            FilesSizeLeftToDo = TotalFilesSize;
+
+            return filesInfo;
         }
 
-        private async Task CopyFiles(string backupJobName, string sourceDir, string targetDir, BackupType backupType)
+        private void CopyFiles(List<FileInfo> filesInfo)
         {
-            if (!Directory.Exists(sourceDir))
+            if (!Directory.Exists(TargetDirectory))
             {
-                return;
+                Directory.CreateDirectory(TargetDirectory);
             }
 
-            if (!Directory.Exists(targetDir))
+            foreach (FileInfo fileInfo in filesInfo)
             {
-                Directory.CreateDirectory(targetDir);
-            }
+                SourceTransferingFilePath = fileInfo.FullName;
 
-            foreach (string filePath in Directory.GetFiles(sourceDir))
-            {
-                FileInfo fileInfo = new FileInfo(filePath);
-
-                string targetPath = Path.Combine(targetDir, fileInfo.Name);
-
-                SourceTransferingFilePath = filePath;
+                string targetPath = TargetDirectory + SourceTransferingFilePath.Substring(SourceDirectory.Length);
                 TargetTransferingFilePath = targetPath;
 
-                await CopyFile(backupJobName, filePath, targetDir, backupType);
+                if (ShouldBeCopied(SourceTransferingFilePath, TargetTransferingFilePath))
+                {
+                    double transferTime = 0;
+                    double encryptionTime = 0;
+
+                    if (ShouldBeEncrypted(SourceTransferingFilePath))
+                    {
+                        CopyFileEncrypted(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, ref encryptionTime);
+                    } 
+                    else
+                    {
+                        CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
+                    }
+
+                    _logService.Create(new Log(
+                        BackupName,
+                        SourceTransferingFilePath,
+                        TargetTransferingFilePath,
+                        fileInfo.Length,
+                        transferTime,
+                        encryptionTime,
+                        DateTime.Now.ToString()
+                    ));
+                }
 
                 NbFilesLeftToDo--;
                 FilesSizeLeftToDo -= fileInfo.Length;
             }
 
-            foreach (string subDir in Directory.GetDirectories(sourceDir))
+        }
+
+        private void CopyFile(string SourceTransferingFilePath, string TargetTransferingFilePath, ref double transferTime)
+        {
+            try
             {
-                string subDirName = Path.GetFileName(subDir);
-                string targetSubDir = Path.Combine(targetDir, subDirName);
-                await CopyFiles(backupJobName, subDir, targetSubDir, backupType);
+                Directory.CreateDirectory(Path.GetDirectoryName(TargetTransferingFilePath));
+
+                DateTime before = DateTime.Now;
+                File.Copy(SourceTransferingFilePath, TargetTransferingFilePath, true);
+                DateTime after = DateTime.Now;
+                transferTime = (after - before).TotalSeconds;
+            }
+            catch (Exception)
+            {
+                transferTime = -1;
             }
         }
 
-        private async Task CopyFile(string backupJobName, string sourceFilePath, string targetDir, BackupType backupType)
+        private void CopyFileEncrypted(string SourceTransferingFilePath, string TargetTransferingFilePath, ref double transferTime, ref double encryptionTime)
         {
-            string sourceFileName = Path.GetFileName(sourceFilePath);
-            string targetFilePath = Path.Combine(targetDir, sourceFileName);
-
-            bool shouldCopy = true;
-
-            if (backupType == BackupType.Differential)
+            try
             {
-                shouldCopy = ShouldCopyFileDifferential(sourceFilePath, targetFilePath);
+                DateTime before = DateTime.Now;
+
+                var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                var appRoot = Path.GetDirectoryName(location);
+                string cryptoSoftPath = Path.Combine(appRoot, "CryptoSoft", "CryptoSoft.exe");
+                string cryptoSoftArg = $"-s \"{SourceTransferingFilePath}\" -d \"{TargetTransferingFilePath}\"";
+
+                Process process = new Process();
+                process.StartInfo.FileName = cryptoSoftPath;
+                process.StartInfo.Arguments = cryptoSoftArg;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.UseShellExecute = false;
+                process.EnableRaisingEvents = true;
+
+                process.Start();
+
+                process.WaitForExit();
+
+                double exitCode = process.ExitCode;
+
+                if (exitCode >= 0)
+                {
+                    encryptionTime = (exitCode / 1000);
+                }
+                else if (exitCode == -1)
+                {
+                    encryptionTime = exitCode;
+                }
+
+                DateTime after = DateTime.Now;
+                transferTime = (after - before).TotalSeconds;
             }
-
-            bool targetFileExist = File.Exists(targetFilePath);
-
-            if ((targetFileExist && shouldCopy) || !targetFileExist)
+            catch (Exception)
             {
-                FileInfo sourceFileInfo = new(sourceFilePath);
-                double transferTime;
-                double encryptionTime = 0;
-                try
-                {
-                    DateTime before = DateTime.Now;
-
-                    // Récupérer l'extension du fichier actuellement traité
-                    string fileExtension = Path.GetExtension(sourceFilePath);
-                    fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
-
-                    // Vérifier si l'extension est présente dans la liste des extensions autorisées
-                    List<string> authorizedExtensions = Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList();
-
-                    if (authorizedExtensions.Contains(fileExtension))
-                    {
-                        var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                        var appRoot = Path.GetDirectoryName(location);
-                        string cryptoSoftPath = Path.Combine(appRoot, "CryptoSoft", "CryptoSoft.exe");
-                        string cryptoSoftArg = $"-s \"{sourceFilePath}\" -d \"{targetFilePath}\"";
-
-                        Process process = new Process();
-                        process.StartInfo.FileName = cryptoSoftPath;
-                        process.StartInfo.Arguments = cryptoSoftArg;
-                        process.StartInfo.RedirectStandardOutput = true;
-                        process.StartInfo.CreateNoWindow = true;
-                        process.StartInfo.UseShellExecute = false;
-                        process.EnableRaisingEvents = true;
-
-                        process.Start();
-
-                        process.WaitForExit();
-
-                        double exitCode = process.ExitCode;
-
-                        if (exitCode >= 0)
-                        {
-                            encryptionTime = (exitCode / 1000); 
-                        } else if (exitCode == -1)
-                        {
-                            encryptionTime = exitCode;
-                        }
-                    }
-                    else
-                    {
-                        File.Copy(sourceFilePath, targetFilePath, true);
-                    }
-
-                    DateTime after = DateTime.Now;
-                    transferTime = (after - before).TotalSeconds;
-                }
-                catch (Exception)
-                {
-                    transferTime = -1;
-                }
-
-                await _logService.Create(new Log(
-                    backupJobName,
-                    sourceFilePath,
-                    targetFilePath,
-                    sourceFileInfo.Length,
-                    transferTime,
-                    encryptionTime,
-                    DateTime.Now.ToString()
-                ));
-
+                transferTime = -1;
             }
         }
 
-        private static bool ShouldCopyFileDifferential(string sourceFilePath, string targetFilePath)
+        private static bool ShouldBeCopied(string sourceFilePath, string targetFilePath)
         {
-            bool shouldCopy = false;
-
-            // Check if the file already exists in the target directory
             if (!File.Exists(targetFilePath))
             {
                 return true;
@@ -235,8 +214,20 @@ namespace EasySave.Models
             if (sourceFile.LastWriteTime > targetFile.LastWriteTime)
                 return true;
 
-            return shouldCopy;
+            return false;
         }
 
+        private static bool ShouldBeEncrypted(string filePath)
+        {
+            string fileExtension = Path.GetExtension(filePath);
+            fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
+
+            List<string> authorizedExtensions = Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList();
+
+            if (authorizedExtensions.Contains(fileExtension))
+                return true;
+
+            return false;
+        }
     }
 }

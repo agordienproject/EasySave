@@ -23,7 +23,7 @@ namespace EasySave.HostBuilders
                 services.AddSingleton<CreateViewModel<BackupJobsListingViewModel>>(services => () => services.GetRequiredService<BackupJobsListingViewModel>());
                 services.AddSingleton<CreateViewModel<BackupJobCreationViewModel>>(services => () => services.GetRequiredService<BackupJobCreationViewModel>());
 
-                services.AddSingleton<IEasySaveViewModelFactory, EasySaveViewModelFactory>();
+                //services.AddSingleton<IEasySaveViewModelFactory, EasySaveViewModelFactory>();
 
                 services.AddSingleton<ViewModelDelegateRenavigator<BackupJobsListingViewModel>>();
                 services.AddSingleton<ViewModelDelegateRenavigator<BackupJobCreationViewModel>>();

@@ -19,7 +19,7 @@ namespace EasySave.Commands.BackupJobs
 
         public override async Task ExecuteAsync(object parameter)
         {
-            await _backupJobService.Create(_backupJobCreationViewModel.BackupJob);
+            _backupJobService.Create(_backupJobCreationViewModel.BackupJob);
 
             _renavigator.Renavigate();
         }

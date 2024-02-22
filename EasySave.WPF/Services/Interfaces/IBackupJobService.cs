@@ -2,8 +2,12 @@
 
 namespace EasySave.Services.Interfaces
 {
-    public interface IBackupJobService : IDataService<BackupJobInfo>
+    public interface IBackupJobService
     {
-
+        List<BackupJobInfo> GetAll();
+        BackupJobInfo? Get(string name);
+        BackupJobInfo Create(BackupJobInfo entity);
+        BackupJobInfo? Update(BackupJobInfo entity);
+        bool Delete(string name);
     }
 }

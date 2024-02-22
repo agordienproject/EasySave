@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 
@@ -27,6 +28,16 @@ namespace EasySave
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            Process proc = Process.GetCurrentProcess();
+            int count = Process.GetProcesses().Where(p =>
+                p.ProcessName == proc.ProcessName).Count();
+
+            if (count > 1)
+            {
+                MessageBox.Show("Application is already running...");
+                App.Current.Shutdown();
+            }
+
             _host.Start();
             
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);

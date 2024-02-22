@@ -11,7 +11,6 @@ namespace EasySave
             InitializeComponent();
 
             DataContext = dataContext;
-
         }
 
     }
