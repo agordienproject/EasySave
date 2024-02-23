@@ -4,6 +4,7 @@ using EasySave.Models;
 using EasySave.Services;
 using EasySave.Services.Interfaces;
 using EasySave.State.Navigators;
+using EasySave.WPF.Utils;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -72,6 +73,10 @@ namespace EasySave.ViewModels
 
         public ICommand StopBackupJobExecutionCommand { get; set; }
 
+
+        private Thread BusinessAppListenerThread { get; set; }
+
+
         public BackupJobsListingViewModel(IBackupJobService backupJobService, ILogService logService,IRenavigator backupJobCreationRenavigator)
         {
             BackupJobs = new ObservableCollection<BackupJob>();
@@ -87,6 +92,9 @@ namespace EasySave.ViewModels
 
             StopBackupJobExecutionCommand = new RelayCommand(StopBackupJobExecution);
 
+            BusinessAppListenerThread = new Thread(ListenForBusinessApp);
+            BusinessAppListenerThread.Start();
+
             LoadBackupJobsCommand.Execute(this);
         }
 
@@ -97,8 +105,40 @@ namespace EasySave.ViewModels
             if (backupJob.IsPaused)
             {
                 backupJob.Resume();
+            } else if (backupJob.IsRunning)
+            {
+                backupJob.Stop();
             }
-            backupJob.Stop();
+        }
+
+        private void ListenForBusinessApp()
+        {
+            bool HasBusinessAppBeenDetected = false;
+            while (true)
+            {
+                if (BusinessAppChecker.IsBusinessAppRunning(Properties.Settings.Default.BusinessAppName))
+                {
+                    HasBusinessAppBeenDetected = true;
+                    foreach (var backupJob in BackupJobs)
+                    {
+                        if (backupJob.IsRunning)
+                        {
+                            backupJob.Pause();
+                        }
+                    }
+                }
+                else if (HasBusinessAppBeenDetected)
+                {
+                    foreach (var backupJob in BackupJobs)
+                    {
+                        if (backupJob.IsPaused)
+                        {
+                            backupJob.Resume();
+                        }
+                    }
+                    HasBusinessAppBeenDetected = false;
+                }
+            }
         }
     }
 }

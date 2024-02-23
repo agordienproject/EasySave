@@ -5,6 +5,7 @@ using System.IO;
 using EasySave.Services.Interfaces;
 using EasySave.Services;
 using EasySave.Services.Factories;
+using System.Threading;
 
 namespace EasySave.Models
 {
@@ -17,10 +18,17 @@ namespace EasySave.Models
         public bool IsFinished { get { return BackupState == BackupState.Finished; } }
         public bool IsPaused { get { return BackupState == BackupState.Paused; } }
 
-        private readonly object _lock = new object();
+        private readonly object _alreadyExecutinglock = new object();
+        private readonly object _maxSizeFileLock = new object();
+
         private readonly ManualResetEvent _pauseEvent = new ManualResetEvent(true);
 
         public CancellationTokenSource TokenSource;
+
+        private List<FileInfo> _priorityFiles = new();
+        private List<FileInfo> _nonPriorityFiles = new();
+
+        public static Barrier Barrier = new(0);
 
         public BackupJob(IBackupJobService backupJobService, ILogService logService, BackupJobInfo backupJobInfo)
         {
@@ -62,7 +70,7 @@ namespace EasySave.Models
 
         public void Execute()
         {
-            lock (_lock) 
+            lock (_alreadyExecutinglock) 
             {
                 if (!Directory.Exists(SourceDirectory))
                 {
@@ -70,19 +78,30 @@ namespace EasySave.Models
                 }
 
                 TokenSource = new();
-
+                Barrier.AddParticipant();
                 PropertyChanged += (sender, e) => { _backupJobService.Update(this); };
 
                 InitState();
 
-                List<FileInfo> files = GetDirectoryInfos();
 
-                CopyFiles(files);
+                // Set the _priorityFiles & _nonPriorityFiles lists 
+                SetDirectoryInfos();
+
+                // PRIORITAIRES
+                CopyFiles(_priorityFiles);
+
+                
+                Barrier.SignalAndWait();
+
+
+                // NON PRIORITAIRES
+                CopyFiles(_nonPriorityFiles);
+
 
                 ClearState();
 
                 TokenSource.Dispose();
-
+                Barrier.RemoveParticipant();
                 PropertyChanged -= (sender, e) => _backupJobService.Update(this);
             }
         }
@@ -111,9 +130,8 @@ namespace EasySave.Models
             TargetTransferingFilePath = "";
         }
 
-        private List<FileInfo> GetDirectoryInfos()
+        private void SetDirectoryInfos()
         {
-            List<FileInfo> filesInfo = new List<FileInfo>();
             string[] files = Directory.GetFiles(SourceDirectory, "*.*", SearchOption.AllDirectories);
 
             TotalFilesNumber = files.Length;
@@ -122,13 +140,20 @@ namespace EasySave.Models
             {
                 FileInfo fileInfo = new FileInfo(fichier);
                 TotalFilesSize += fileInfo.Length;
-                filesInfo.Add(fileInfo);
+
+                if (Properties.Settings.Default.PrioritizedExtensions.Contains(fileInfo.Extension.TrimStart('.')))
+                {
+                    _priorityFiles.Add(fileInfo);
+                }
+                else
+                {
+                    _nonPriorityFiles.Add(fileInfo);
+                }
             }
 
             NbFilesLeftToDo = TotalFilesNumber;
             FilesSizeLeftToDo = TotalFilesSize;
 
-            return filesInfo;
         }
 
         private void CopyFiles(List<FileInfo> filesInfo)
@@ -160,13 +185,30 @@ namespace EasySave.Models
                     double transferTime = 0;
                     double encryptionTime = 0;
 
-                    if (ShouldBeEncrypted(SourceTransferingFilePath))
+                    if (fileInfo.Length >= Properties.Settings.Default.MaxKoToTransfert)
                     {
-                        CopyFileEncrypted(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, ref encryptionTime);
+                        lock (_maxSizeFileLock)
+                        {
+                            if (ShouldBeEncrypted(SourceTransferingFilePath))
+                            {
+                                CopyFileEncrypted(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, ref encryptionTime);
+                            } 
+                            else
+                            {
+                                CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
+                            }
+                        }
                     } 
                     else
                     {
-                        CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
+                        if (ShouldBeEncrypted(SourceTransferingFilePath))
+                        {
+                            CopyFileEncrypted(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, ref encryptionTime);
+                        }
+                        else
+                        {
+                            CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
+                        }
                     }
 
                     _logService.Create(new Log(
