@@ -313,6 +313,105 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Here is the settings page. You can configure different features of the application. You can change the following information in this section:.
+        /// </summary>
+        public static string SettingsInfo1 {
+            get {
+                return ResourceManager.GetString("SettingsInfo1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à * The limit of RAM that the application can use.
+        /// </summary>
+        public static string SettingsInfo10 {
+            get {
+                return ResourceManager.GetString("SettingsInfo10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Attention ! When you click on the save button at the bottom of the settings, the application will restart to take these changes into account..
+        /// </summary>
+        public static string SettingsInfo11 {
+            get {
+                return ResourceManager.GetString("SettingsInfo11", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à * The location of the backup job status files and the name of the status file.
+        /// </summary>
+        public static string SettingsInfo2 {
+            get {
+                return ResourceManager.GetString("SettingsInfo2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à * The location of log files.
+        /// </summary>
+        public static string SettingsInfo3 {
+            get {
+                return ResourceManager.GetString("SettingsInfo3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à * The type of log files.
+        /// </summary>
+        public static string SettingsInfo4 {
+            get {
+                return ResourceManager.GetString("SettingsInfo4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à * Choice of application language.
+        /// </summary>
+        public static string SettingsInfo5 {
+            get {
+                return ResourceManager.GetString("SettingsInfo5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à * The list of extensions to encrypt.
+        /// </summary>
+        public static string SettingsInfo6 {
+            get {
+                return ResourceManager.GetString("SettingsInfo6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à * The list of extensions to prioritize.
+        /// </summary>
+        public static string SettingsInfo7 {
+            get {
+                return ResourceManager.GetString("SettingsInfo7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à * The name of the business application.
+        /// </summary>
+        public static string SettingsInfo8 {
+            get {
+                return ResourceManager.GetString("SettingsInfo8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à * The maximum size of a file to copy non-parallel.
+        /// </summary>
+        public static string SettingsInfo9 {
+            get {
+                return ResourceManager.GetString("SettingsInfo9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Log file extension.
         /// </summary>
         public static string SettingTypeLogFile {

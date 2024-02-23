@@ -213,4 +213,37 @@
   <data name="SettingPrioritizedFileExtension" xml:space="preserve">
     <value>Extensions prioritaires</value>
   </data>
+  <data name="SettingsInfo1" xml:space="preserve">
+    <value>Voici la page des paramètres. Vous pouvez paramétrer différentes fonctionnalités de l'application. Vous pouvez changer dans cette section les informations suivantes :</value>
+  </data>
+  <data name="SettingsInfo10" xml:space="preserve">
+    <value>* La limite de la RAM que peut utiliser l'application</value>
+  </data>
+  <data name="SettingsInfo11" xml:space="preserve">
+    <value>Attention ! Lorsque vous cliquerez sur le bouton de sauvegarde tout en bas des paramètres, l'application va redémarrer afin de prendre en compte ces modifications.</value>
+  </data>
+  <data name="SettingsInfo2" xml:space="preserve">
+    <value>* L'emplacement des fichiers d'états des travaux de sauvegarde ainsi que le nom du fichier d'état</value>
+  </data>
+  <data name="SettingsInfo3" xml:space="preserve">
+    <value>* L'emplacement des fichiers logs</value>
+  </data>
+  <data name="SettingsInfo4" xml:space="preserve">
+    <value>* Le type des fichiers de logs</value>
+  </data>
+  <data name="SettingsInfo5" xml:space="preserve">
+    <value>* Le choix de la langue de l'application</value>
+  </data>
+  <data name="SettingsInfo6" xml:space="preserve">
+    <value>* La liste des extensions à chiffrer</value>
+  </data>
+  <data name="SettingsInfo7" xml:space="preserve">
+    <value>* La liste des extensions à prioriser</value>
+  </data>
+  <data name="SettingsInfo8" xml:space="preserve">
+    <value>* Le nom de l'application métier</value>
+  </data>
+  <data name="SettingsInfo9" xml:space="preserve">
+    <value>* La taille maximum d'un fichier à copier non parallèlement</value>
+  </data>
 </root>

@@ -14,143 +14,181 @@
         <converters:LanguageToBooleanConverter x:Key="LanguageConverter"/>
     </UserControl.Resources>
 
-    <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="{x:Static localization:Localization.Settings}" FontSize="24" FontWeight="Bold" Margin="30" HorizontalAlignment="Center"/>
-
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="6*"/>
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="10">
-                
-                <!--State file-->
-                <TextBlock Text="{x:Static localization:Localization.SettingFileState}" FontWeight="Bold" Margin="10"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Text="{Binding AppSettings.StateFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"  Margin="10"/>
-                    <Button Content="..." Click="BrowseStatesFolder_Click"  Margin="0,10,10,10"/>
-                    <TextBox Text="{Binding AppSettings.StateFileName, Mode=TwoWay}" x:Name="StatesJsonFileNameTextBox" Width="150"  Margin="10"/>
+            <!-- Title -->
+            <TextBlock Grid.Row="0" Text="{x:Static localization:Localization.Settings}" FontSize="30" FontWeight="Bold" Margin="30,8,0,20" HorizontalAlignment="Left"/>
+            <Border Grid.Row="1" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel  Margin="10" Orientation="Vertical">
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo1}" FontSize="17" Margin="0,0,0,10" FontWeight="Bold" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo2}" FontSize="12" FontWeight="DemiBold" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="20,0,0,0"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo3}" FontSize="12" FontWeight="DemiBold" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="20,0,0,0"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo4}" FontSize="12" FontWeight="DemiBold" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="20,0,0,0"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo5}" FontSize="12" FontWeight="DemiBold" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="20,0,0,0"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo6}" FontSize="12" FontWeight="DemiBold" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="20,0,0,0"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo7}" FontSize="12" FontWeight="DemiBold" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="20,0,0,0"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo8}" FontSize="12" FontWeight="DemiBold" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="20,0,0,0"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo9}" FontSize="12" FontWeight="DemiBold" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="20,0,0,0"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo10}" FontSize="12" FontWeight="DemiBold" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="20,0,0,0"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo11}" Margin="0,10,0,0" FontSize="18" Foreground="Red" FontWeight="Bold"  HorizontalAlignment="Left" TextWrapping="Wrap"/>
                 </StackPanel>
-
-                <!--Log file-->
-                <TextBlock Text="{x:Static localization:Localization.SettingFileLog}" FontWeight="Bold" Margin="10"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Text="{Binding AppSettings.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Margin="10" Width="200"/>
-                    <Button Content="..." Click="BrowseLogsFolder_Click"  Margin="0,10,10,10"/>
+            </Border>
+            
+            
+            <!-- State file -->
+            <Border Grid.Row="2" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Static localization:Localization.SettingFileState}" FontWeight="Bold" Margin="10,0,0,5"/>
+                    <TextBlock Text="Renseignez dans le champ ci-dessous l'emplacement du dossier des états des travaux de sauvegarde ou cliquez sur les '...' pour utiliser l'explorateur de fichier. Vous avez aussi la possibilité de changer le nom du fichier qui est par défaut 'states'" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding AppSettings.StateFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"  Margin="10"/>
+                        <Button Content="..." Click="BrowseStatesFolder_Click"  Margin="0,10,10,10"/>
+                        <TextBox Text="{Binding AppSettings.StateFileName, Mode=TwoWay}" x:Name="StatesJsonFileNameTextBox" Width="150"  Margin="10"/>
+                    </StackPanel>
                 </StackPanel>
+            </Border>
+            
+            <!-- Log file -->
+            <Border Grid.Row="3" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Static localization:Localization.SettingFileLog}" FontWeight="Bold" Margin="10,0,0,5"/>
+                    <TextBlock Text="Renseignez dans le champ ci-dessous l'emplacement du dossier des logs des travaux de sauvegarde ou cliquez sur les '...' pour utiliser l'explorateur de fichier." Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding AppSettings.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Margin="10" Width="200"/>
+                        <Button Content="..." Click="BrowseLogsFolder_Click"  Margin="0,10,10,10"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
 
-                <!--Log file type-->
-                <TextBlock Text="{x:Static localization:Localization.SettingTypeLogFile}" FontWeight="Bold" Margin="10"/>
-                <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="left">
-                    <RadioButton GroupName="LogFileTypeGroup"
+            <!-- Log file type -->
+            <Border Grid.Row="4" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Static localization:Localization.SettingTypeLogFile}" FontWeight="Bold" Margin="10,0,0,5"/>
+                    <TextBlock Text="Utilisez les boutons pour sélectionner le type de fichier dans lequel seront écrits les logs. Vous pouvez choisir entre JSON et XML." Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="left">
+                        <RadioButton GroupName="LogFileTypeGroup"
                         x:Name="LogsFileTypeJsonRadioButton" 
                         Content="json" 
                         IsChecked="{Binding AppSettings.LogsFileType, Mode=TwoWay, Converter={StaticResource LanguageConverter}, ConverterParameter=json}" />
-                    <RadioButton GroupName="LogFileTypeGroup"
+                        <RadioButton GroupName="LogFileTypeGroup"
                         x:Name="LogsFileTypeXmlRadioButton" 
                         Content="xml"
                         IsChecked="{Binding AppSettings.LogsFileType, Mode=TwoWay, Converter={StaticResource LanguageConverter}, ConverterParameter=xml}" />
+                    </StackPanel>
                 </StackPanel>
+            </Border>
+            
 
-                <!--Current Culture-->
-                <TextBlock Text="{x:Static localization:Localization.SettingCurrentCulture}" FontWeight="Bold" Margin="10"/>
-                <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="left">
-                    <RadioButton GroupName="CurrentCultureGroup"
+            <!-- Current Culture -->
+            <Border Grid.Row="5" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Grid.Row="11" Text="{x:Static localization:Localization.SettingCurrentCulture}" FontWeight="Bold" Margin="10,0,0,5"/>
+                    <TextBlock Grid.Row="12" Text="Utilisez les boutons pour sélectionner le langage de l'application. Le changement de langue s'appliquera une fois l'application redémaréé." Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <StackPanel Grid.Row="13" Orientation="Horizontal" Margin="10" HorizontalAlignment="left">
+                        <RadioButton GroupName="CurrentCultureGroup"
                         Content="French" 
                         IsChecked="{Binding AppSettings.CurrentCulture, Mode=TwoWay, Converter={StaticResource LanguageConverter}, ConverterParameter=fr-FR}"/>
-                    <RadioButton GroupName="CurrentCultureGroup"
+                        <RadioButton GroupName="CurrentCultureGroup"
                         Content="English" 
                         IsChecked="{Binding AppSettings.CurrentCulture, Mode=TwoWay, Converter={StaticResource LanguageConverter}, ConverterParameter=en-EN}"/>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </Border>
 
-            <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10">
-                <!-- Champ de texte pour ajouter une nouvelle extension de fichier -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <!-- Partie pour gérer les extensions à chiffrer -->
-
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Text="{x:Static localization:Localization.SettingEncryptedFileExtension}" FontWeight="Bold" Margin="10"/>
-                        
-                        <ScrollViewer Grid.Column="0" Grid.Row="1" VerticalScrollBarVisibility="Visible" Height="200">
-                            <ListView x:Name="listboxencryptedextensions" ItemsSource="{Binding EncryptedFileExtensions}" Margin="10" SelectedItem="{Binding SelectedEncryptedFileExtension}"/>
-                        </ScrollViewer>
-
-                        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+            <!-- Part to manage extensions to encrypt -->
+            <Border Grid.Row="6" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Static localization:Localization.SettingEncryptedFileExtension}" FontWeight="Bold" Margin="10"/>
+                    <StackPanel Orientation="Vertical">
+                        <Border BorderBrush="DarkGray" BorderThickness="4,3,4,3" Background="White" CornerRadius="10" Margin="10" HorizontalAlignment="Left" Width="370">
+                            <ScrollViewer VerticalScrollBarVisibility="Visible" Height="150" HorizontalAlignment="Left" Width="360" >
+                                <ListView x:Name="listboxencryptedextensions" ItemsSource="{Binding EncryptedFileExtensions}" FontWeight="Bold" Margin="10" SelectedItem="{Binding SelectedEncryptedFileExtension}"/>
+                            </ScrollViewer>
+                        </Border>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <ui:TextBox  x:Name="NewEncryptedFileExtensionTextBox" PlaceholderEnabled="True" PlaceholderText="{x:Static localization:Localization.SettingNameFileExtension}" Width="150" Margin="10" HorizontalAlignment="Left"/>
-                            <Button x:Name="AddEncryptedFileExtension" Width="78" Margin="10" HorizontalAlignment="Left"
+                            <Button x:Name="AddEncryptedFileExtension" Width="90" Margin="10" HorizontalAlignment="Left"
                             Content="{x:Static localization:Localization.Add}" 
                             Command="{Binding AddEncryptedFileExtensionCommand}" 
                             CommandParameter="{Binding ElementName=NewEncryptedFileExtensionTextBox, Path=Text}"/>
-                            <Button x:Name="RemoveEncryptedFileExtension" Content="Remove" Command="{Binding RemoveEncryptedFileExtensionCommand}" HorizontalAlignment="Left" Width="78" Margin="10" Background="#F85C5C"/>
+                            <Button x:Name="RemoveEncryptedFileExtension" Content="{x:Static localization:Localization.Delete}" Command="{Binding RemoveEncryptedFileExtensionCommand}" HorizontalAlignment="Left" Width="90" Margin="10" Background="#F85C5C"/>
                         </StackPanel>
-                    </Grid>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
 
-                    <!-- Partie pour gérer les extensions à prioriser -->
 
-                    <Grid Grid.Column="1">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="{x:Static localization:Localization.SettingPrioritizedFileExtension}" FontWeight="Bold" Margin="10"/>
-
-                        <ScrollViewer Grid.Column="1" Grid.Row="1" VerticalScrollBarVisibility="Visible" Height="200">
-                            <ListView Grid.Column="1" Grid.Row="1" x:Name="listboxprioritizedextensions" ItemsSource="{Binding PrioritizedFileExtensions}" Margin="10" SelectedItem="{Binding SelectedPrioritizedFileExtension}"/>
-                        </ScrollViewer>
-
-                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+            <!-- Part to manage the extensions to prioritize -->
+            <Border Grid.Row="7" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Static localization:Localization.SettingPrioritizedFileExtension}" FontWeight="Bold" Margin="10"/>
+                    <StackPanel Orientation="Vertical">
+                        <Border BorderBrush="DarkGray" BorderThickness="4,3,4,3" Background="White" CornerRadius="10" Margin="10" HorizontalAlignment="Left" Width="370">
+                            <ScrollViewer VerticalScrollBarVisibility="Visible" Height="150" HorizontalAlignment="Left" Width="360">
+                                <ListView x:Name="listboxprioritizedextensions" ItemsSource="{Binding PrioritizedFileExtensions}" FontWeight="Bold" Margin="10" SelectedItem="{Binding SelectedPrioritizedFileExtension}"/>
+                            </ScrollViewer>
+                        </Border>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <ui:TextBox  x:Name="NewPrioritizedFileExtensionTextBox" PlaceholderEnabled="True" PlaceholderText="{x:Static localization:Localization.SettingNameFileExtension}" Width="150" Margin="10" HorizontalAlignment="Left"/>
-                            <Button x:Name="AddPrioritizedFileExtension" Width="78" Margin="10" HorizontalAlignment="Left"
+                            <Button x:Name="AddPrioritizedFileExtension" Width="90" Margin="10" HorizontalAlignment="Left"
                             Content="{x:Static localization:Localization.Add}" 
                             Command="{Binding AddPrioritizedFileExtensionCommand}" 
                             CommandParameter="{Binding ElementName=NewPrioritizedFileExtensionTextBox, Path=Text}"/>
-                            <Button x:Name="RemovePrioritizedFileExtension" Content="Remove" Command="{Binding RemovePrioritizedFileExtensionCommand}" HorizontalAlignment="Left" Width="78" Margin="10" Background="#F85C5C"/>
+                            <Button x:Name="RemovePrioritizedFileExtension" Content="{x:Static localization:Localization.Delete}" Command="{Binding RemovePrioritizedFileExtensionCommand}" HorizontalAlignment="Left" Width="90" Margin="10" Background="#F85C5C"/>
                         </StackPanel>
-                    </Grid>
-
-                </Grid>
-
-                <!-- Liste des extensions de fichiers -->
-
-                <!-- Application métier -->
-
-                <TextBlock Text="{x:Static localization:Localization.BusinessApplication}" FontWeight="Bold" Margin="10"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Text="{Binding AppSettings.BusinessAppName, Mode=TwoWay}" x:Name="BusinessAppTextBox" Margin="10" Width="200"/>
+                    </StackPanel>
                 </StackPanel>
+            </Border>
 
-                <TextBlock Text="{x:Static localization:Localization.MaxKoToTransfert}" FontWeight="Bold" Margin="10"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Text="{Binding AppSettings.MaxKoToTransfert, Mode=TwoWay}" x:Name="MaxFileSize" Margin="10" Width="200"/>
+            <!-- Business application -->
+            <Border Grid.Row="8" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Static localization:Localization.BusinessApplication}" FontWeight="Bold" Margin="10"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding AppSettings.BusinessAppName, Mode=TwoWay}" x:Name="BusinessAppTextBox" Margin="10" Width="200"/>
+                    </StackPanel>
                 </StackPanel>
+            </Border>
+            
 
-            </StackPanel>
+            <!-- MaxKoToTransfert -->
+            <Border Grid.Row="9" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Static localization:Localization.MaxKoToTransfert}" FontWeight="Bold" Margin="10"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding AppSettings.MaxKoToTransfert, Mode=TwoWay}" x:Name="MaxFileSize" Margin="10" Width="200"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Validation button -->
+            <Button Grid.Row="10" FontSize="30" FontWeight="Bold" Margin="15" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Content="{x:Static localization:Localization.ButtonValidate}" 
+                    Command="{Binding SaveAppSettingsCommand}"
+                    Background="#71D675">
+            </Button>
         </Grid>
-
-        <Button Grid.Row="2" Margin="30" HorizontalAlignment="Right" VerticalAlignment="Top"
-                Content="{x:Static localization:Localization.ButtonValidate}" 
-                Command="{Binding SaveAppSettingsCommand}"
-                Background="#71D675"/>
-    </Grid>
+    </ScrollViewer>
 </UserControl>
