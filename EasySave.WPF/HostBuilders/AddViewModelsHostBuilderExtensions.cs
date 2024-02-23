@@ -12,12 +12,14 @@ namespace EasySave.HostBuilders
     {
         public static IHostBuilder AddViewModels(this IHostBuilder host)
         {
+            
             host.ConfigureServices(services =>
             {
                 services.AddTransient<MainViewModel>();
-                services.AddTransient<AppSettingsViewModel>();
-                services.AddTransient(CreateBackupJobsListingViewModel);
-                services.AddTransient(CreateBackupJobCreationViewModel);
+
+                services.AddSingleton<AppSettingsViewModel>();
+                services.AddSingleton(CreateBackupJobsListingViewModel);
+                services.AddSingleton(CreateBackupJobCreationViewModel);
 
                 services.AddSingleton<CreateViewModel<AppSettingsViewModel>>(services => () => services.GetRequiredService<AppSettingsViewModel>());
                 services.AddSingleton<CreateViewModel<BackupJobsListingViewModel>>(services => () => services.GetRequiredService<BackupJobsListingViewModel>());
