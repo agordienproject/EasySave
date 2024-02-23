@@ -136,5 +136,17 @@ namespace EasySave.Properties {
                 this["PrioritizedExtensions"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public long MaxMemory {
+            get {
+                return ((long)(this["MaxMemory"]));
+            }
+            set {
+                this["MaxMemory"] = value;
+            }
+        }
     }
 }
