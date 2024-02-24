@@ -20,7 +20,7 @@ namespace EasySave.Services
 
         public List<BackupJobInfo> GetAll()
         {
-            List<BackupJobInfo> list;
+            List<BackupJobInfo>? list;
 
             lock (_lock)
             {
@@ -49,7 +49,10 @@ namespace EasySave.Services
             entity.BackupJobId = Guid.NewGuid();
             list.Add(entity);
 
-            _fileService.Write<BackupJobInfo>(list);
+            lock (_lock)
+            {
+                _fileService.Write<BackupJobInfo>(list);
+            }
 
             return entity;
         }
@@ -75,17 +78,20 @@ namespace EasySave.Services
             return default(BackupJobInfo);
         }
 
-        public bool Delete(string name)
+        public bool Delete(Guid guid)
         {
             List<BackupJobInfo> list = GetAll();
 
-            BackupJobInfo? entityToDelete = list.FirstOrDefault(entity => entity.BackupName == name);
+            BackupJobInfo? entityToDelete = list.FirstOrDefault(entity => entity.BackupJobId == guid);
 
             if (entityToDelete != null)
             {
                 list.Remove(entityToDelete);
 
-                _fileService.Write(list);
+                lock (_lock)
+                {
+                    _fileService.Write(list);
+                }
 
                 return true;
             }

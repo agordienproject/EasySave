@@ -49,7 +49,9 @@ namespace EasySave.Models
             _backupJobService = backupJobService;
             _logService = logService;
 
+            PropertyChanged += (sender, e) => { _backupJobService.Update(this); };
             ClearState();
+            PropertyChanged -= (sender, e) => _backupJobService.Update(this);
         }
 
         public void Pause()
@@ -318,6 +320,23 @@ namespace EasySave.Models
                 return true;
 
             return false;
+        }
+
+        public void UpdateBackupJobInfos(BackupJobInfo backupJobInfo)
+        {
+            BackupJobId = backupJobInfo.BackupJobId;
+            BackupName = backupJobInfo.BackupName;
+            SourceDirectory = backupJobInfo.SourceDirectory;
+            TargetDirectory = backupJobInfo.TargetDirectory;
+            BackupType = backupJobInfo.BackupType;
+            BackupState = backupJobInfo.BackupState;
+            BackupTime = backupJobInfo.BackupTime;
+            TotalFilesNumber = backupJobInfo.TotalFilesNumber;
+            TotalFilesSize = backupJobInfo.TotalFilesSize;
+            NbFilesLeftToDo = backupJobInfo.NbFilesLeftToDo;
+            FilesSizeLeftToDo = backupJobInfo.FilesSizeLeftToDo;
+            SourceTransferingFilePath = backupJobInfo.SourceTransferingFilePath;
+            TargetTransferingFilePath = backupJobInfo.TargetTransferingFilePath;
         }
     }
 }
