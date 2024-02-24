@@ -62,7 +62,8 @@ namespace EasySave.Commands.BackupJobs
             if (BusinessAppChecker.IsBusinessAppRunning(Properties.Settings.Default.BusinessAppName))
                 return;
 
-            Thread thread = new Thread(() => backupJob.Execute());
+            Thread thread = new Thread(backupJob.Execute);
+            thread.IsBackground = true;
             thread.Start();
         }
 

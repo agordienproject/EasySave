@@ -13,6 +13,8 @@ namespace EasySave
     {
         private readonly IHost _host;
 
+        private Mutex _instanceMutex = null;
+
         public App()
         {
             _host = CreateHostBuilder().Build();
@@ -29,38 +31,23 @@ namespace EasySave
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Mutex runOnce = null;
-
-            if (EasySave.Properties.Settings.Default.IsRestarting)
+            bool createdNew;
+            _instanceMutex = new Mutex(true, @"Global\ControlPanel", out createdNew);
+            if (!createdNew)
             {
-                EasySave.Properties.Settings.Default.IsRestarting = false;
-                EasySave.Properties.Settings.Default.Save();
-                Thread.Sleep(3000);
-                
+                _instanceMutex = null;
+                Application.Current.Shutdown();
+                return;
             }
 
-            try
-            {
-                runOnce = new Mutex(true, "SOME_MUTEX_NAME");
+            _host.Start();
 
-                if (runOnce.WaitOne(TimeSpan.Zero))
-                {
-                    _host.Start();
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);
 
-                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);
+            Window window = _host.Services.GetRequiredService<MainWindow>();
+            window.Show();
 
-                    Window window = _host.Services.GetRequiredService<MainWindow>();
-                    window.Show();
-
-                    base.OnStartup(e);
-                }
-            }
-            finally
-            {
-                if (null != runOnce)
-                    runOnce.Close();
-            }
-
+            base.OnStartup(e);
         }
 
         protected override async void OnExit(ExitEventArgs e)
@@ -68,6 +55,11 @@ namespace EasySave
             await _host.StopAsync();
             _host.Dispose();
 
+            if (_instanceMutex != null)
+                _instanceMutex.ReleaseMutex();
+
+            Application.Current.Shutdown();
+            
             base.OnExit(e);
         }
     }

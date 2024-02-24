@@ -93,6 +93,7 @@ namespace EasySave.ViewModels
             StopBackupJobExecutionCommand = new RelayCommand(StopBackupJobExecution);
 
             BusinessAppListenerThread = new Thread(ListenForBusinessApp);
+            BusinessAppListenerThread.IsBackground = true;
             BusinessAppListenerThread.Start();
 
             LoadBackupJobsCommand.Execute(this);
@@ -140,5 +141,7 @@ namespace EasySave.ViewModels
                 }
             }
         }
+
+
     }
 }

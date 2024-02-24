@@ -46,8 +46,6 @@ namespace EasySave.Services
 
             Properties.Settings.Default.MaxKoToTransfert = appSettings.MaxKoToTransfert;
 
-            Properties.Settings.Default.IsRestarting = true;
-
             Properties.Settings.Default.Save();
 
             Process.Start(Process.GetCurrentProcess().MainModule.FileName);

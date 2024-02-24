@@ -6,7 +6,8 @@
     xmlns:viewmodels="clr-namespace:EasySave.ViewModels"
     xmlns:views="clr-namespace:EasySave.Views"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    xmlns:localization="clr-namespace:EasySave.Resources">
+    xmlns:localization="clr-namespace:EasySave.Resources"
+    ShutdownMode="OnMainWindowClose">
     <Application.Resources>
 
         <ResourceDictionary>

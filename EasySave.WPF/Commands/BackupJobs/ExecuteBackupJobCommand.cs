@@ -26,6 +26,7 @@ namespace EasySave.Commands.BackupJobs
             if (backupJob.IsFinished)
             {
                 Thread thread = new Thread(backupJob.Execute);
+                thread.IsBackground = true;
                 thread.Start();
             }
             else if (backupJob.IsRunning)
