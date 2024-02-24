@@ -19,7 +19,7 @@ namespace EasySave.HostBuilders
 
                 services.AddSingleton<AppSettingsViewModel>();
                 services.AddSingleton(CreateBackupJobsListingViewModel);
-                services.AddSingleton(CreateBackupJobCreationViewModel);
+                services.AddTransient(CreateBackupJobCreationViewModel);
 
                 services.AddSingleton<CreateViewModel<AppSettingsViewModel>>(services => () => services.GetRequiredService<AppSettingsViewModel>());
                 services.AddSingleton<CreateViewModel<BackupJobsListingViewModel>>(services => () => services.GetRequiredService<BackupJobsListingViewModel>());

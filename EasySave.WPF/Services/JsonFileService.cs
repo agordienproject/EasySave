@@ -38,16 +38,16 @@ namespace EasySave.Services
                 return null;
             }
 
-            using (FileStream openStream = File.OpenRead(_filePath))
-            {
-                try
+            try
+            { 
+                using (FileStream openStream = File.OpenRead(_filePath))
                 {
                     return JsonSerializer.Deserialize<List<T>>(openStream);
                 }
-                catch (JsonException ex)
-                {
-                    return null;
-                }
+            }
+            catch (JsonException ex)
+            {
+                return null;
             }
         }
 
@@ -60,16 +60,16 @@ namespace EasySave.Services
 
             var options = new JsonSerializerOptions { WriteIndented = true };
 
-            using (FileStream openStream = File.Open(_filePath, FileMode.Create))
+            try
             {
-                try
+                using (FileStream openStream = File.Open(_filePath, FileMode.Create))
                 {
                     JsonSerializer.Serialize(openStream, list, options);
                 }
-                catch (Exception ex)
-                {
+            }
+            catch (Exception ex)
+            {
                     
-                }
             }
         }
     }

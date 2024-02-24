@@ -40,7 +40,7 @@
                 Command="{Binding UpdateCurrentViewModelCommand}"
                 CommandParameter="{x:Static navigators:ViewType.BackupJobs}"
                 IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:BackupJobsListingViewModel}}" />
-
+                        
         </Grid>
 
         <Grid Grid.Row="2">
@@ -56,28 +56,6 @@
                     CommandParameter="{x:Static navigators:ViewType.AppSettings}"
                     IsChecked="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:AppSettingsViewModel}}" />
         </Grid>
-        <!--<ui:NavigationView Grid.Column="0" IsBackButtonVisible="Collapsed">
-            <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem 
-                    Content="{x:Static localization:Localization.BackupJobs}" 
-                    Command="{Binding UpdateCurrentViewModelCommand}" 
-                    CommandParameter="{x:Static navigators:ViewType.BackupJobs}"
-                    IsActive="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:BackupJobsListingViewModel}}">
-                    <ui:NavigationViewItem.Icon>
-                        <ui:SymbolIcon Symbol="DocumentSave24" FontSize="25"/>
-                    </ui:NavigationViewItem.Icon>
-                </ui:NavigationViewItem>
-                <ui:NavigationViewItem 
-                    Content="{x:Static localization:Localization.Setting}" 
-                    Command="{Binding UpdateCurrentViewModelCommand}" 
-                    CommandParameter="{x:Static navigators:ViewType.AppSettings}"
-                    IsActive="{Binding CurrentViewModel, Mode=OneWay, Converter={StaticResource EqualValueToParameterConverter}, ConverterParameter={x:Type viewmodels:AppSettingsViewModel}}">
-                    <ui:NavigationViewItem.Icon>
-                        <ui:SymbolIcon Symbol="Settings24" FontSize="25"/>
-                    </ui:NavigationViewItem.Icon>
-                </ui:NavigationViewItem>
-            </ui:NavigationView.MenuItems>
-        </ui:NavigationView>-->
-            
+
     </Grid>
 </UserControl>

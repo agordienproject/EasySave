@@ -32,6 +32,7 @@ namespace EasySave.Models
 
         public BackupJob(IBackupJobService backupJobService, ILogService logService, BackupJobInfo backupJobInfo)
         {
+            BackupJobId = backupJobInfo.BackupJobId;
             BackupName = backupJobInfo.BackupName;
             SourceDirectory = backupJobInfo.SourceDirectory;
             TargetDirectory = backupJobInfo.TargetDirectory;
@@ -112,6 +113,9 @@ namespace EasySave.Models
             FilesSizeLeftToDo = (long)0;
             SourceTransferingFilePath = "";
             TargetTransferingFilePath = "";
+
+            _priorityFiles.Clear();
+            _nonPriorityFiles.Clear();
         }
 
         private void ClearState()
@@ -124,6 +128,9 @@ namespace EasySave.Models
             FilesSizeLeftToDo = (long)0;
             SourceTransferingFilePath = "";
             TargetTransferingFilePath = "";
+
+            _priorityFiles.Clear();
+            _nonPriorityFiles.Clear();
         }
 
         private void SetDirectoryInfos()

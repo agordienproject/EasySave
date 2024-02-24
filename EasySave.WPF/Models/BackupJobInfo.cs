@@ -5,6 +5,8 @@ namespace EasySave.Models
 {
     public class BackupJobInfo : INamedEntity, INotifyPropertyChanged
     {
+        public Guid BackupJobId { get; set; }
+
         private string? _backupName;
         public string? BackupName
         {
@@ -189,7 +191,8 @@ namespace EasySave.Models
         }
 
         public BackupJobInfo
-        (   string backupName,
+        (   Guid backupJobId,
+            string backupName,
             string sourceDirectory, 
             string targetDirectory, 
             BackupType backupType, 
@@ -202,6 +205,7 @@ namespace EasySave.Models
             string? sourceTransferingFilePath, 
             string? targetTransferingFilePath)
         {
+            BackupJobId = backupJobId;
             BackupName = backupName;
             SourceDirectory = sourceDirectory;
             TargetDirectory = targetDirectory;
@@ -215,7 +219,7 @@ namespace EasySave.Models
             SourceTransferingFilePath = sourceTransferingFilePath;
             TargetTransferingFilePath = targetTransferingFilePath;
         }
-        
+
         public BackupJobInfo()
         {
             BackupName = "";

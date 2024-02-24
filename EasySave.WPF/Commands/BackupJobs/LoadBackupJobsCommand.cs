@@ -23,7 +23,8 @@ namespace EasySave.Commands.BackupJobs
             _backupJobsViewModel.BackupJobs = new ObservableCollection<BackupJob>();
             foreach (var backupJobInfo in _backupJobService.GetAll())
             {
-                _backupJobsViewModel.BackupJobs.Add(new BackupJob(_backupJobService, _logService, backupJobInfo));
+                if (!_backupJobsViewModel.BackupJobs.Any(backupjob => backupjob.BackupJobId == backupJobInfo.BackupJobId))
+                    _backupJobsViewModel.BackupJobs.Add(new BackupJob(_backupJobService, _logService, backupJobInfo));
             }
         }
 

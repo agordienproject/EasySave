@@ -46,6 +46,7 @@ namespace EasySave.Services
         {
             List<BackupJobInfo> list = GetAll();
 
+            entity.BackupJobId = Guid.NewGuid();
             list.Add(entity);
 
             _fileService.Write<BackupJobInfo>(list);
@@ -56,7 +57,7 @@ namespace EasySave.Services
         public BackupJobInfo? Update(BackupJobInfo entity)
         {
             List<BackupJobInfo> list = GetAll();
-            BackupJobInfo? existingEntity = list.FirstOrDefault(x => x.BackupName == entity.BackupName);
+            BackupJobInfo? existingEntity = list.FirstOrDefault(x => x.BackupJobId == entity.BackupJobId);
 
             if (existingEntity != null)
             {

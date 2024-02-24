@@ -51,10 +51,10 @@
                                             <Setter Property="Symbol" Value="Play48"/>
                                             <Setter Property="Foreground" Value="Green"/>
                                             <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Filled" Value="True"/>
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding BackupState}" Value="Paused">
                                                     <Setter Property="Symbol" Value="Play48"/>
-                                                    <!--<Setter Property="Foreground" Value="Green"/>-->
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding BackupState}" Value="Active">
                                                     <Setter Property="Symbol" Value="Pause48"/>
@@ -62,7 +62,6 @@
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding BackupState}" Value="Finished">
                                                     <Setter Property="Symbol" Value="Play48"/>
-                                                    <!--<Setter Property="Foreground" Value="Green"/>-->
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
