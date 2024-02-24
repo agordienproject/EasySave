@@ -83,20 +83,16 @@ namespace EasySave.Models
 
                 InitState();
 
-
                 // Set the _priorityFiles & _nonPriorityFiles lists 
                 SetDirectoryInfos();
 
                 // PRIORITAIRES
                 CopyFiles(_priorityFiles);
-
                 
                 Barrier.SignalAndWait();
 
-
                 // NON PRIORITAIRES
                 CopyFiles(_nonPriorityFiles);
-
 
                 ClearState();
 

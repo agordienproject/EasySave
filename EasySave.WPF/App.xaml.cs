@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
 using System.Globalization;
+using System.Threading;
 using System.Windows;
 
 namespace EasySave
@@ -28,24 +29,38 @@ namespace EasySave
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            Process proc = Process.GetCurrentProcess();
-            int count = Process.GetProcesses().Where(p =>
-                p.ProcessName == proc.ProcessName).Count();
+            Mutex runOnce = null;
 
-            if (count > 1)
+            if (EasySave.Properties.Settings.Default.IsRestarting)
             {
-                MessageBox.Show("Application is already running...");
-                App.Current.Shutdown();
+                EasySave.Properties.Settings.Default.IsRestarting = false;
+                EasySave.Properties.Settings.Default.Save();
+                Thread.Sleep(3000);
+                
             }
 
-            _host.Start();
-            
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);
+            try
+            {
+                runOnce = new Mutex(true, "SOME_MUTEX_NAME");
 
-            Window window = _host.Services.GetRequiredService<MainWindow>();
-            window.Show();
+                if (runOnce.WaitOne(TimeSpan.Zero))
+                {
+                    _host.Start();
 
-            base.OnStartup(e);
+                    Thread.CurrentThread.CurrentUICulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);
+
+                    Window window = _host.Services.GetRequiredService<MainWindow>();
+                    window.Show();
+
+                    base.OnStartup(e);
+                }
+            }
+            finally
+            {
+                if (null != runOnce)
+                    runOnce.Close();
+            }
+
         }
 
         protected override async void OnExit(ExitEventArgs e)
