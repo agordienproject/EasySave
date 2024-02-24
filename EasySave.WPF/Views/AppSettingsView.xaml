@@ -53,7 +53,7 @@
             <Border Grid.Row="2" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="{x:Static localization:Localization.SettingFileState}" FontWeight="Bold" Margin="10,0,0,5"/>
-                    <TextBlock Text="Renseignez dans le champ ci-dessous l'emplacement du dossier des états des travaux de sauvegarde ou cliquez sur les '...' pour utiliser l'explorateur de fichier. Vous avez aussi la possibilité de changer le nom du fichier qui est par défaut 'states'" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfoStates}" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBox Text="{Binding AppSettings.StateFolderPath, Mode=TwoWay}" x:Name="StatesFolderPathTextBox" Width="200"  Margin="10"/>
                         <Button Content="..." Click="BrowseStatesFolder_Click"  Margin="0,10,10,10"/>
@@ -66,7 +66,7 @@
             <Border Grid.Row="3" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="{x:Static localization:Localization.SettingFileLog}" FontWeight="Bold" Margin="10,0,0,5"/>
-                    <TextBlock Text="Renseignez dans le champ ci-dessous l'emplacement du dossier des logs des travaux de sauvegarde ou cliquez sur les '...' pour utiliser l'explorateur de fichier." Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfoLogs}" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBox Text="{Binding AppSettings.LogsFolderPath, Mode=TwoWay}" x:Name="LogsFolderPathTextBox" Margin="10" Width="200"/>
                         <Button Content="..." Click="BrowseLogsFolder_Click"  Margin="0,10,10,10"/>
@@ -78,7 +78,7 @@
             <Border Grid.Row="4" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="{x:Static localization:Localization.SettingTypeLogFile}" FontWeight="Bold" Margin="10,0,0,5"/>
-                    <TextBlock Text="Utilisez les boutons pour sélectionner le type de fichier dans lequel seront écrits les logs. Vous pouvez choisir entre JSON et XML." Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfoLogsFileType}" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="left">
                         <RadioButton GroupName="LogFileTypeGroup"
                         x:Name="LogsFileTypeJsonRadioButton" 
@@ -96,9 +96,9 @@
             <!-- Current Culture -->
             <Border Grid.Row="5" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Grid.Row="11" Text="{x:Static localization:Localization.SettingCurrentCulture}" FontWeight="Bold" Margin="10,0,0,5"/>
-                    <TextBlock Grid.Row="12" Text="Utilisez les boutons pour sélectionner le langage de l'application. Le changement de langue s'appliquera une fois l'application redémaréé." Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
-                    <StackPanel Grid.Row="13" Orientation="Horizontal" Margin="10" HorizontalAlignment="left">
+                    <TextBlock Text="{x:Static localization:Localization.SettingCurrentCulture}" FontWeight="Bold" Margin="10,0,0,5"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfoLanguage}" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="left">
                         <RadioButton GroupName="CurrentCultureGroup"
                         Content="French" 
                         IsChecked="{Binding AppSettings.CurrentCulture, Mode=TwoWay, Converter={StaticResource LanguageConverter}, ConverterParameter=fr-FR}"/>
@@ -114,6 +114,7 @@
             <Border Grid.Row="6" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="{x:Static localization:Localization.SettingEncryptedFileExtension}" FontWeight="Bold" Margin="10"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfoEncrypt}" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                     <StackPanel Orientation="Vertical">
                         <Border BorderBrush="DarkGray" BorderThickness="4,3,4,3" Background="White" CornerRadius="10" Margin="10" HorizontalAlignment="Left" Width="370">
                             <ScrollViewer VerticalScrollBarVisibility="Visible" Height="150" HorizontalAlignment="Left" Width="360" >
@@ -137,6 +138,7 @@
             <Border Grid.Row="7" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="{x:Static localization:Localization.SettingPrioritizedFileExtension}" FontWeight="Bold" Margin="10"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfoPrioritize}" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                     <StackPanel Orientation="Vertical">
                         <Border BorderBrush="DarkGray" BorderThickness="4,3,4,3" Background="White" CornerRadius="10" Margin="10" HorizontalAlignment="Left" Width="370">
                             <ScrollViewer VerticalScrollBarVisibility="Visible" Height="150" HorizontalAlignment="Left" Width="360">
@@ -157,8 +159,10 @@
 
             <!-- Business application -->
             <Border Grid.Row="8" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="{x:Static localization:Localization.BusinessApplication}" FontWeight="Bold" Margin="10"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfoBusinessApp}" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBox Text="{Binding AppSettings.BusinessAppName, Mode=TwoWay}" x:Name="BusinessAppTextBox" Margin="10" Width="200"/>
                     </StackPanel>
@@ -170,6 +174,7 @@
             <Border Grid.Row="9" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="{x:Static localization:Localization.MaxKoToTransfert}" FontWeight="Bold" Margin="10"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfoMaxKo}" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBox Text="{Binding AppSettings.MaxKoToTransfert, Mode=TwoWay}" x:Name="MaxFileSize" Margin="10" Width="200"/>
                     </StackPanel>

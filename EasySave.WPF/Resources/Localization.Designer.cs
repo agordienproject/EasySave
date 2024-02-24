@@ -412,6 +412,78 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the name of your business application here so that the backup jobs stop while they are running if you launch your business application. Also, jobs will only launch if your business application is not running..
+        /// </summary>
+        public static string SettingsInfoBusinessApp {
+            get {
+                return ResourceManager.GetString("SettingsInfoBusinessApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à In this section, you can define the list of file types whose contents you want to encrypt when copying. Enter the name of the extension (eg: &apos;txt&apos; for a text file) in the field below then click on the &apos;add&apos; button. If you want to remove an extension from the list, click on the one you want and then click the &apos;Remove&apos; button..
+        /// </summary>
+        public static string SettingsInfoEncrypt {
+            get {
+                return ResourceManager.GetString("SettingsInfoEncrypt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Use the buttons to select the application language. The language change will apply once the application is restarted..
+        /// </summary>
+        public static string SettingsInfoLanguage {
+            get {
+                return ResourceManager.GetString("SettingsInfoLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the location of the backup job logs folder in the field below or click on the &apos;...&apos; to use the file explorer..
+        /// </summary>
+        public static string SettingsInfoLogs {
+            get {
+                return ResourceManager.GetString("SettingsInfoLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Use the buttons to select the type of file in which the logs will be written. You can choose between JSON and XML..
+        /// </summary>
+        public static string SettingsInfoLogsFileType {
+            get {
+                return ResourceManager.GetString("SettingsInfoLogsFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the size here in Kilo Bytes (KB) to indicate a reference size for the files during copies. Once entered, the application will not be able to copy files exceeding the size you have referenced at the same time..
+        /// </summary>
+        public static string SettingsInfoMaxKo {
+            get {
+                return ResourceManager.GetString("SettingsInfoMaxKo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à In this section you can define the list of file types to prioritize during the execution of your backup jobs. Enter the name of the extension (eg: &apos;txt&apos; for a text file) in the field below then click on the &apos;add&apos; button. If you want to remove an extension from the list, click on the one you want and then click the &apos;Remove&apos; button..
+        /// </summary>
+        public static string SettingsInfoPrioritize {
+            get {
+                return ResourceManager.GetString("SettingsInfoPrioritize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the location of the backup job status folder in the field below or click on the &apos;...&apos; to use the file explorer. You also have the possibility to change the name of the file which is by default &apos;states&apos;.
+        /// </summary>
+        public static string SettingsInfoStates {
+            get {
+                return ResourceManager.GetString("SettingsInfoStates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Log file extension.
         /// </summary>
         public static string SettingTypeLogFile {
