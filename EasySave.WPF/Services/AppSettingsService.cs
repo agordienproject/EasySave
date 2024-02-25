@@ -22,7 +22,8 @@ namespace EasySave.Services
                 Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList(),
                 Properties.Settings.Default.PrioritizedExtensions.Cast<string>().ToList(),
                 Properties.Settings.Default.BusinessAppName,
-                Properties.Settings.Default.MaxKoToTransfert
+                Properties.Settings.Default.MaxKoToTransfert,
+                Properties.Settings.Default.MaxMemory
             );
         }
 
@@ -45,6 +46,8 @@ namespace EasySave.Services
             Properties.Settings.Default.BusinessAppName = appSettings.BusinessAppName;
 
             Properties.Settings.Default.MaxKoToTransfert = appSettings.MaxKoToTransfert;
+
+            Properties.Settings.Default.MaxMemory = appSettings.MaxMemory;
 
             Properties.Settings.Default.Save();
 

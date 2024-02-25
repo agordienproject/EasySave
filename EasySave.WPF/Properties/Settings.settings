@@ -28,8 +28,8 @@
     <Setting Name="BusinessAppName" Type="System.String" Scope="User">
       <Value Profile="(Default)">calc</Value>
     </Setting>
-    <Setting Name="MaxKoToTransfert" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">100</Value>
+    <Setting Name="MaxKoToTransfert" Type="System.Int64" Scope="User">
+      <Value Profile="(Default)">50</Value>
     </Setting>
     <Setting Name="PrioritizedExtensions" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;

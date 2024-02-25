@@ -466,6 +466,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the value in MB that the application can use below. If the RAM that the application uses exceeds the limit value, the application will reduce the number of backup jobs to launch at the same time or may not launch any if you set a very low value..
+        /// </summary>
+        public static string SettingsInfoMaxMemory {
+            get {
+                return ResourceManager.GetString("SettingsInfoMaxMemory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à In this section you can define the list of file types to prioritize during the execution of your backup jobs. Enter the name of the extension (eg: &apos;txt&apos; for a text file) in the field below then click on the &apos;add&apos; button. If you want to remove an extension from the list, click on the one you want and then click the &apos;Remove&apos; button..
         /// </summary>
         public static string SettingsInfoPrioritize {
@@ -480,6 +489,15 @@ namespace EasySave.Resources {
         public static string SettingsInfoStates {
             get {
                 return ResourceManager.GetString("SettingsInfoStates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Maximum RAM that the application can use.
+        /// </summary>
+        public static string SettingsMaxMemory {
+            get {
+                return ResourceManager.GetString("SettingsMaxMemory", resourceCulture);
             }
         }
         

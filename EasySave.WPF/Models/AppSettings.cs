@@ -12,7 +12,8 @@ namespace EasySave.Models
             List<string> encryptedExtensions, 
             List<string> prioritizedExtensions,
             string businessAppName, 
-            int maxKoToTransfert) 
+            long maxKoToTransfert,
+            long maxMemory)
         {
             CurrentCulture = currentCulture;
             StateFolderPath = stateFolderPath;
@@ -23,6 +24,7 @@ namespace EasySave.Models
             BusinessAppName = businessAppName;
             MaxKoToTransfert = maxKoToTransfert;
             PrioritizedExtensions = prioritizedExtensions;
+            MaxMemory = maxMemory;
         }
 
         public string CurrentCulture { get; set; }
@@ -32,10 +34,8 @@ namespace EasySave.Models
         public string LogsFileType { get; set; }
         public List<string> EncryptedExtensions { get; set; }
         public string BusinessAppName { get; set; }
-        public int MaxKoToTransfert { get; set; }
+        public long MaxKoToTransfert { get; set; }
         public List<string> PrioritizedExtensions { get; set; }
-
+        public long MaxMemory { get; set; }
     }
-
-
 }

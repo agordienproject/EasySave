@@ -28,6 +28,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!-- Title -->
@@ -181,8 +182,19 @@
                 </StackPanel>
             </Border>
 
+            <!-- MaxMemory to use -->
+            <Border Grid.Row="10" BorderBrush="SlateBlue" BorderThickness="5,5,5,5" Background="WhiteSmoke" Padding="5" CornerRadius="15" Margin="10">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{x:Static localization:Localization.SettingsMaxMemory}" FontWeight="Bold" Margin="10"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsInfoMaxMemory}" Margin="10,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Text="{Binding AppSettings.MaxMemory, Mode=TwoWay}" x:Name="MaxMemory" Margin="10" Width="200"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
             <!-- Validation button -->
-            <Button Grid.Row="10" FontSize="30" FontWeight="Bold" Margin="15" HorizontalAlignment="Left" VerticalAlignment="Top" 
+            <Button Grid.Row="11" FontSize="30" FontWeight="Bold" Margin="15" HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Content="{x:Static localization:Localization.ButtonValidate}" 
                     Command="{Binding SaveAppSettingsCommand}"
                     Background="#71D675">

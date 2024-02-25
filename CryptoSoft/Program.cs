@@ -74,6 +74,8 @@ namespace CryptoSoft
         {
             try
             {
+                Directory.CreateDirectory(Path.GetDirectoryName(destinationFilePath));
+
                 byte[] sourceBytes = File.ReadAllBytes(sourceFilePath);
                 byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
 
