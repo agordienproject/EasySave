@@ -1,5 +1,6 @@
 ﻿using EasySave.Commands;
 using EasySave.Commands.BackupJobs;
+using EasySave.Domain.Models;
 using EasySave.Models;
 using EasySave.Services;
 using EasySave.Services.Interfaces;

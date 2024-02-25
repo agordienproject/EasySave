@@ -1,4 +1,5 @@
-﻿using EasySave.Models;
+﻿using EasySave.Domain.Models;
+using EasySave.Models;
 
 namespace EasySave.Services.Interfaces
 {
@@ -8,6 +9,6 @@ namespace EasySave.Services.Interfaces
         BackupJobInfo? Get(string name);
         BackupJobInfo Create(BackupJobInfo entity);
         BackupJobInfo? Update(BackupJobInfo entity);
-        bool Delete(string name);
+        bool Delete(Guid name);
     }
 }

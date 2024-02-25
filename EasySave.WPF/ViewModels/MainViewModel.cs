@@ -59,7 +59,6 @@ namespace EasySave.ViewModels
                 {
                     case ViewType.BackupJobs:
                         _navigator.CurrentViewModel = BackupJobsListingViewModel;
-                        BackupJobsListingViewModel.LoadBackupJobsCommand.Execute(BackupJobsListingViewModel);
                         break;
                     case ViewType.AppSettings:
                         _navigator.CurrentViewModel = AppSettingsViewModel;

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using ConsoleDeportee.Services;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +17,25 @@ namespace ConsoleDeportee
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(object dataContext)
         {
             InitializeComponent();
+
+            DataContext = dataContext;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                TCPClientManager.ConnectToServer("127.0.0.1", 8888);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

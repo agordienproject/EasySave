@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using EasySave.Enums;
+using EasySave.Domain.Enums;
 using Microsoft.Win32;
 
 namespace EasySave.Views

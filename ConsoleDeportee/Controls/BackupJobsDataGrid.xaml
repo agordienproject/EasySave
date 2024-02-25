@@ -1,22 +1,20 @@
-﻿<UserControl x:Class="EasySave.Controls.BackupJobsDataGrid"
+﻿<UserControl x:Class="ConsoleDeportee.Controls.BackupJobsDataGrid"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EasySave.Controls" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns:localization="clr-namespace:EasySave.Resources"
+             xmlns:local="clr-namespace:ConsoleDeportee.Controls"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
     <Grid>
-        <DataGrid 
+        <ui:DataGrid 
             ItemsSource="{Binding BackupJobs}" 
             SelectedItem="{Binding SelectedBackupJob}"
             AutoGenerateColumns="False" 
-            SelectionMode="Extended"
+            SelectionMode="Single"
             HeadersVisibility="Column"
-            CanUserAddRows="False"
-            >
+            CanUserAddRows="False">
 
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -28,22 +26,20 @@
                 </Style>
             </DataGrid.RowStyle>
 
-            
-            
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static localization:Localization.Name}" Binding="{Binding BackupName, Mode=TwoWay}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="{x:Static localization:Localization.SourceDirectory}" Binding="{Binding SourceDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="{x:Static localization:Localization.DestinationDirectory}" Binding="{Binding TargetDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="{x:Static localization:Localization.BackupType}" Binding="{Binding BackupType, Mode=TwoWay}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="{x:Static localization:Localization.State}" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="BackupName" Binding="{Binding BackupName, Mode=TwoWay}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="SourceDirectory" Binding="{Binding SourceDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="TargetDirectory" Binding="{Binding TargetDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="BackupType" Binding="{Binding BackupType, Mode=TwoWay}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="BackupState" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
                 <DataGridTextColumn Header="Progression" Binding="{Binding Progression, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
-                <DataGridTemplateColumn Header="{x:Static localization:Localization.Execute}">
+                <DataGridTemplateColumn Header="Execute">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                    Command="{Binding DataContext.ExecuteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                    CommandParameter="{Binding}"
-                                    BorderThickness="0">
+                            Command="{Binding DataContext.ExecuteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                            CommandParameter="{Binding}"
+                            BorderThickness="0">
                                 <ui:SymbolIcon>
                                     <ui:SymbolIcon.Style>
                                         <Style TargetType="ui:SymbolIcon">
@@ -70,14 +66,14 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="{x:Static localization:Localization.Delete}">
+
+                <DataGridTemplateColumn Header="Stop">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                    Command="{Binding DataContext.StopBackupJobExecutionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                    CommandParameter="{Binding}"
-                                    BorderThickness="0">
+                            Command="{Binding DataContext.StopBackupJobExecutionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                            CommandParameter="{Binding}"
+                            BorderThickness="0">
                                 <ui:SymbolIcon >
                                     <ui:SymbolIcon.Style>
                                         <Style TargetType="ui:SymbolIcon">
@@ -93,28 +89,8 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="{x:Static localization:Localization.Delete}">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                    Command="{Binding DataContext.DeleteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                                    CommandParameter="{Binding}"
-                                    BorderThickness="0">
-                                <ui:SymbolIcon >
-                                    
-                                    <ui:SymbolIcon.Style>
-                                        <Style TargetType="ui:SymbolIcon">
-                                            <Setter Property="Symbol" Value="DeleteDismiss28"/>
-                                            <Setter Property="Foreground" Value="Red"/>
-                                            <Setter Property="FontWeight" Value="Bold"/>
-                                        </Style>
-                                    </ui:SymbolIcon.Style>
-                                </ui:SymbolIcon>
-                            </Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
-        </DataGrid>
+        </ui:DataGrid>
+
     </Grid>
 </UserControl>
