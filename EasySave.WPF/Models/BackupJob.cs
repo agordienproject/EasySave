@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Security.Cryptography;
-using EasySave.Enums;
+using EasySave.Domain.Enums;
 using System.IO;
 using EasySave.Services.Interfaces;
 using EasySave.Services;
 using EasySave.Services.Factories;
 using System.Threading;
+using EasySave.Domain.Models;
 
 namespace EasySave.Models
 {
@@ -49,7 +50,7 @@ namespace EasySave.Models
             _backupJobService = backupJobService;
             _logService = logService;
 
-            PropertyChanged += (sender, e) => { _backupJobService.Update(this); };
+            PropertyChanged += (sender, e) => _backupJobService.Update(this);
             ClearState();
             PropertyChanged -= (sender, e) => _backupJobService.Update(this);
         }

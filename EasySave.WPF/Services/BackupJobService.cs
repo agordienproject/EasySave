@@ -1,4 +1,5 @@
-﻿using EasySave.Models;
+﻿using EasySave.Domain.Models;
+using EasySave.Models;
 using EasySave.Services.Factories;
 using EasySave.Services.Interfaces;
 using Microsoft.Extensions.Configuration;

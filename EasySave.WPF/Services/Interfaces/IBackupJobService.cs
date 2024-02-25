@@ -1,4 +1,5 @@
-﻿using EasySave.Models;
+﻿using EasySave.Domain.Models;
+using EasySave.Models;
 
 namespace EasySave.Services.Interfaces
 {

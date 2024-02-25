@@ -1,7 +1,12 @@
-﻿using EasySave.Enums;
+﻿using EasySave.Domain.Enums;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace EasySave.Models
+namespace EasySave.Domain.Models
 {
     public class BackupJobInfo : INamedEntity, INotifyPropertyChanged
     {
@@ -48,7 +53,7 @@ namespace EasySave.Models
                 OnPropertyChanged(nameof(TargetDirectory));
             }
         }
-        
+
         private BackupType _backupType;
         public BackupType BackupType
         {
@@ -114,9 +119,9 @@ namespace EasySave.Models
             }
             set
             {
-                    _totalFilesSize = value;
-                    OnPropertyChanged(nameof(TotalFilesSize));
-                    OnPropertyChanged(nameof(Progression)); // Assurez-vous de notifier également pour la propriété calculée
+                _totalFilesSize = value;
+                OnPropertyChanged(nameof(TotalFilesSize));
+                OnPropertyChanged(nameof(Progression));
             }
         }
 
@@ -143,9 +148,9 @@ namespace EasySave.Models
             }
             set
             {
-                    _filesSizeLeftToDo = value;
-                    OnPropertyChanged(nameof(FilesSizeLeftToDo));
-                    OnPropertyChanged(nameof(Progression)); // Assurez-vous de notifier également pour la propriété calculée
+                _filesSizeLeftToDo = value;
+                OnPropertyChanged(nameof(FilesSizeLeftToDo));
+                OnPropertyChanged(nameof(Progression));
             }
         }
 
@@ -191,18 +196,18 @@ namespace EasySave.Models
         }
 
         public BackupJobInfo
-        (   Guid backupJobId,
+        (Guid backupJobId,
             string backupName,
-            string sourceDirectory, 
-            string targetDirectory, 
-            BackupType backupType, 
-            BackupState backupState, 
-            string? backupTime, 
-            int totalFilesNumber, 
-            long totalFilesSize, 
-            int nbFilesLeftToDo, 
-            long filesSizeLeftToDo, 
-            string? sourceTransferingFilePath, 
+            string sourceDirectory,
+            string targetDirectory,
+            BackupType backupType,
+            BackupState backupState,
+            string? backupTime,
+            int totalFilesNumber,
+            long totalFilesSize,
+            int nbFilesLeftToDo,
+            long filesSizeLeftToDo,
+            string? sourceTransferingFilePath,
             string? targetTransferingFilePath)
         {
             BackupJobId = backupJobId;

@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ConsoleDeportee.Services;
+using ConsoleDeportee.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Configuration;
 using System.Data;
 using System.Globalization;
+using System.Net;
 using System.Windows;
 
 namespace ConsoleDeportee
@@ -19,7 +22,8 @@ namespace ConsoleDeportee
             _host = Host.CreateDefaultBuilder()
                 .ConfigureServices((context, services) =>
                 {
-                    services.AddSingleton<MainWindow>();
+                    services.AddTransient<MainViewModel>();
+                    services.AddSingleton<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
                 })
                 .Build();
         }
@@ -38,6 +42,8 @@ namespace ConsoleDeportee
         {
             await _host.StopAsync();
             _host.Dispose();
+
+            Application.Current.Shutdown();
 
             base.OnExit(e);
         }

@@ -9,6 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Enums\**" />
+    <Compile Remove="ViewModels\Factories\**" />
+    <EmbeddedResource Remove="Enums\**" />
+    <EmbeddedResource Remove="ViewModels\Factories\**" />
+    <None Remove="Enums\**" />
+    <None Remove="ViewModels\Factories\**" />
+    <Page Remove="Enums\**" />
+    <Page Remove="ViewModels\Factories\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\prosoft-logo.png" />
   </ItemGroup>
 
@@ -20,6 +31,10 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Include="WPF-UI" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EasySave.Domain\EasySave.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

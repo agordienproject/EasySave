@@ -1,4 +1,5 @@
 ﻿using EasySave.HostBuilders;
+using EasySave.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -41,6 +42,8 @@ namespace EasySave
             }
 
             _host.Start();
+
+            TCPServerManager.StartServer(8888);
 
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(EasySave.Properties.Settings.Default.CurrentCulture);
 
