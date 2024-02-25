@@ -6,10 +6,12 @@ using EasySave.Services;
 using EasySave.Services.Interfaces;
 using EasySave.State.Navigators;
 using EasySave.WPF.Utils;
+using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace EasySave.ViewModels
 {
@@ -76,18 +78,16 @@ namespace EasySave.ViewModels
 
         public ICommand StopBackupJobExecutionCommand { get; set; }
 
-
         private Thread BusinessAppListenerThread { get; set; }
 
-
-
-        public BackgroundWorker BackgroundWorker { get; set; }
-
+        public Dispatcher Dispatcher { get; set; }
 
         public BackupJobsListingViewModel(IBackupJobService backupJobService, ILogService logService,IRenavigator backupJobCreationRenavigator)
         {
             BackupJobs = new ObservableCollection<BackupJob>();
             BackupJobs.CollectionChanged += BackupJobs_CollectionChanged;
+
+            Dispatcher = Dispatcher.CurrentDispatcher;
 
             LoadBackupJobsCommand = new LoadBackupJobsCommand(this, backupJobService, logService);
             UpdateBackupJobCommand = new UpdateBackupJobCommand(this, backupJobService);
@@ -106,7 +106,27 @@ namespace EasySave.ViewModels
             LoadBackupJobsCommand.Execute(this);
 
             TCPServerManager.NewClientConnection += BroadCastBackupJobs;
+            TCPServerManager.ExecuteBackupJobEvent += Deported_ExecuteBackupJob;
+            TCPServerManager.StopBackupJobExecutionEvent += Deported_StopBackupJobExecution;
+        }
 
+        private void Deported_StopBackupJobExecution(Guid guid)
+        {
+            BackupJob backupJob = BackupJobs.FirstOrDefault(backupjob => backupjob.BackupJobId == guid);
+            if (backupJob != null)
+                StopBackupJobExecution(backupJob);
+        }
+
+        private void Deported_ExecuteBackupJob(Guid guid)
+        {
+            BackupJob backupJob = BackupJobs.FirstOrDefault(backupjob => backupjob.BackupJobId == guid);
+            if (backupJob != null)
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    ExecuteBackupJobCommand.Execute(backupJob);
+                }));
+            }
         }
 
         private void BroadCastBackupJobs()
@@ -129,6 +149,7 @@ namespace EasySave.ViewModels
 
         private void BackupJobs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            BroadCastBackupJobs();
             if (e.OldItems != null)
             {
                 foreach (INotifyPropertyChanged item in e.OldItems)
@@ -158,6 +179,8 @@ namespace EasySave.ViewModels
                 backupJob.Stop();
             }
         }
+
+
 
         private void ListenForBusinessApp()
         {

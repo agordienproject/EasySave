@@ -8,7 +8,7 @@
         xmlns:controls="clr-namespace:ConsoleDeportee.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="650" Width="1150">
-    <Grid Margin="20">
+    <Grid Margin="20,0,20,20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -17,6 +17,6 @@
         <TextBlock Grid.Row="0" Text="Backup Jobs" FontSize="32" HorizontalAlignment="Left"/>
         <Button Grid.Row="0" Content="Connect To Server" HorizontalAlignment="Right" Click="Button_Click"/>
 
-        <controls:BackupJobsDataGrid Grid.Row="1"/>
+        <controls:BackupJobsDataGrid Grid.Row="1" Margin="0,10,0,0"/>
     </Grid>
 </Window>

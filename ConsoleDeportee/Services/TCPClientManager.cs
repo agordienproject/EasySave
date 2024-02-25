@@ -63,7 +63,6 @@ namespace ConsoleDeportee.Services
 
                         if (startIndex != -1 && endIndex != -1 && startIndex < endIndex)
                         {
-                            // Extract the content between <SOF> and <EOF>
                             string content = dataString.Substring(startIndex + startFlag.Length, endIndex - startIndex - startFlag.Length);
                             string remainingContent = dataString.Substring(endIndex + endFlag.Length);
 
@@ -87,8 +86,10 @@ namespace ConsoleDeportee.Services
         public static void SendMessage(string message)
         {
             if (!IsConnected) return;
-            byte[] buffer = new byte[1024];
-            _stream.Write(buffer, 0, buffer.Length);
+
+            byte[] msg = Encoding.UTF8.GetBytes(message);
+
+            _stream.Write(msg, 0, msg.Length);
         }
 
         public static void Disconnect()

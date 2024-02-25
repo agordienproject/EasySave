@@ -1,4 +1,5 @@
-﻿using ConsoleDeportee.Services;
+﻿using ConsoleDeportee.Commands;
+using ConsoleDeportee.Services;
 using EasySave.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,26 @@ namespace ConsoleDeportee.ViewModels
         {
             TCPClientManager.BackupJobsListReceived += UpdateBackupJobsList;
 
-            BackupJobs = new ObservableCollection<BackupJobInfo>();
+            ExecuteBackupJobCommand = new RelayCommand(ExecuteBackupJob);
+            StopBackupJobExecutionCommand = new RelayCommand(StopBackupJobExecution);
+        }
+
+        private void StopBackupJobExecution(object obj)
+        {
+            BackupJobInfo backupJobInfo = (BackupJobInfo)obj;
+
+            string message = "stop " + backupJobInfo.BackupJobId.ToString();
+
+            TCPClientManager.SendMessage(message);
+        }
+
+        private void ExecuteBackupJob(object obj)
+        {
+            BackupJobInfo backupJobInfo = (BackupJobInfo)obj;
+
+            string message = "execute " + backupJobInfo.BackupJobId.ToString();
+
+            TCPClientManager.SendMessage(message);
         }
 
         private void UpdateBackupJobsList(List<BackupJobInfo> backupJobInfos)
