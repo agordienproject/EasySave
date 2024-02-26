@@ -8,13 +8,14 @@
              x:Class="EasySave.Views.BackupJobCreationView"
              xmlns:localization="clr-namespace:EasySave.Resources" 
              xmlns:converters="clr-namespace:EasySave.Converters"
-             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800"
+             Background="{StaticResource BrushPrimary1}">
 
     <UserControl.Resources>
         <converters:BackupTypeConverter x:Key="BackupTypeConverter"/>
     </UserControl.Resources>
-    
-    <Grid Cursor="IBeam" Background="{StaticResource BrushPrimary4}" >
+
+    <Grid Margin="40,10,40,0">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
@@ -50,8 +51,8 @@
         <!-- Type of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Column="0" Grid.Row="4" TextWrapping="Wrap" Text="{x:Static localization:Localization.BackupType}"  VerticalAlignment="Center" FontSize="14"/>
         <ComboBox Grid.Column="1" Grid.Row="4"
-                  x:Name="BackupTypeComboBox"
-                  SelectedValue="{Binding BackupJob.BackupType, Converter={StaticResource BackupTypeConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    x:Name="BackupTypeComboBox"
+                    SelectedValue="{Binding BackupJob.BackupType, Converter={StaticResource BackupTypeConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </ComboBox>
         
         <!-- Validate Button -->

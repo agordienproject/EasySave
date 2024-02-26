@@ -5,38 +5,69 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasySave.Controls" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:localization="clr-namespace:EasySave.Resources"
+             xmlns:converters="clr-namespace:EasySave.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <converters:PathConverter x:Key="PathConverter"/>
+    </UserControl.Resources>
+
     <Grid>
-        <DataGrid 
+        <ui:DataGrid 
             ItemsSource="{Binding BackupJobs}" 
             SelectedItem="{Binding SelectedBackupJob}"
+            CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
             AutoGenerateColumns="False" 
-            SelectionMode="Extended"
+            SelectionMode="Single"
             HeadersVisibility="Column"
             CanUserAddRows="False"
+            CanUserSortColumns="False"
+            GridLinesVisibility="Horizontal"
             >
 
-            <DataGrid.RowStyle>
+            
+            
+            <ui:DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
+                    <Style.Setters>
+                        <Setter Property="Height" Value="30"/>
+                    </Style.Setters>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="LightCyan" />
+                            <Setter Property="Background" Value="LightCyan"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
-            </DataGrid.RowStyle>
+            </ui:DataGrid.RowStyle>
 
-            
-            
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static localization:Localization.Name}" Binding="{Binding BackupName, Mode=TwoWay}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="{x:Static localization:Localization.SourceDirectory}" Binding="{Binding SourceDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="{x:Static localization:Localization.DestinationDirectory}" Binding="{Binding TargetDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.Name}" Binding="{Binding BackupName, Mode=TwoWay}" IsReadOnly="True" />
+                <DataGridTextColumn Header="{x:Static localization:Localization.SourceDirectory}" IsReadOnly="True" Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="SourceDirectory" Converter="{StaticResource PathConverter}"/>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding SourceDirectory}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="{x:Static localization:Localization.DestinationDirectory}" IsReadOnly="True" Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="TargetDirectory" Converter="{StaticResource PathConverter}"/>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding TargetDirectory}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="{x:Static localization:Localization.BackupType}" Binding="{Binding BackupType, Mode=TwoWay}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="{x:Static localization:Localization.State}" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
-                <DataGridTextColumn Header="Progression" Binding="{Binding Progression, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="Progression" Binding="{Binding Progression, Mode=OneWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="FileProgress" Binding="{Binding FileProgress, Mode=OneWay}" IsReadOnly="True" Width="*"/>
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Execute}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -115,6 +146,6 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
-        </DataGrid>
+        </ui:DataGrid>
     </Grid>
 </UserControl>
