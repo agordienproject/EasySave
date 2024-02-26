@@ -107,6 +107,7 @@ namespace EasySave.Domain.Models
             {
                 _totalFilesNumber = value;
                 OnPropertyChanged(nameof(TotalFilesNumber));
+                OnPropertyChanged(nameof(FileProgress));
             }
         }
 
@@ -136,6 +137,7 @@ namespace EasySave.Domain.Models
             {
                 _nbFilesLeftToDo = value;
                 OnPropertyChanged(nameof(NbFilesLeftToDo));
+                OnPropertyChanged(nameof(FileProgress));
             }
         }
 
@@ -190,6 +192,19 @@ namespace EasySave.Domain.Models
                 if (TotalFilesSize > 0 && FilesSizeLeftToDo != 0)
                 {
                     return (((TotalFilesSize - FilesSizeLeftToDo) / TotalFilesSize) * 100).ToString("#.##") + "%";
+                }
+                return "";
+            }
+        }
+
+        public string FileProgress
+        {
+            get
+            {
+                if (TotalFilesNumber != 0)
+                {
+                    int NbFilesDone = TotalFilesNumber - NbFilesLeftToDo;
+                    return NbFilesDone.ToString() + "/" + TotalFilesNumber.ToString();
                 }
                 return "";
             }

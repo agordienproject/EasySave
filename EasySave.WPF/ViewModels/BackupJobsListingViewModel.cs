@@ -79,6 +79,7 @@ namespace EasySave.ViewModels
         public ICommand StopBackupJobExecutionCommand { get; set; }
 
         private Thread BusinessAppListenerThread { get; set; }
+        private Thread MaxMemoryListenerThread { get; set; }
 
         public Dispatcher Dispatcher { get; set; }
 
@@ -102,6 +103,10 @@ namespace EasySave.ViewModels
             BusinessAppListenerThread = new Thread(ListenForBusinessApp);
             BusinessAppListenerThread.IsBackground = true;
             BusinessAppListenerThread.Start();
+
+            MaxMemoryListenerThread = new Thread(ListenForMemoryUsage);
+            MaxMemoryListenerThread.IsBackground = true;
+            MaxMemoryListenerThread.Start();
 
             LoadBackupJobsCommand.Execute(this);
 
@@ -153,16 +158,16 @@ namespace EasySave.ViewModels
             if (e.OldItems != null)
             {
                 foreach (INotifyPropertyChanged item in e.OldItems)
-                    item.PropertyChanged -= OnBackupJobItemChanged;
+                    item.PropertyChanged -= OnBackupJob_ItemChanged;
             }
             if (e.NewItems != null)
             {
                 foreach (INotifyPropertyChanged item in e.NewItems)
-                    item.PropertyChanged += OnBackupJobItemChanged;
+                    item.PropertyChanged += OnBackupJob_ItemChanged;
             }
         }
 
-        private void OnBackupJobItemChanged(object? sender, PropertyChangedEventArgs e)
+        private void OnBackupJob_ItemChanged(object? sender, PropertyChangedEventArgs e)
         {
             BroadCastBackupJobs();
         }
@@ -179,8 +184,6 @@ namespace EasySave.ViewModels
                 backupJob.Stop();
             }
         }
-
-
 
         private void ListenForBusinessApp()
         {
@@ -212,5 +215,23 @@ namespace EasySave.ViewModels
             }
         }
 
+        private void ListenForMemoryUsage()
+        {
+            bool HasMaxMemoryBeenReached = false;
+            while (true) 
+            {
+                if (MemoryUsed.IsMaxMemoryReached(Properties.Settings.Default.MaxMemory))
+                {
+                    foreach (var backupJob in BackupJobs)
+                    {
+                        if (backupJob.IsRunning)
+                        {
+                            // Arrêter parmi les non prioritaires celui avec la plus grosse taille totale de fichier à transférer
+
+                        }
+                    }
+                }
+            }
+        }
     }
 }
