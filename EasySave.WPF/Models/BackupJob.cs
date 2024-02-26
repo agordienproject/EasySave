@@ -218,7 +218,7 @@ namespace EasySave.Models
                             }
                             else
                             {
-                                await CopyFileAsync(SourceTransferingFilePath, TargetTransferingFilePath, transferTime);
+                                transferTime = await CopyFileAsync(SourceTransferingFilePath, TargetTransferingFilePath);
                             }
                         }
                     }
@@ -230,10 +230,11 @@ namespace EasySave.Models
                         }
                         else
                         {
-                            await CopyFileAsync(SourceTransferingFilePath, TargetTransferingFilePath, transferTime);
+                            transferTime = await CopyFileAsync(SourceTransferingFilePath, TargetTransferingFilePath);
                         }
                     }
 
+                    // Traitez les informations de journal à l'extérieur du verrou
                     _logService.Create(new Log(
                         BackupName,
                         SourceTransferingFilePath,
@@ -250,8 +251,9 @@ namespace EasySave.Models
             }
         }
 
-        private async Task CopyFileAsync(string sourceFilePath, string targetFilePath, double transferTime)
+        private async Task<double> CopyFileAsync(string sourceFilePath, string targetFilePath)
         {
+            double transferTime = 0;
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
@@ -269,7 +271,9 @@ namespace EasySave.Models
             {
                 transferTime = -1;
             }
+            return transferTime;
         }
+
 
         private async Task CopyFileEncryptedAsync(string sourceFilePath, string targetFilePath, double transferTime, double encryptionTime)
         {
