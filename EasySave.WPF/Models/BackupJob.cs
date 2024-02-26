@@ -1,12 +1,13 @@
-﻿using System.Diagnostics;
-using System.Security.Cryptography;
-using EasySave.Domain.Enums;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using EasySave.Services.Interfaces;
-using EasySave.Services;
-using EasySave.Services.Factories;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
+using EasySave.Domain.Enums;
+using EasySave.Services.Interfaces;
 using EasySave.Domain.Models;
+using System.Diagnostics;
 
 namespace EasySave.Models
 {
@@ -14,6 +15,7 @@ namespace EasySave.Models
     {
         private readonly IBackupJobService _backupJobService;
         private readonly ILogService _logService;
+        private readonly object _pauseLock = new object();
 
         public bool IsRunning { get { return BackupState == BackupState.Active; } }
         public bool IsFinished { get { return BackupState == BackupState.Finished; } }
@@ -57,14 +59,26 @@ namespace EasySave.Models
 
         public void Pause()
         {
-            BackupState = BackupState.Paused;
-            _pauseEvent.Reset(); // Resets the event, blocking threads
+            lock (_pauseLock)
+            {
+                if (!IsPaused)
+                {
+                    BackupState = BackupState.Paused;
+                    _pauseEvent.Reset(); // Mettre en pause la copie en bloquant les threads
+                }
+            }
         }
 
         public void Resume()
         {
-            BackupState = BackupState.Active;
-            _pauseEvent.Set(); // Sets the event, allowing threads to proceed
+            lock (_pauseLock)
+            {
+                if (IsPaused)
+                {
+                    BackupState = BackupState.Active;
+                    _pauseEvent.Set(); // Reprendre la copie en autorisant les threads à continuer
+                }
+            }
         }
 
         public void Stop()
@@ -72,9 +86,9 @@ namespace EasySave.Models
             TokenSource.Cancel();
         }
 
-        public void Execute()
+        public async Task ExecuteAsync()
         {
-            lock (_alreadyExecutinglock) 
+            lock (_alreadyExecutinglock)
             {
                 if (!Directory.Exists(SourceDirectory))
                 {
@@ -91,12 +105,12 @@ namespace EasySave.Models
                 SetDirectoryInfos();
 
                 // PRIORITAIRES
-                CopyFiles(_priorityFiles);
-                
+                await CopyFilesAsync(_priorityFiles);
+
                 Barrier.SignalAndWait();
 
                 // NON PRIORITAIRES
-                CopyFiles(_nonPriorityFiles);
+                await CopyFilesAsync(_nonPriorityFiles);
 
                 ClearState();
 
@@ -162,7 +176,7 @@ namespace EasySave.Models
 
         }
 
-        private void CopyFiles(List<FileInfo> filesInfo)
+        private async Task CopyFilesAsync(List<FileInfo> filesInfo)
         {
             if (!Directory.Exists(TargetDirectory))
             {
@@ -174,7 +188,10 @@ namespace EasySave.Models
                 if (TokenSource.IsCancellationRequested)
                     return;
 
-                _pauseEvent.WaitOne();
+                lock (_pauseLock)
+                {
+                    _pauseEvent.WaitOne(); // Attendre si la copie est en pause
+                }
 
                 SourceTransferingFilePath = fileInfo.FullName;
 
@@ -197,23 +214,23 @@ namespace EasySave.Models
                         {
                             if (ShouldBeEncrypted(SourceTransferingFilePath))
                             {
-                                CopyFileEncrypted(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, ref encryptionTime);
-                            } 
+                                await CopyFileEncryptedAsync(SourceTransferingFilePath, TargetTransferingFilePath, transferTime, encryptionTime);
+                            }
                             else
                             {
-                                CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
+                                await CopyFileAsync(SourceTransferingFilePath, TargetTransferingFilePath, transferTime);
                             }
                         }
-                    } 
+                    }
                     else
                     {
                         if (ShouldBeEncrypted(SourceTransferingFilePath))
                         {
-                            CopyFileEncrypted(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, ref encryptionTime);
+                            await CopyFileEncryptedAsync(SourceTransferingFilePath, TargetTransferingFilePath, transferTime, encryptionTime);
                         }
                         else
                         {
-                            CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
+                            await CopyFileAsync(SourceTransferingFilePath, TargetTransferingFilePath, transferTime);
                         }
                     }
 
@@ -231,17 +248,20 @@ namespace EasySave.Models
                 NbFilesLeftToDo--;
                 FilesSizeLeftToDo -= fileInfo.Length;
             }
-
         }
 
-        private void CopyFile(string SourceTransferingFilePath, string TargetTransferingFilePath, ref double transferTime)
+        private async Task CopyFileAsync(string sourceFilePath, string targetFilePath, double transferTime)
         {
             try
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(TargetTransferingFilePath));
+                Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
 
                 DateTime before = DateTime.Now;
-                File.Copy(SourceTransferingFilePath, TargetTransferingFilePath, true);
+                using (var sourceStream = new FileStream(sourceFilePath, FileMode.Open, FileAccess.Read))
+                using (var targetStream = new FileStream(targetFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    await sourceStream.CopyToAsync(targetStream, 81920);
+                }
                 DateTime after = DateTime.Now;
                 transferTime = (after - before).TotalSeconds;
             }
@@ -251,7 +271,7 @@ namespace EasySave.Models
             }
         }
 
-        private void CopyFileEncrypted(string SourceTransferingFilePath, string TargetTransferingFilePath, ref double transferTime, ref double encryptionTime)
+        private async Task CopyFileEncryptedAsync(string sourceFilePath, string targetFilePath, double transferTime, double encryptionTime)
         {
             try
             {
@@ -260,7 +280,7 @@ namespace EasySave.Models
                 var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 var appRoot = Path.GetDirectoryName(location);
                 string cryptoSoftPath = Path.Combine(appRoot, "CryptoSoft", "CryptoSoft.exe");
-                string cryptoSoftArg = $"-s \"{SourceTransferingFilePath}\" -d \"{TargetTransferingFilePath}\"";
+                string cryptoSoftArg = $"-s \"{sourceFilePath}\" -d \"{targetFilePath}\"";
 
                 Process process = new Process();
                 process.StartInfo.FileName = cryptoSoftPath;
@@ -304,10 +324,7 @@ namespace EasySave.Models
             FileInfo sourceFile = new FileInfo(sourceFilePath);
             FileInfo targetFile = new FileInfo(targetFilePath);
 
-            if (sourceFile.LastWriteTime > targetFile.LastWriteTime)
-                return true;
-
-            return false;
+            return sourceFile.LastWriteTime > targetFile.LastWriteTime;
         }
 
         private static bool ShouldBeEncrypted(string filePath)
@@ -315,12 +332,7 @@ namespace EasySave.Models
             string fileExtension = Path.GetExtension(filePath);
             fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
 
-            List<string> authorizedExtensions = Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList();
-
-            if (authorizedExtensions.Contains(fileExtension))
-                return true;
-
-            return false;
+            return Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList().Contains(fileExtension);
         }
 
         public void UpdateBackupJobInfos(BackupJobInfo backupJobInfo)
