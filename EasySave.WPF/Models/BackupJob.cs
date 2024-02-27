@@ -272,21 +272,33 @@ namespace EasySave.Models
 
                 process.Start();
 
-                process.WaitForExit();
-
-                double exitCode = process.ExitCode;
-
-                if (exitCode >= 0)
+                while (true)
                 {
-                    encryptionTime = (exitCode / 1000);
-                }
-                else if (exitCode == -1)
-                {
-                    encryptionTime = exitCode;
-                }
+                    if (process.WaitForExit())
+                    {
+                        double exitCode = process.ExitCode;
 
-                DateTime after = DateTime.Now;
-                transferTime = (after - before).TotalSeconds;
+                        if (exitCode >= 0)
+                        {
+                            encryptionTime = (exitCode / 1000);
+                        }
+                        else if (exitCode == -1)
+                        {
+                            encryptionTime = exitCode;
+                        }
+
+                        DateTime after = DateTime.Now;
+                        transferTime = (after - before).TotalSeconds;
+
+                        break;
+                    }
+                    else if (_pauseEvent.WaitOne())
+                    {
+                        process.Kill();
+                        _pauseEvent.WaitOne();
+
+                    }
+                }
             }
             catch (Exception)
             {
