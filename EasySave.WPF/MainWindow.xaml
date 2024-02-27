@@ -9,7 +9,7 @@
         xmlns:localization="clr-namespace:EasySave.Resources"
         mc:Ignorable="d"
         Title="EasySave" MinHeight="450" MinWidth="800"
-        Icon="/Resources/logo_easaysave_remove_bg02.png">
+        Icon="/Resources/logo_easaysave_remove_bg_rouge_icon.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>

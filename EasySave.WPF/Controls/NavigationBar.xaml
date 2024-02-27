@@ -15,15 +15,17 @@
     <Grid>
         <!--// Window Border //-->
         <Border Background="#212529"/>
-
+        <!--<Border Background="#B375E4"/>-->
+        
         <!--// Navigation Panel //-->
         <Grid HorizontalAlignment="Left" Width="220">
 
             <Border Background="#272B2F"/>
+            <!--<Border Background="#B375E4"/>-->
             <StackPanel Width="220">
                 
                 <!--// Logo //-->
-                <ui:Image Source="/Resources/prosoft-logo.png" MaxHeight="150" MaxWidth="220" Margin="10"
+                <ui:Image Source="/Resources/logo_easaysave_remove_bg_rouge.png" MaxHeight="150" MaxWidth="220" Margin="10"
                           HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 
                 <!--// BackupJobs //-->
