@@ -20,7 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\prosoft-logo.png" />
+    <None Remove="Resources\img_home.png" />
+    <None Remove="Resources\img_setting.png" />
+    <None Remove="Resources\logo_easaysave_remove_bg_rouge.png" />
+    <None Remove="Resources\logo_easaysave_remove_bg_rouge_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,7 +41,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\prosoft-logo.png">
+    <Resource Include="Resources\img_home.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\img_setting.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\logo_easaysave_remove_bg_rouge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\logo_easaysave_remove_bg_rouge_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
