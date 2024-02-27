@@ -74,7 +74,7 @@ namespace EasySave.Models
 
         public void Execute()
         {
-            lock (_alreadyExecutinglock) 
+            lock (_alreadyExecutinglock)
             {
                 if (!Directory.Exists(SourceDirectory))
                 {
@@ -91,12 +91,12 @@ namespace EasySave.Models
                 SetDirectoryInfos();
 
                 // PRIORITAIRES
-                CopyFiles(_priorityFiles);
-                
+                CopyFiles(_priorityFiles, this);
+
                 Barrier.SignalAndWait();
 
                 // NON PRIORITAIRES
-                CopyFiles(_nonPriorityFiles);
+                CopyFiles(_nonPriorityFiles, this);
 
                 ClearState();
 
@@ -111,9 +111,8 @@ namespace EasySave.Models
             BackupState = BackupState.Active;
             BackupTime = DateTime.Now.ToString();
             TotalFilesNumber = 0;
-            TotalFilesSize = (long)0;
-            NbFilesLeftToDo = 0;
             FilesSizeLeftToDo = (long)0;
+            NbFilesLeftToDo = 0;
             SourceTransferingFilePath = "";
             TargetTransferingFilePath = "";
 
@@ -162,7 +161,7 @@ namespace EasySave.Models
 
         }
 
-        private void CopyFiles(List<FileInfo> filesInfo)
+        private void CopyFiles(List<FileInfo> filesInfo, BackupJobInfo backupJobInfo)
         {
             if (!Directory.Exists(TargetDirectory))
             {
@@ -173,8 +172,17 @@ namespace EasySave.Models
             {
                 if (TokenSource.IsCancellationRequested)
                     return;
-
                 _pauseEvent.WaitOne();
+
+                long totalBytesCopied = 0;
+
+                Action<long> progressCallback = (bytesCopied) =>
+                {
+                    totalBytesCopied = bytesCopied;
+
+                    // Update the progress in UpdateBackupJobInfos
+                    UpdateBackupJobInfos(backupJobInfo);
+                };
 
                 SourceTransferingFilePath = fileInfo.FullName;
 
@@ -198,13 +206,13 @@ namespace EasySave.Models
                             if (ShouldBeEncrypted(SourceTransferingFilePath))
                             {
                                 CopyFileEncrypted(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, ref encryptionTime);
-                            } 
+                            }
                             else
                             {
-                                CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
+                                CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, progressCallback);
                             }
                         }
-                    } 
+                    }
                     else
                     {
                         if (ShouldBeEncrypted(SourceTransferingFilePath))
@@ -213,7 +221,7 @@ namespace EasySave.Models
                         }
                         else
                         {
-                            CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
+                            CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, progressCallback);
                         }
                     }
 
@@ -229,27 +237,55 @@ namespace EasySave.Models
                 }
 
                 NbFilesLeftToDo--;
-                FilesSizeLeftToDo -= fileInfo.Length;
             }
-
         }
 
-        private void CopyFile(string SourceTransferingFilePath, string TargetTransferingFilePath, ref double transferTime)
+
+        private void CopyFile(string sourceFilePath, string targetFilePath, ref double transferTime, Action<long> progressCallback)
         {
             try
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(TargetTransferingFilePath));
+                Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
 
-                DateTime before = DateTime.Now;
-                File.Copy(SourceTransferingFilePath, TargetTransferingFilePath, true);
-                DateTime after = DateTime.Now;
-                transferTime = (after - before).TotalSeconds;
+                const int bufferSize = 1024 * 1024 * 20; // 1 MB buffer size
+                byte[] buffer = new byte[bufferSize];
+                long totalBytesCopied = 0;
+                long fileSize = new FileInfo(sourceFilePath).Length;
+
+                using (FileStream sourceStream = File.OpenRead(sourceFilePath))
+                using (FileStream targetStream = File.Create(targetFilePath))
+                {
+                    DateTime startTime = DateTime.Now;
+
+                    int bytesRead;
+                    while ((bytesRead = sourceStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        if (TokenSource.IsCancellationRequested)
+                            return;
+
+                        _pauseEvent.WaitOne();
+
+                        targetStream.Write(buffer, 0, bytesRead);
+                        totalBytesCopied += bytesRead;
+                        FilesSizeLeftToDo -= bytesRead;
+
+                        // Report progress
+                        progressCallback(totalBytesCopied);
+
+                        // Optionally, you can introduce a small delay to not overwhelm the system
+                    }
+
+                    DateTime endTime = DateTime.Now;
+                    transferTime = (endTime - startTime).TotalSeconds;
+                }
             }
             catch (Exception)
             {
                 transferTime = -1;
             }
         }
+
+
 
         private void CopyFileEncrypted(string SourceTransferingFilePath, string TargetTransferingFilePath, ref double transferTime, ref double encryptionTime)
         {
@@ -273,7 +309,6 @@ namespace EasySave.Models
                 process.Start();
 
                 process.WaitForExit();
-
                 double exitCode = process.ExitCode;
 
                 if (exitCode >= 0)
@@ -286,6 +321,7 @@ namespace EasySave.Models
                 }
 
                 DateTime after = DateTime.Now;
+
                 transferTime = (after - before).TotalSeconds;
             }
             catch (Exception)
