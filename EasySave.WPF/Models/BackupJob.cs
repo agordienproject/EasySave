@@ -310,39 +310,43 @@ namespace EasySave.Models
 
                 process.Start();
 
-                while (true)
+                while (!process.WaitForExit(100)) // Attendre 100 millisecondes maximum
                 {
-                    if (process.WaitForExit())
+                    if (BackupState == BackupState.Paused) // Vérifier si la pause est activée
                     {
-                        double exitCode = process.ExitCode;
+                        process.Kill(); // Arrêter le processus
+                        _pauseEvent.WaitOne(); // Attendre jusqu'à ce que la pause soit désactivée
 
-                        if (exitCode >= 0)
-                        {
-                            encryptionTime = (exitCode / 1000);
-                        }
-                        else if (exitCode == -1)
-                        {
-                            encryptionTime = exitCode;
-                        }
-
-                        DateTime after = DateTime.Now;
-                        transferTime = (after - before).TotalSeconds;
-
-                        break;
-                    }
-                    else if (_pauseEvent.WaitOne())
-                    {
-                        process.Kill();
-                        _pauseEvent.WaitOne();
-
+                        // Vérifier si la tâche a été annulée
+                        if (TokenSource.IsCancellationRequested)
+                            return;
+                            
+                        process.Start();
+                        
                     }
                 }
+
+                // Le processus est terminé
+                double exitCode = process.ExitCode;
+
+                if (exitCode >= 0)
+                {
+                    encryptionTime = (exitCode / 1000);
+                }
+                else if (exitCode == -1)
+                {
+                    encryptionTime = exitCode;
+                }
+
+                DateTime after = DateTime.Now;
+                transferTime = (after - before).TotalSeconds;
             }
             catch (Exception)
             {
                 transferTime = -1;
             }
         }
+
 
         private static bool ShouldBeCopied(string sourceFilePath, string targetFilePath)
         {
