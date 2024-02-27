@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -179,6 +180,7 @@ namespace EasySave.ViewModels
             if (backupJob.IsPaused)
             {
                 backupJob.Resume();
+                backupJob.Stop();
             } else if (backupJob.IsRunning)
             {
                 backupJob.Stop();
@@ -222,14 +224,14 @@ namespace EasySave.ViewModels
             {
                 if (MemoryUsed.IsMaxMemoryReached(Properties.Settings.Default.MaxMemory))
                 {
-                    foreach (var backupJob in BackupJobs)
-                    {
-                        if (backupJob.IsRunning)
-                        {
-                            // Arrêter parmi les non prioritaires celui avec la plus grosse taille totale de fichier à transférer
+                    //foreach (var backupJob in BackupJobs)
+                    //{
+                    //    if (backupJob.IsRunning)
+                    //    {
+                    //        // Arrêter parmi les non prioritaires celui avec la plus grosse taille totale de fichier à transférer
 
-                        }
-                    }
+                    //    }
+                    //}
                 }
             }
         }
