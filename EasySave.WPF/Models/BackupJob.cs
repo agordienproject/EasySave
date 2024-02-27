@@ -148,7 +148,7 @@ namespace EasySave.Models
                 FileInfo fileInfo = new FileInfo(fichier);
                 //TotalFilesSize += fileInfo.Length;
 
-                if (Properties.Settings.Default.PrioritizedExtensions.Contains(fileInfo.Extension.TrimStart('.')))
+                if (Properties.Settings.Default.PrioritizedExtensions.Contains(fileInfo.Extension.TrimStart('.').ToLower()))
                 {
                     _priorityFiles.Add(fileInfo);
                 }
@@ -356,7 +356,7 @@ namespace EasySave.Models
         {
             string fileExtension = Path.GetExtension(filePath);
             fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
-
+            fileExtension = fileExtension.ToLower();
             List<string> authorizedExtensions = Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList();
 
             if (authorizedExtensions.Contains(fileExtension))

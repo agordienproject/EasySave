@@ -135,7 +135,7 @@
                                 </ScrollViewer>
                             </Border>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <ui:TextBox  x:Name="NewEncryptedFileExtensionTextBox" PlaceholderEnabled="True" PlaceholderText="{x:Static localization:Localization.SettingNameFileExtension}" Width="150" Margin="10" HorizontalAlignment="Left"/>
+                                <ui:TextBox  x:Name="NewEncryptedFileExtensionTextBox" CharacterCasing="Lower" PlaceholderEnabled="True" PlaceholderText="{x:Static localization:Localization.SettingNameFileExtension}" Width="150" Margin="10" HorizontalAlignment="Left"/>
                                 <Button x:Name="AddEncryptedFileExtension" Width="90" Margin="10" HorizontalAlignment="Left"
                                 Content="{x:Static localization:Localization.Add}" 
                                 Command="{Binding AddEncryptedFileExtensionCommand}" 
@@ -164,7 +164,7 @@
                                 </ScrollViewer>
                             </Border>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                <ui:TextBox  x:Name="NewPrioritizedFileExtensionTextBox" PlaceholderEnabled="True" PlaceholderText="{x:Static localization:Localization.SettingNameFileExtension}" Width="150" Margin="10" HorizontalAlignment="Left"/>
+                                <ui:TextBox  x:Name="NewPrioritizedFileExtensionTextBox" CharacterCasing="Lower" PlaceholderEnabled="True" PlaceholderText="{x:Static localization:Localization.SettingNameFileExtension}" Width="150" Margin="10" HorizontalAlignment="Left"/>
                                 <Button x:Name="AddPrioritizedFileExtension" Width="90" Margin="10" HorizontalAlignment="Left"
                                 Content="{x:Static localization:Localization.Add}" 
                                 Command="{Binding AddPrioritizedFileExtensionCommand}" 
