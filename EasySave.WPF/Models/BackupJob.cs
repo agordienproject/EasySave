@@ -137,14 +137,16 @@ namespace EasySave.Models
 
         private void SetDirectoryInfos()
         {
-            string[] files = Directory.GetFiles(SourceDirectory, "*.*", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(SourceDirectory, ".", SearchOption.AllDirectories);
+            DirectoryInfo directoryInfo = new DirectoryInfo(SourceDirectory);
 
             TotalFilesNumber = files.Length;
+            TotalFilesSize = new DirectoryInfo(SourceDirectory).GetFiles(".", SearchOption.AllDirectories).Sum(file => file.Length);
 
             foreach (var fichier in files)
             {
                 FileInfo fileInfo = new FileInfo(fichier);
-                TotalFilesSize += fileInfo.Length;
+                //TotalFilesSize += fileInfo.Length;
 
                 if (Properties.Settings.Default.PrioritizedExtensions.Contains(fileInfo.Extension.TrimStart('.')))
                 {

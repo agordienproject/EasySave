@@ -412,7 +412,7 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Enter the name of your business application here so that the backup jobs stop while they are running if you launch your business application. Also, jobs will only launch if your business application is not running..
+        ///   Recherche une chaîne localisée semblable à Enter the name of your business application that will stop backup jobs running when it is in use. At that point, no further backups can be launched..
         /// </summary>
         public static string SettingsInfoBusinessApp {
             get {
@@ -421,7 +421,7 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à In this section, you can define the list of file types whose contents you want to encrypt when copying. Enter the name of the extension (eg: &apos;txt&apos; for a text file) in the field below then click on the &apos;add&apos; button. If you want to remove an extension from the list, click on the one you want and then click the &apos;Remove&apos; button..
+        ///   Recherche une chaîne localisée semblable à Here you define the list of file types whose contents you wish to encrypt when copied. Enter the extension name (e.g. &apos;txt&apos; for a text file) in the field below, then click the &apos;Add&apos; button. If you wish to remove an extension from the list, click on it and then on the &apos;Remove&apos; button..
         /// </summary>
         public static string SettingsInfoEncrypt {
             get {
@@ -430,7 +430,7 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Use the buttons to select the application language. The language change will apply once the application is restarted..
+        ///   Recherche une chaîne localisée semblable à Use the buttons to select the application language. The change will be applied once the application has been restarted. .
         /// </summary>
         public static string SettingsInfoLanguage {
             get {
@@ -457,7 +457,7 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Enter the size here in Kilo Bytes (KB) to indicate a reference size for the files during copies. Once entered, the application will not be able to copy files exceeding the size you have referenced at the same time..
+        ///   Recherche une chaîne localisée semblable à Here you define the maximum file size for copying in Kilobytes (Kb). Files of this size will not be copied at the same time, but successively..
         /// </summary>
         public static string SettingsInfoMaxKo {
             get {
@@ -466,7 +466,7 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Enter the value in MB that the application can use below. If the RAM that the application uses exceeds the limit value, the application will reduce the number of backup jobs to launch at the same time or may not launch any if you set a very low value..
+        ///   Recherche une chaîne localisée semblable à Here, set the maximum value of RAM that the application can use in Mega Bytes (MB). When this value is exceeded, the application limits the number of backup jobs in progress and will not allow any more to be launched..
         /// </summary>
         public static string SettingsInfoMaxMemory {
             get {
@@ -475,7 +475,7 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à In this section you can define the list of file types to prioritize during the execution of your backup jobs. Enter the name of the extension (eg: &apos;txt&apos; for a text file) in the field below then click on the &apos;add&apos; button. If you want to remove an extension from the list, click on the one you want and then click the &apos;Remove&apos; button..
+        ///   Recherche une chaîne localisée semblable à Here you define the list of files to be given priority at runtime. Enter the extension name (e.g. &apos;txt&apos; for a text file) in the field below, then click on the &apos;Add&apos; button. If you wish to remove an extension from the list, click on it and then on the &apos;Remove&apos; button..
         /// </summary>
         public static string SettingsInfoPrioritize {
             get {

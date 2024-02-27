@@ -13,8 +13,8 @@
     <UserControl.Resources>
         <converters:BackupTypeConverter x:Key="BackupTypeConverter"/>
     </UserControl.Resources>
-    
-    <Grid Cursor="IBeam" Background="{StaticResource BrushPrimary4}" >
+
+    <Grid Cursor="IBeam" Background= "#F7F7F3" >
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
@@ -50,6 +50,7 @@
         <!-- Type of backup -->
         <ui:TextBlock HorizontalAlignment="Left" Margin="13,0,0,0" Grid.Column="0" Grid.Row="4" TextWrapping="Wrap" Text="{x:Static localization:Localization.BackupType}"  VerticalAlignment="Center" FontSize="14"/>
         <ComboBox Grid.Column="1" Grid.Row="4"
+                  Margin="0,15,0,15"
                   x:Name="BackupTypeComboBox"
                   SelectedValue="{Binding BackupJob.BackupType, Converter={StaticResource BackupTypeConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </ComboBox>

@@ -194,7 +194,7 @@
             </Border>
 
             <!-- Validation button -->
-            <Button Grid.Row="11" FontSize="30" FontWeight="Bold" Margin="15" HorizontalAlignment="Left" VerticalAlignment="Top" 
+            <Button Grid.Row="11" FontSize="30" FontWeight="Bold" Margin="15" HorizontalAlignment="Right" VerticalAlignment="Top" 
                     Content="{x:Static localization:Localization.ButtonValidate}" 
                     Command="{Binding SaveAppSettingsCommand}"
                     Background="#71D675">

@@ -247,13 +247,13 @@
     <value>* La taille maximum d'un fichier à copier non parallèlement</value>
   </data>
   <data name="SettingsInfoBusinessApp" xml:space="preserve">
-    <value>Renseignez ici le nom de votre application métier afin que les travaux de sauvegarde se stop pendant leur exécution si vous lancez votre application métier. Également, les travaux ne se lanceront que si votre application métier n'est pas exécutée.</value>
+    <value>Renseignez le nom de votre application métier qui stoppera l'exécution des travaux de sauvegarde quand elle sera en cours d'utilisation. A ce moment là, aucune autre sauvegarde ne pourra être lancé.</value>
   </data>
   <data name="SettingsInfoEncrypt" xml:space="preserve">
-    <value>Vous pouvez dans cette section définir la liste des types de fichiers dont vous souhaitez chiffrer le contenu lors de la copie. Renseignez le nom de l'extension (ex : 'txt' pour un fichier texte) dans le champ ci-dessous puis cliquez sur le bouton 'ajouter'. Si vous souhaitez retirer une extension de la liste, cliquez sur celle que vous souhaitez et ensuite sur le bouton 'Supprimer'.</value>
+    <value>Ici, vous définissez la liste des types de fichiers dont vous souhaitez chiffrer le contenu lors de la copie. Renseignez le nom de l'extension (ex : 'txt' pour un fichier texte) dans le champ ci-dessous puis cliquez sur le bouton 'ajouter'. Si vous souhaitez retirer une extension de la liste, cliquez sur celle-ci puis sur le bouton 'Supprimer'.</value>
   </data>
   <data name="SettingsInfoLanguage" xml:space="preserve">
-    <value>Utilisez les boutons pour sélectionner le langage de l'application. Le changement de langue s'appliquera une fois l'application redémaréé.</value>
+    <value>Utilisez les boutons pour sélectionner la langue de l'application. Le changement s'appliquera une fois l'application redémarrée.</value>
   </data>
   <data name="SettingsInfoLogs" xml:space="preserve">
     <value>Renseignez dans le champ ci-dessous l'emplacement du dossier des logs des travaux de sauvegarde ou cliquez sur les '...' pour utiliser l'explorateur de fichier.</value>
@@ -262,13 +262,13 @@
     <value>Utilisez les boutons pour sélectionner le type de fichier dans lequel seront écrits les logs. Vous pouvez choisir entre JSON et XML.</value>
   </data>
   <data name="SettingsInfoMaxKo" xml:space="preserve">
-    <value>Renseignez ici la taille en Kilo Octets (Ko) pour indiquer une taille de référence pour les fichiers pendant les copies. Une fois renseignée, l'application ne pourra pas copier en même temps les fichiers dépassant la taille que vous avez référencé.</value>
+    <value>Ici, vous définissez la taille maximale des fichier pour la copie en Kilo Octets (Ko). Les fichiers de cette taille ne seront pas copier en même temps mais successivement.</value>
   </data>
   <data name="SettingsInfoMaxMemory" xml:space="preserve">
-    <value>Renseignez ci-dessous la valeur en MO que peux utiliser l'application. Si la RAM qu'use l'application dépasse la valeur la limite, l'application va diminuer le nombre de travaux de sauvegarde à lancer en même temps ou peux ne pas en lancer si vous mettez une très faible valeur.</value>
+    <value>Ici, définissez la valeur maximale de la RAM que l'application peut utiliser en Méga Octet (MO). Quand la valeur est dépassée, l'application limite le nombre de travaux de sauvegarde en cours et ne permettra pas d'en lancer d'autre.</value>
   </data>
   <data name="SettingsInfoPrioritize" xml:space="preserve">
-    <value>Vous pouvez dans cette section définir la liste des types de fichiers à prioriser pendant l'exécution de vos travaux de sauvegarde. Renseignez le nom de l'extension (ex : 'txt' pour un fichier texte) dans le champ ci-dessous puis cliquez sur le bouton 'ajouter'. Si vous souhaitez retirer une extension de la liste, cliquez sur celle que vous souhaitez et ensuite sur le bouton 'Supprimer'.</value>
+    <value>Ici, vous définissez la liste des fichiers prioritaires lors de l'exécution. Renseignez le nom de l'extension (ex : 'txt' pour un fichier texte) dans le champ ci-dessous puis cliquez sur le bouton 'ajouter'. Si vous souhaitez retirer une extension de la liste, cliquez sur celle-ci puis sur le bouton 'Supprimer'.</value>
   </data>
   <data name="SettingsInfoStates" xml:space="preserve">
     <value>Renseignez dans le champ ci-dessous l'emplacement du dossier des états des travaux de sauvegarde ou cliquez sur les '...' pour utiliser l'explorateur de fichier. Vous avez aussi la possibilité de changer le nom du fichier qui est par défaut 'states'</value>

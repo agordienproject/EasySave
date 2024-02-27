@@ -248,13 +248,13 @@
     <value>* The maximum size of a file to copy non-parallel</value>
   </data>
   <data name="SettingsInfoBusinessApp" xml:space="preserve">
-    <value>Enter the name of your business application here so that the backup jobs stop while they are running if you launch your business application. Also, jobs will only launch if your business application is not running.</value>
+    <value>Enter the name of your business application that will stop backup jobs running when it is in use. At that point, no further backups can be launched.</value>
   </data>
   <data name="SettingsInfoEncrypt" xml:space="preserve">
-    <value>In this section, you can define the list of file types whose contents you want to encrypt when copying. Enter the name of the extension (eg: 'txt' for a text file) in the field below then click on the 'add' button. If you want to remove an extension from the list, click on the one you want and then click the 'Remove' button.</value>
+    <value>Here you define the list of file types whose contents you wish to encrypt when copied. Enter the extension name (e.g. 'txt' for a text file) in the field below, then click the 'Add' button. If you wish to remove an extension from the list, click on it and then on the 'Remove' button.</value>
   </data>
   <data name="SettingsInfoLanguage" xml:space="preserve">
-    <value>Use the buttons to select the application language. The language change will apply once the application is restarted.</value>
+    <value>Use the buttons to select the application language. The change will be applied once the application has been restarted. </value>
   </data>
   <data name="SettingsInfoLogs" xml:space="preserve">
     <value>Enter the location of the backup job logs folder in the field below or click on the '...' to use the file explorer.</value>
@@ -263,13 +263,13 @@
     <value>Use the buttons to select the type of file in which the logs will be written. You can choose between JSON and XML.</value>
   </data>
   <data name="SettingsInfoMaxKo" xml:space="preserve">
-    <value>Enter the size here in Kilo Bytes (KB) to indicate a reference size for the files during copies. Once entered, the application will not be able to copy files exceeding the size you have referenced at the same time.</value>
+    <value>Here you define the maximum file size for copying in Kilobytes (Kb). Files of this size will not be copied at the same time, but successively.</value>
   </data>
   <data name="SettingsInfoMaxMemory" xml:space="preserve">
-    <value>Enter the value in MB that the application can use below. If the RAM that the application uses exceeds the limit value, the application will reduce the number of backup jobs to launch at the same time or may not launch any if you set a very low value.</value>
+    <value>Here, set the maximum value of RAM that the application can use in Mega Bytes (MB). When this value is exceeded, the application limits the number of backup jobs in progress and will not allow any more to be launched.</value>
   </data>
   <data name="SettingsInfoPrioritize" xml:space="preserve">
-    <value>In this section you can define the list of file types to prioritize during the execution of your backup jobs. Enter the name of the extension (eg: 'txt' for a text file) in the field below then click on the 'add' button. If you want to remove an extension from the list, click on the one you want and then click the 'Remove' button.</value>
+    <value>Here you define the list of files to be given priority at runtime. Enter the extension name (e.g. 'txt' for a text file) in the field below, then click on the 'Add' button. If you wish to remove an extension from the list, click on it and then on the 'Remove' button.</value>
   </data>
   <data name="SettingsInfoStates" xml:space="preserve">
     <value>Enter the location of the backup job status folder in the field below or click on the '...' to use the file explorer. You also have the possibility to change the name of the file which is by default 'states'</value>
