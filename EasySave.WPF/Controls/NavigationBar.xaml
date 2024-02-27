@@ -25,7 +25,7 @@
             <StackPanel Width="220">
                 
                 <!--// Logo //-->
-                <ui:Image Source="/Resources/logo_easaysave_remove_bg_rouge.png" MaxHeight="150" MaxWidth="220" Margin="10"
+                <ui:Image Source="/Resources/logo_easaysave_remove_bg_rouge.png" MaxHeight="100" MaxWidth="220" Margin="10"
                           HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 
                 <!--// BackupJobs //-->
