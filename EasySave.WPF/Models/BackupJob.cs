@@ -148,7 +148,7 @@ namespace EasySave.Models
                 FileInfo fileInfo = new FileInfo(fichier);
                 //TotalFilesSize += fileInfo.Length;
 
-                if (Properties.Settings.Default.PrioritizedExtensions.Contains(fileInfo.Extension.TrimStart('.')))
+                if (Properties.Settings.Default.PrioritizedExtensions.Contains(fileInfo.Extension.TrimStart('.').ToLower()))
                 {
                     _priorityFiles.Add(fileInfo);
                 }
@@ -176,16 +176,6 @@ namespace EasySave.Models
                     return;
                 _pauseEvent.WaitOne();
 
-                long totalBytesCopied = 0;
-
-                Action<long> progressCallback = (bytesCopied) =>
-                {
-                    totalBytesCopied = bytesCopied;
-
-                    // Update the progress in UpdateBackupJobInfos
-                    UpdateBackupJobInfos(backupJobInfo);
-                };
-
                 SourceTransferingFilePath = fileInfo.FullName;
 
                 string targetPath = TargetDirectory + SourceTransferingFilePath.Substring(SourceDirectory.Length);
@@ -211,7 +201,7 @@ namespace EasySave.Models
                             }
                             else
                             {
-                                CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, progressCallback);
+                                CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
                             }
                         }
                     }
@@ -223,7 +213,7 @@ namespace EasySave.Models
                         }
                         else
                         {
-                            CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, progressCallback);
+                            CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
                         }
                     }
 
@@ -243,7 +233,7 @@ namespace EasySave.Models
         }
 
 
-        private void CopyFile(string sourceFilePath, string targetFilePath, ref double transferTime, Action<long> progressCallback)
+        private void CopyFile(string sourceFilePath, string targetFilePath, ref double transferTime)
         {
             try
             {
@@ -268,11 +258,9 @@ namespace EasySave.Models
                         _pauseEvent.WaitOne();
 
                         targetStream.Write(buffer, 0, bytesRead);
-                        totalBytesCopied += bytesRead;
                         FilesSizeLeftToDo -= bytesRead;
 
                         // Report progress
-                        progressCallback(totalBytesCopied);
 
                         // Optionally, you can introduce a small delay to not overwhelm the system
                     }
@@ -310,7 +298,23 @@ namespace EasySave.Models
 
                 process.Start();
 
-                process.WaitForExit();
+                while (!process.WaitForExit(100)) // Attendre 100 millisecondes maximum
+                {
+                    if (BackupState == BackupState.Paused) // Vérifier si la pause est activée
+                    {
+                        process.Kill(); // Arrêter le processus
+                        _pauseEvent.WaitOne(); // Attendre jusqu'à ce que la pause soit désactivée
+
+                        // Vérifier si la tâche a été annulée
+                        if (TokenSource.IsCancellationRequested)
+                            return;
+                            
+                        process.Start();
+                        
+                    }
+                }
+
+                // Le processus est terminé
                 double exitCode = process.ExitCode;
 
                 if (exitCode >= 0)
@@ -323,7 +327,6 @@ namespace EasySave.Models
                 }
 
                 DateTime after = DateTime.Now;
-
                 transferTime = (after - before).TotalSeconds;
             }
             catch (Exception)
@@ -331,6 +334,7 @@ namespace EasySave.Models
                 transferTime = -1;
             }
         }
+
 
         private static bool ShouldBeCopied(string sourceFilePath, string targetFilePath)
         {
@@ -352,7 +356,7 @@ namespace EasySave.Models
         {
             string fileExtension = Path.GetExtension(filePath);
             fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
-
+            fileExtension = fileExtension.ToLower();
             List<string> authorizedExtensions = Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList();
 
             if (authorizedExtensions.Contains(fileExtension))
