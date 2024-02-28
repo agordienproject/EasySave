@@ -107,6 +107,8 @@ namespace EasySave.ViewModels
 
             MaxMemoryListenerThread = new Thread(ListenForMemoryUsage);
             MaxMemoryListenerThread.IsBackground = true;
+            MemoryUsed.IsRamReached = false;
+
             MaxMemoryListenerThread.Start();
 
             LoadBackupJobsCommand.Execute(this);
@@ -216,24 +218,37 @@ namespace EasySave.ViewModels
                 }
             }
         }
-
         private void ListenForMemoryUsage()
         {
-            bool HasMaxMemoryBeenReached = false;
-            while (true) 
+            while (true)
             {
-                if (MemoryUsed.IsMaxMemoryReached(Properties.Settings.Default.MaxMemory))
-                {
-                    //foreach (var backupJob in BackupJobs)
-                    //{
-                    //    if (backupJob.IsRunning)
-                    //    {
-                    //        // Arrêter parmi les non prioritaires celui avec la plus grosse taille totale de fichier à transférer
+                Task.Delay(1000);
+                bool HasMaxMemoryBeenReached = MemoryUsed.IsMaxMemoryReached(Properties.Settings.Default.MaxMemory);
 
-                    //    }
-                    //}
+                if (HasMaxMemoryBeenReached)
+                {
+                    MessageBox.Show(Resources.Localization.MaxRAMIsReached, "Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MemoryUsed.IsRamReached = true;
+                    // Attendre 3 minutes avant de revérifier
+                    while(HasMaxMemoryBeenReached)
+                    {
+                        HasMaxMemoryBeenReached = MemoryUsed.IsMaxMemoryReached(Properties.Settings.Default.MaxMemory);
+
+                        if (!HasMaxMemoryBeenReached)
+                        {
+                            MemoryUsed.IsRamReached = false;
+                            break;
+                        }
+                    }
+                    Thread.Sleep(TimeSpan.FromMinutes(3));
+                }
+                else
+                {
+
                 }
             }
         }
+
+
     }
 }

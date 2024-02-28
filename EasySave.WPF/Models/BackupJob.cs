@@ -7,6 +7,9 @@ using EasySave.Services;
 using EasySave.Services.Factories;
 using System.Threading;
 using EasySave.Domain.Models;
+using EasySave.WPF.Utils;
+using System.Windows;
+using System.Collections.Generic;
 
 namespace EasySave.Models
 {
@@ -80,7 +83,11 @@ namespace EasySave.Models
                 {
                     return;
                 }
-
+                else if (MemoryUsed.IsRamReached == true)
+                {
+                    MessageBox.Show("Vous ne pouvez pas lancer de backupjob");
+                    return;
+                }
                 TokenSource = new();
                 Barrier.AddParticipant();
                 PropertyChanged += (sender, e) => { _backupJobService.Update(this); };
@@ -169,6 +176,7 @@ namespace EasySave.Models
             {
                 Directory.CreateDirectory(TargetDirectory);
             }
+            List<FileInfo> lastBigFiles= new List<FileInfo>();
 
             foreach (FileInfo fileInfo in filesInfo)
             {
@@ -193,6 +201,11 @@ namespace EasySave.Models
 
                     if (fileInfo.Length >= Properties.Settings.Default.MaxKoToTransfert)
                     {
+                        if (!Monitor.TryEnter(_maxSizeFileLock))
+                        {
+                            lastBigFiles.Add(fileInfo);
+                            continue;
+                        }
                         lock (_maxSizeFileLock)
                         {
                             if (ShouldBeEncrypted(SourceTransferingFilePath))
@@ -227,8 +240,12 @@ namespace EasySave.Models
                         DateTime.Now.ToString()
                     ));
                 }
-
                 NbFilesLeftToDo--;
+            }
+
+            if (lastBigFiles.Count > 0)
+            {
+                CopyFiles(lastBigFiles, backupJobInfo);
             }
         }
 

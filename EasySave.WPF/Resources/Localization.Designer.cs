@@ -205,6 +205,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Be careful, the application consumes more memory in RAM than the limit you have imposed. Please limit your backup work..
+        /// </summary>
+        public static string MaxRAMIsReached {
+            get {
+                return ResourceManager.GetString("MaxRAMIsReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Backup Name.
         /// </summary>
         public static string Name {

@@ -276,4 +276,7 @@
   <data name="SettingsMaxMemory" xml:space="preserve">
     <value>RAM maximale que peut utiliser l'application</value>
   </data>
+  <data name="MaxRAMIsReached" xml:space="preserve">
+    <value>Attention, l'application consomme plus de mémoire dans la RAM que la limite que vous avez imposée. Veuillez limiter vos travaux de sauvegarde.</value>
+  </data>
 </root>
