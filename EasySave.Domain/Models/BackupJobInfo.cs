@@ -191,9 +191,9 @@ namespace EasySave.Domain.Models
             {
                 if (TotalFilesSize > 0 && FilesSizeLeftToDo != 0)
                 {
-                    return (((TotalFilesSize - FilesSizeLeftToDo) / TotalFilesSize) * 100).ToString("#.##") + "%";
+                    return (((TotalFilesSize - FilesSizeLeftToDo) / TotalFilesSize) * 100).ToString("#");
                 }
-                return "";
+                return "0";
             }
         }
 

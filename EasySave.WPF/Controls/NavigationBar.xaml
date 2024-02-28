@@ -15,17 +15,16 @@
     <Grid>
         <!--// Window Border //-->
         <Border Background="#212529"/>
-        <!--<Border Background="#B375E4"/>-->
-        
+
         <!--// Navigation Panel //-->
         <Grid HorizontalAlignment="Left" Width="220">
 
             <Border Background="#272B2F"/>
-            <!--<Border Background="#B375E4"/>-->
+            
             <StackPanel Width="220">
                 
                 <!--// Logo //-->
-                <ui:Image Source="/Resources/logo_easaysave_remove_bg_rouge.png" MaxHeight="100" MaxWidth="220" Margin="10"
+                <ui:Image Source="/Resources/logo_easysave.png" MaxHeight="100" MaxWidth="220" Margin="10"
                           HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
 
                 <!--// BackupJobs //-->
@@ -34,7 +33,7 @@
                                 CommandParameter="{x:Static navigators:ViewType.BackupJobs}"
                               IsChecked="True">
                     <Grid>
-                        <Image Source="/Resources/img_home.png"
+                        <Image Source="/Resources/icon_home.png"
                                    Style="{StaticResource Image_Style}" />
                         <TextBlock Text="{x:Static localization:Localization.BackupJobs}"
                                        Style="{StaticResource Text_Style}" />
@@ -47,7 +46,7 @@
                                 CommandParameter="{x:Static navigators:ViewType.AppSettings}"
                                 IsChecked="False">
                     <Grid>
-                        <Image Source="/Resources/img_setting.png"
+                        <Image Source="/Resources/icon_setting.png"
                                    Style="{StaticResource Image_Style}" />
                         <TextBlock Text="{x:Static localization:Localization.Settings}"
                                        Style="{StaticResource Text_Style}" />

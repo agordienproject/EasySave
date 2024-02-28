@@ -9,27 +9,21 @@ using System.Windows.Data;
 
 namespace EasySave.Converters
 {
-    public class PathConverter : IValueConverter
+    public class PathToFileNameConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
-                return string.Empty;
+            if (value is string filePath)
+            {
+                return Path.GetFileName(filePath);
+            }
 
-            string fullPath = value.ToString();
-            string shortPath = GetShortPath(fullPath);
-
-            return shortPath;
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
-        }
-
-        private string GetShortPath(string fullPath)
-        {
-            return ".../" + Path.GetFileName(fullPath);
         }
     }
 }
