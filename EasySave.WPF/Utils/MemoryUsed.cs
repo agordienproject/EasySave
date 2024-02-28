@@ -9,7 +9,6 @@ namespace EasySave.WPF.Utils
 {
     class MemoryUsed
     {
-        public static bool IsRamReached;
         public static bool IsMaxMemoryReached(long MaxMemory)
         {
             string PROCESSNAME = "EasySave";

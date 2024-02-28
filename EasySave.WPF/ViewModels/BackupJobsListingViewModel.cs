@@ -107,8 +107,6 @@ namespace EasySave.ViewModels
 
             MaxMemoryListenerThread = new Thread(ListenForMemoryUsage);
             MaxMemoryListenerThread.IsBackground = true;
-            MemoryUsed.IsRamReached = false;
-
             MaxMemoryListenerThread.Start();
 
             LoadBackupJobsCommand.Execute(this);
@@ -220,31 +218,12 @@ namespace EasySave.ViewModels
         }
         private void ListenForMemoryUsage()
         {
+            bool HasMaxMemoryBeenReached = false;
             while (true)
             {
-                Task.Delay(1000);
-                bool HasMaxMemoryBeenReached = MemoryUsed.IsMaxMemoryReached(Properties.Settings.Default.MaxMemory);
-
-                if (HasMaxMemoryBeenReached)
+                if (MemoryUsed.IsMaxMemoryReached(Properties.Settings.Default.MaxMemory))
                 {
-                    MessageBox.Show(Resources.Localization.MaxRAMIsReached, "Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    MemoryUsed.IsRamReached = true;
-                    // Attendre 3 minutes avant de revérifier
-                    while(HasMaxMemoryBeenReached)
-                    {
-                        HasMaxMemoryBeenReached = MemoryUsed.IsMaxMemoryReached(Properties.Settings.Default.MaxMemory);
-
-                        if (!HasMaxMemoryBeenReached)
-                        {
-                            MemoryUsed.IsRamReached = false;
-                            break;
-                        }
-                    }
-                    Thread.Sleep(TimeSpan.FromMinutes(3));
-                }
-                else
-                {
-
+                    //MessageBox.Show(Resources.Localization.MaxRAMIsReached, "Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }

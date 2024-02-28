@@ -23,10 +23,9 @@ namespace EasySave.Models
         public bool IsPaused { get { return BackupState == BackupState.Paused; } }
 
         private readonly object _alreadyExecutinglock = new object();
-        private readonly object _maxSizeFileLock = new object();
+        private static readonly object _maxSizeFileLock = new object();
 
         private readonly ManualResetEvent _pauseEvent = new ManualResetEvent(true);
-        private static bool isMaxSizeFileLockTaken = false;
 
         public CancellationTokenSource TokenSource;
 
@@ -88,11 +87,6 @@ namespace EasySave.Models
                 {
                     return;
                 }
-                else if (MemoryUsed.IsRamReached == true)
-                {
-                    MessageBox.Show("Vous ne pouvez pas lancer de backupjob");
-                    return;
-                }
                 TokenSource = new();
                 PropertyChanged += (sender, e) => { _backupJobService.Update(this); };
 
@@ -104,14 +98,14 @@ namespace EasySave.Models
                 // PRIORITAIRES
                 Barrier.AddParticipant();
                 if (_priorityFiles.Count > 0)
-                    CopyFiles(_priorityFiles, this);
+                    CopyFiles(_priorityFiles);
                 
                 Barrier.SignalAndWait();
 
                 // NON PRIORITAIRES
                 Barrier.RemoveParticipant();
                 if (_nonPriorityFiles.Count > 0)
-                    CopyFiles(_nonPriorityFiles, this);
+                    CopyFiles(_nonPriorityFiles);
 
                 ClearState();
                 TokenSource.Dispose();
@@ -151,49 +145,46 @@ namespace EasySave.Models
         private void SetDirectoryInfos()
         {
             string[] files = Directory.GetFiles(SourceDirectory, ".", SearchOption.AllDirectories);
-            DirectoryInfo directoryInfo = new DirectoryInfo(SourceDirectory);
+            long maxKoToTransfer = Properties.Settings.Default.MaxKoToTransfert;
+
+            _priorityFiles = files.Select(f => new FileInfo(f))
+                                .Where(fileInfo => Properties.Settings.Default.PrioritizedExtensions
+                                .Contains(fileInfo.Extension.TrimStart('.').ToLower()))
+                                .OrderByDescending(fileInfo => fileInfo.Length < maxKoToTransfer * 1024)
+                                .ThenBy(fileInfo => fileInfo.FullName)
+                                .ToList();
+
+            _nonPriorityFiles = files.Select(f => new FileInfo(f))
+                                .Where(fileInfo => !Properties.Settings.Default.PrioritizedExtensions
+                                .Contains(fileInfo.Extension.TrimStart('.').ToLower()))
+                                .OrderByDescending(fileInfo => fileInfo.Length < maxKoToTransfer * 1024)
+                                .ThenBy(fileInfo => fileInfo.FullName)
+                                .ToList();
 
             TotalFilesNumber = files.Length;
             TotalFilesSize = new DirectoryInfo(SourceDirectory).GetFiles(".", SearchOption.AllDirectories).Sum(file => file.Length);
-
-            foreach (var fichier in files)
-            {
-                FileInfo fileInfo = new FileInfo(fichier);
-                //TotalFilesSize += fileInfo.Length;
-
-                if (Properties.Settings.Default.PrioritizedExtensions.Contains(fileInfo.Extension.TrimStart('.').ToLower()))
-                {
-                    _priorityFiles.Add(fileInfo);
-                }
-                else
-                {
-                    _nonPriorityFiles.Add(fileInfo);
-                }
-            }
 
             NbFilesLeftToDo = TotalFilesNumber;
             FilesSizeLeftToDo = TotalFilesSize;
 
         }
 
-        private void CopyFiles(List<FileInfo> filesInfo, BackupJobInfo backupJobInfo)
+        private void CopyFiles(List<FileInfo> filesInfo)
         {
             if (!Directory.Exists(TargetDirectory))
             {
                 Directory.CreateDirectory(TargetDirectory);
             }
-            List<FileInfo> lastBigFiles= new List<FileInfo>();
-
+            
             foreach (FileInfo fileInfo in filesInfo)
             {
                 if (TokenSource.IsCancellationRequested)
                     return;
+
                 _pauseEvent.WaitOne();
 
                 SourceTransferingFilePath = fileInfo.FullName;
-
-                string targetPath = TargetDirectory + SourceTransferingFilePath.Substring(SourceDirectory.Length);
-                TargetTransferingFilePath = targetPath;
+                TargetTransferingFilePath = TargetDirectory + SourceTransferingFilePath.Substring(SourceDirectory.Length);
 
                 // Differential
                 bool shouldCopy = true;
@@ -207,22 +198,8 @@ namespace EasySave.Models
 
                     if (fileInfo.Length >= Properties.Settings.Default.MaxKoToTransfert * 1024)
                     {
-                        bool isLocked = isMaxSizeFileLockTaken;
-
-                        if (isLocked)
-                        {
-                            // Le verrou est déjà pris, ajoutez le fichier à la liste
-                            lastBigFiles.Add(fileInfo);
-                            continue;
-                        }
-
-                        // Essayez d'acquérir le verrou
                         lock (_maxSizeFileLock)
                         {
-                            // Mettez à jour l'état du verrou
-                            isMaxSizeFileLockTaken = true;
-
-                            // Copiez le fichier
                             if (ShouldBeEncrypted(SourceTransferingFilePath))
                             {
                                 CopyFileEncrypted(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, ref encryptionTime);
@@ -231,9 +208,6 @@ namespace EasySave.Models
                             {
                                 CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
                             }
-
-                            // Remettre à jour l'état du verrou après avoir terminé
-                            isMaxSizeFileLockTaken = false;
                         }
                     }
                     else
@@ -261,10 +235,6 @@ namespace EasySave.Models
                 NbFilesLeftToDo--;
             }
 
-            if (lastBigFiles.Count > 0)
-            {
-                CopyFiles(lastBigFiles, backupJobInfo);
-            }
         }
 
 
@@ -276,7 +246,7 @@ namespace EasySave.Models
 
                 const int bufferSize = 1024 * 1024 * 20; // 1 MB buffer size
                 byte[] buffer = new byte[bufferSize];
-                long totalBytesCopied = 0;
+                
                 long fileSize = new FileInfo(sourceFilePath).Length;
 
                 using (FileStream sourceStream = File.OpenRead(sourceFilePath))
@@ -288,16 +258,14 @@ namespace EasySave.Models
                     while ((bytesRead = sourceStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         if (TokenSource.IsCancellationRequested)
+                        {
                             return;
+                        }
 
                         _pauseEvent.WaitOne();
 
                         targetStream.Write(buffer, 0, bytesRead);
                         FilesSizeLeftToDo -= bytesRead;
-
-                        // Report progress
-
-                        // Optionally, you can introduce a small delay to not overwhelm the system
                     }
 
                     DateTime endTime = DateTime.Now;
@@ -309,8 +277,6 @@ namespace EasySave.Models
                 transferTime = -1;
             }
         }
-
-
 
         private void CopyFileEncrypted(string SourceTransferingFilePath, string TargetTransferingFilePath, ref double transferTime, ref double encryptionTime)
         {
@@ -333,32 +299,27 @@ namespace EasySave.Models
 
                 process.Start();
 
-                while (!process.WaitForExit(100)) // Attendre 100 millisecondes maximum
+                while (!process.WaitForExit(100))
                 {
-                    if (BackupState == BackupState.Paused) // Vérifier si la pause est activée
+                    if (BackupState == BackupState.Paused)
                     {
-                        process.Kill(); // Arrêter le processus
-                        _pauseEvent.WaitOne(); // Attendre jusqu'à ce que la pause soit désactivée
+                        process.Kill();
+                        _pauseEvent.WaitOne();
 
-                        // Vérifier si la tâche a été annulée
                         if (TokenSource.IsCancellationRequested)
                             return;
                             
                         process.Start();
-                        
                     }
                 }
-
-                // Le processus est terminé
-                double exitCode = process.ExitCode;
-
-                if (exitCode >= 0)
+                
+                if (process.ExitCode >= 0)
                 {
-                    encryptionTime = (exitCode / 1000);
+                    encryptionTime = (process.ExitCode / 1000);
                 }
-                else if (exitCode == -1)
+                else if (process.ExitCode == -1)
                 {
-                    encryptionTime = exitCode;
+                    encryptionTime = process.ExitCode;
                 }
 
                 DateTime after = DateTime.Now;
@@ -389,12 +350,9 @@ namespace EasySave.Models
 
         private static bool ShouldBeEncrypted(string filePath)
         {
-            string fileExtension = Path.GetExtension(filePath);
-            fileExtension = fileExtension.TrimStart('.'); // Enlève le "." au début de l'extension
-            fileExtension = fileExtension.ToLower();
             List<string> authorizedExtensions = Properties.Settings.Default.EncryptedExtensions.Cast<string>().ToList();
 
-            if (authorizedExtensions.Contains(fileExtension))
+            if (authorizedExtensions.Contains(Path.GetExtension(filePath).TrimStart('.').ToLower()))
                 return true;
 
             return false;
