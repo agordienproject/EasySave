@@ -58,12 +58,16 @@ namespace EasySave.Models
         public void Pause()
         {
             BackupState = BackupState.Paused;
+            if (Barrier.ParticipantCount > 0)
+                Barrier.RemoveParticipant();
+
             _pauseEvent.Reset(); // Resets the event, blocking threads
         }
 
         public void Resume()
         {
             BackupState = BackupState.Active;
+            Barrier.AddParticipant();
             _pauseEvent.Set(); // Sets the event, allowing threads to proceed
         }
 
@@ -82,7 +86,6 @@ namespace EasySave.Models
                 }
 
                 TokenSource = new();
-                Barrier.AddParticipant();
                 PropertyChanged += (sender, e) => { _backupJobService.Update(this); };
 
                 InitState();
@@ -91,17 +94,19 @@ namespace EasySave.Models
                 SetDirectoryInfos();
 
                 // PRIORITAIRES
-                CopyFiles(_priorityFiles, this);
-
+                Barrier.AddParticipant();
+                if (_priorityFiles.Count > 0)
+                    CopyFiles(_priorityFiles, this);
+                
                 Barrier.SignalAndWait();
 
                 // NON PRIORITAIRES
-                CopyFiles(_nonPriorityFiles, this);
+                Barrier.RemoveParticipant();
+                if (_nonPriorityFiles.Count > 0)
+                    CopyFiles(_nonPriorityFiles, this);
 
                 ClearState();
-
                 TokenSource.Dispose();
-                Barrier.RemoveParticipant();
                 PropertyChanged -= (sender, e) => _backupJobService.Update(this);
             }
         }

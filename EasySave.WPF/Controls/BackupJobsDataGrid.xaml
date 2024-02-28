@@ -56,13 +56,13 @@
                 <DataGridTextColumn Header="{x:Static localization:Localization.State}" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
 
 
-                <DataGridTemplateColumn Header="Progression" IsReadOnly="True" Width="200">
+                <DataGridTemplateColumn Header="Progression" IsReadOnly="True" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
                                 <ProgressBar x:Name="progressBar" Background="Transparent"
                                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                                     Minimum="0" Maximum="100" Width="200" Height="25"
+                                     Minimum="0" Maximum="100" Width="150" Height="25"
                                      Value="{Binding Progression, Mode=OneWay}" >
                                     <ProgressBar.Template>
                                         <ControlTemplate TargetType="ProgressBar">
@@ -80,8 +80,8 @@
                 </DataGridTemplateColumn>
 
                 <DataGridTextColumn Header="Transfering file" Binding="{Binding SourceTransferingFilePath, Mode=OneWay, Converter={StaticResource PathToFileNameConverter}}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="FileProgress" Binding="{Binding FileProgress, Mode=OneWay}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="Size to tranfer"  IsReadOnly="True" Width="*"
+                <DataGridTextColumn Header="FileProgress" Binding="{Binding FileProgress, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="Size to tranfer"  IsReadOnly="True" Width="Auto"
                                     Binding="{Binding FilesSizeLeftToDo, Mode=OneWay, Converter={StaticResource BytesConverter}}"/>
                 
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Execute}">
