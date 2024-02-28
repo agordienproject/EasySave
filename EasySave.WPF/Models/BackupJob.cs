@@ -26,6 +26,7 @@ namespace EasySave.Models
         private readonly object _maxSizeFileLock = new object();
 
         private readonly ManualResetEvent _pauseEvent = new ManualResetEvent(true);
+        private static bool isMaxSizeFileLockTaken = false;
 
         public CancellationTokenSource TokenSource;
 
@@ -204,15 +205,24 @@ namespace EasySave.Models
                     double transferTime = 0;
                     double encryptionTime = 0;
 
-                    if (fileInfo.Length >= Properties.Settings.Default.MaxKoToTransfert)
+                    if (fileInfo.Length >= Properties.Settings.Default.MaxKoToTransfert * 1024)
                     {
-                        if (!Monitor.TryEnter(_maxSizeFileLock))
+                        bool isLocked = isMaxSizeFileLockTaken;
+
+                        if (isLocked)
                         {
+                            // Le verrou est déjà pris, ajoutez le fichier à la liste
                             lastBigFiles.Add(fileInfo);
                             continue;
                         }
+
+                        // Essayez d'acquérir le verrou
                         lock (_maxSizeFileLock)
                         {
+                            // Mettez à jour l'état du verrou
+                            isMaxSizeFileLockTaken = true;
+
+                            // Copiez le fichier
                             if (ShouldBeEncrypted(SourceTransferingFilePath))
                             {
                                 CopyFileEncrypted(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime, ref encryptionTime);
@@ -221,6 +231,9 @@ namespace EasySave.Models
                             {
                                 CopyFile(SourceTransferingFilePath, TargetTransferingFilePath, ref transferTime);
                             }
+
+                            // Remettre à jour l'état du verrou après avoir terminé
+                            isMaxSizeFileLockTaken = false;
                         }
                     }
                     else
