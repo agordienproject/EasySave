@@ -20,10 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\img_home.png" />
-    <None Remove="Resources\img_setting.png" />
-    <None Remove="Resources\logo_easaysave_remove_bg_rouge.png" />
-    <None Remove="Resources\logo_easaysave_remove_bg_rouge_icon.png" />
+    <None Remove="Resources\icon_easysave.png" />
+    <None Remove="Resources\icon_home.png" />
+    <None Remove="Resources\icon_setting.png" />
+    <None Remove="Resources\logo_easysave.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,16 +41,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\img_home.png">
+    <Resource Include="Resources\icon_home.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\img_setting.png">
+    <Resource Include="Resources\icon_setting.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\logo_easaysave_remove_bg_rouge.png">
+    <Resource Include="Resources\logo_easysave.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\logo_easaysave_remove_bg_rouge_icon.png">
+    <Resource Include="Resources\icon_easysave.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
