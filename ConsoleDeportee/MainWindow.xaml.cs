@@ -1,40 +1,47 @@
 ﻿using ConsoleDeportee.Services;
-using System.Text;
+using System;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ConsoleDeportee
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow(object dataContext)
         {
             InitializeComponent();
-
             DataContext = dataContext;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                TCPClientManager.ConnectToServer("127.0.0.1", 8888);
+                // Récupération des valeurs des champs Adresse IP et Port
+                string ipAddress = txtIPAddress.Text;
+                int port = int.Parse(txtPort.Text);
 
+                // Tentative de connexion au serveur avec l'adresse IP et le port spécifiés
+                bool isConnected = TCPClientManager.ConnectToServer(ipAddress, port);
+
+                // Vérification de la réussite de la connexion
+                if (isConnected)
+                {
+                    // La connexion a réussi, faire quelque chose si nécessaire
+                }
+                else
+                {
+                    // La connexion a échoué, afficher un message à l'utilisateur
+                    MessageBox.Show("La connexion au serveur a échoué. Veuillez vérifier l'adresse IP et réessayer.", "Erreur de connexion", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            catch (Exception)
+            catch (FormatException)
             {
-
-                throw;
+                MessageBox.Show("Le port doit être un nombre entier.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Une erreur s'est produite lors de la connexion au serveur : " + ex.Message);
             }
         }
     }

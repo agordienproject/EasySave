@@ -244,7 +244,7 @@ namespace EasySave.Models
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
 
-                const int bufferSize = 1024 * 1024 * 20; // 1 MB buffer size
+                const int bufferSize = 1024 * 1024 * 20; // 20 MB buffer size
                 byte[] buffer = new byte[bufferSize];
                 
                 long fileSize = new FileInfo(sourceFilePath).Length;

@@ -15,7 +15,15 @@
         </Grid.RowDefinitions>
         
         <TextBlock Grid.Row="0" Text="Backup Jobs" FontSize="32" HorizontalAlignment="Left"/>
-        <Button Grid.Row="0" Content="Connect To Server" HorizontalAlignment="Right" Click="Button_Click"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock Text="Adresse IP:" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtIPAddress" Width="150" Margin="5"/>
+            <TextBlock Text="Port:" VerticalAlignment="Center"/>
+            <TextBox x:Name="txtPort" Width="60" Margin="5"/>
+
+            <Button Content="Connect To Server" HorizontalAlignment="Right" Click="Button_Click"/>
+        </StackPanel>
+        
 
         <controls:BackupJobsDataGrid Grid.Row="1" Margin="0,10,0,0"/>
     </Grid>
