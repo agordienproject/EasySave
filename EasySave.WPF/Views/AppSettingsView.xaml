@@ -29,7 +29,7 @@
                     <Border.Effect>
                         <DropShadowEffect Direction="310" ShadowDepth="1" Opacity="0.2"/>
                     </Border.Effect>
-                    <TextBlock Text="{x:Static localization:Localization.SettingsInfo11}" Margin="10" FontSize="16" Foreground="Red" FontWeight="SemiBold" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Static localization:Localization.SettingsWarning}" Margin="10" FontSize="16" Foreground="Red" FontWeight="SemiBold" HorizontalAlignment="Left" TextWrapping="Wrap"/>
                 </Border>
                 
                 

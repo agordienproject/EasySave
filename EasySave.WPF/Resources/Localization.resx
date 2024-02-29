@@ -214,38 +214,8 @@
   <data name="SettingPrioritizedFileExtension" xml:space="preserve">
     <value>Priority extensions</value>
   </data>
-  <data name="SettingsInfo1" xml:space="preserve">
-    <value>Here is the settings page. You can configure different features of the application. You can change the following information in this section:</value>
-  </data>
-  <data name="SettingsInfo10" xml:space="preserve">
-    <value>* The limit of RAM that the application can use</value>
-  </data>
-  <data name="SettingsInfo11" xml:space="preserve">
-    <value>Attention ! When you click on the save button at the bottom of the settings, the application will restart to take these changes into account.</value>
-  </data>
-  <data name="SettingsInfo2" xml:space="preserve">
-    <value>* The location of the backup job status files and the name of the status file</value>
-  </data>
-  <data name="SettingsInfo3" xml:space="preserve">
-    <value>* The location of log files</value>
-  </data>
-  <data name="SettingsInfo4" xml:space="preserve">
-    <value>* The type of log files</value>
-  </data>
-  <data name="SettingsInfo5" xml:space="preserve">
-    <value>* Choice of application language</value>
-  </data>
-  <data name="SettingsInfo6" xml:space="preserve">
-    <value>* The list of extensions to encrypt</value>
-  </data>
-  <data name="SettingsInfo7" xml:space="preserve">
-    <value>* The list of extensions to prioritize</value>
-  </data>
-  <data name="SettingsInfo8" xml:space="preserve">
-    <value>* The name of the business application</value>
-  </data>
-  <data name="SettingsInfo9" xml:space="preserve">
-    <value>* The maximum size of a file to copy non-parallel</value>
+  <data name="SettingsWarning" xml:space="preserve">
+    <value>Warning ! When you click on the save button at the bottom of the settings, the application will restart to take these changes into account.</value>
   </data>
   <data name="SettingsInfoBusinessApp" xml:space="preserve">
     <value>Enter the name of your business application that will stop backup jobs running when it is in use. At that point, no further backups can be launched.</value>
