@@ -54,7 +54,7 @@
                 <DataGridTextColumn Header="{x:Static localization:Localization.State}" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
 
 
-                <DataGridTemplateColumn Header="Progression" IsReadOnly="True" Width="150">
+                <DataGridTemplateColumn Header="{x:Static localization:Localization.Progression}" IsReadOnly="True" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
@@ -77,9 +77,9 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTextColumn Header="Transfering file" Binding="{Binding SourceTransferingFilePath, Mode=OneWay, Converter={StaticResource PathToFileNameConverter}}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="FileProgress" Binding="{Binding FileProgress, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
-                <DataGridTextColumn Header="Size to tranfer"  IsReadOnly="True" Width="Auto"
+                <DataGridTextColumn Header="{x:Static localization:Localization.TransferingFile}" Binding="{Binding SourceTransferingFilePath, Mode=OneWay, Converter={StaticResource PathToFileNameConverter}}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.FileProgress}" Binding="{Binding FileProgress, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.SizeToTransfert}"  IsReadOnly="True" Width="Auto"
                                     Binding="{Binding FilesSizeLeftToDo, Mode=OneWay, Converter={StaticResource BytesConverter}}"/>
                 
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Execute}">
@@ -116,7 +116,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTemplateColumn Header="{x:Static localization:Localization.Delete}">
+                <DataGridTemplateColumn Header="{x:Static localization:Localization.Stop}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

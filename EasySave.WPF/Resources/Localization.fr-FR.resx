@@ -279,4 +279,19 @@
   <data name="MaxRAMIsReached" xml:space="preserve">
     <value>Attention, l'application consomme plus de mémoire dans la RAM que la limite que vous avez imposée. Veuillez limiter vos travaux de sauvegarde.</value>
   </data>
+  <data name="Progression" xml:space="preserve">
+    <value>Progression</value>
+  </data>
+  <data name="TransferingFile" xml:space="preserve">
+    <value>Fichier transférer</value>
+  </data>
+  <data name="FileProgress" xml:space="preserve">
+    <value>Fichier RST</value>
+  </data>
+  <data name="SizeToTransfert" xml:space="preserve">
+    <value>Taille totale</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
 </root>

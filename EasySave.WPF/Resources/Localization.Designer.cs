@@ -187,6 +187,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à File RMNG.
+        /// </summary>
+        public static string FileProgress {
+            get {
+                return ResourceManager.GetString("FileProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à From.
         /// </summary>
         public static string From {
@@ -255,6 +264,15 @@ namespace EasySave.Resources {
         public static string PlaceHolderType {
             get {
                 return ResourceManager.GetString("PlaceHolderType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Progression.
+        /// </summary>
+        public static string Progression {
+            get {
+                return ResourceManager.GetString("Progression", resourceCulture);
             }
         }
         
@@ -520,6 +538,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Total size.
+        /// </summary>
+        public static string SizeToTransfert {
+            get {
+                return ResourceManager.GetString("SizeToTransfert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Source Directory.
         /// </summary>
         public static string SourceDirectory {
@@ -543,6 +570,24 @@ namespace EasySave.Resources {
         public static string State {
             get {
                 return ResourceManager.GetString("State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Stop.
+        /// </summary>
+        public static string Stop {
+            get {
+                return ResourceManager.GetString("Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Transfering file.
+        /// </summary>
+        public static string TransferingFile {
+            get {
+                return ResourceManager.GetString("TransferingFile", resourceCulture);
             }
         }
     }

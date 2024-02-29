@@ -280,4 +280,19 @@
   <data name="MaxRAMIsReached" xml:space="preserve">
     <value>Be careful, the application consumes more memory in RAM than the limit you have imposed. Please limit your backup work.</value>
   </data>
+  <data name="Progression" xml:space="preserve">
+    <value>Progression</value>
+  </data>
+  <data name="TransferingFile" xml:space="preserve">
+    <value>Transfering file</value>
+  </data>
+  <data name="FileProgress" xml:space="preserve">
+    <value>File RMNG</value>
+  </data>
+  <data name="SizeToTransfert" xml:space="preserve">
+    <value>Total size</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
 </root>
