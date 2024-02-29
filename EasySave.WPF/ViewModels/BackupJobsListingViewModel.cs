@@ -101,6 +101,12 @@ namespace EasySave.ViewModels
 
             StopBackupJobExecutionCommand = new RelayCommand(StopBackupJobExecution);
 
+            LoadBackupJobsCommand.Execute(this);
+
+            TCPServerManager.NewClientConnection += BroadCastBackupJobs;
+            TCPServerManager.ExecuteBackupJobEvent += Deported_ExecuteBackupJob;
+            TCPServerManager.StopBackupJobExecutionEvent += Deported_StopBackupJobExecution;
+
             BusinessAppListenerThread = new Thread(ListenForBusinessApp);
             BusinessAppListenerThread.IsBackground = true;
             BusinessAppListenerThread.Start();
@@ -108,12 +114,6 @@ namespace EasySave.ViewModels
             MaxMemoryListenerThread = new Thread(ListenForMemoryUsage);
             MaxMemoryListenerThread.IsBackground = true;
             MaxMemoryListenerThread.Start();
-
-            LoadBackupJobsCommand.Execute(this);
-
-            TCPServerManager.NewClientConnection += BroadCastBackupJobs;
-            TCPServerManager.ExecuteBackupJobEvent += Deported_ExecuteBackupJob;
-            TCPServerManager.StopBackupJobExecutionEvent += Deported_StopBackupJobExecution;
         }
 
         private void Deported_StopBackupJobExecution(Guid guid)
