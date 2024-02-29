@@ -35,11 +35,6 @@ namespace EasySave.ViewModels
         private void Navigator_StateChanged()
         {
             OnPropertyChanged(nameof(CurrentViewModel));
-
-            if (CurrentViewModel is BackupJobsListingViewModel)
-            {
-                BackupJobsListingViewModel.LoadBackupJobsCommand.Execute(BackupJobsListingViewModel);
-            }
         }
 
         public override void Dispose()

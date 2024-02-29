@@ -44,7 +44,8 @@ namespace EasySave.HostBuilders
             return new BackupJobCreationViewModel(
                 services.GetRequiredService<IBackupJobService>(),
                 services.GetRequiredService<ILogService>(),
-                services.GetRequiredService<ViewModelDelegateRenavigator<BackupJobsListingViewModel>>());
+                services.GetRequiredService<ViewModelDelegateRenavigator<BackupJobsListingViewModel>>(),
+                services.GetRequiredService<BackupJobsListingViewModel>());
         }
 
     }
