@@ -15,7 +15,7 @@
         <converters:BytesConverter x:Key="BytesConverter"/>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid >
         <ui:DataGrid 
             ItemsSource="{Binding BackupJobs}" 
             SelectedItem="{Binding SelectedBackupJob}"
