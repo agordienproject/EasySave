@@ -5,8 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ConsoleDeportee.Controls"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:converters="clr-namespace:ConsoleDeportee.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <converters:PathToDirectoryConverter x:Key="PathToDirectoryConverter"/>
+        <converters:PathToFileNameConverter x:Key="PathToFileNameConverter"/>
+        <converters:BytesConverter x:Key="BytesConverter"/>
+    </UserControl.Resources>
+
     <Grid>
         <ui:DataGrid 
             ItemsSource="{Binding BackupJobs}" 
@@ -16,23 +24,59 @@
             HeadersVisibility="Column"
             CanUserAddRows="False">
 
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="LightCyan" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
-
             <DataGrid.Columns>
                 <DataGridTextColumn Header="BackupName" Binding="{Binding BackupName, Mode=TwoWay}" IsReadOnly="True"/>
-                <DataGridTextColumn Header="SourceDirectory" Binding="{Binding SourceDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="TargetDirectory" Binding="{Binding TargetDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="SourceDirectory" IsReadOnly="True" Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="SourceDirectory" Converter="{StaticResource PathToDirectoryConverter}"/>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding SourceDirectory}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="DestinationDirectory" IsReadOnly="True" Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="TargetDirectory" Converter="{StaticResource PathToDirectoryConverter}"/>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding TargetDirectory}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="BackupType" Binding="{Binding BackupType, Mode=TwoWay}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="BackupState" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
-                <DataGridTextColumn Header="Progression" Binding="{Binding Progression, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTemplateColumn Header="Progression" IsReadOnly="True" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ProgressBar x:Name="progressBar" Background="Transparent"
+                                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                     Minimum="0" Maximum="100" Width="150" Height="25"
+                                     Value="{Binding Progression, Mode=OneWay}" >
+                                    <ProgressBar.Template>
+                                        <ControlTemplate TargetType="ProgressBar">
+                                            <Grid x:Name="PART_Track">
+                                                <Rectangle x:Name="PART_Indicator" HorizontalAlignment="Left" Fill="Green"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </ProgressBar.Template>
+                                </ProgressBar>
+                                <TextBlock Text="{Binding Progression, Mode=OneWay}" HorizontalAlignment="Center"  
+                                    VerticalAlignment="Center" TextAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Transfering" Binding="{Binding SourceTransferingFilePath, Mode=OneWay, Converter={StaticResource PathToFileNameConverter}}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Files" Binding="{Binding FileProgress, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="Size" IsReadOnly="True" Width="Auto"
+                                    Binding="{Binding FilesSizeLeftToDo, Mode=OneWay, Converter={StaticResource BytesConverter}}"/>
+
                 <DataGridTemplateColumn Header="Execute">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

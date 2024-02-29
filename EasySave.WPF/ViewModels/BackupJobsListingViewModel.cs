@@ -150,6 +150,8 @@ namespace EasySave.ViewModels
                 TotalFilesSize = backupJob.TotalFilesSize,
                 FilesSizeLeftToDo = backupJob.FilesSizeLeftToDo,
                 NbFilesLeftToDo = backupJob.NbFilesLeftToDo,
+                SourceTransferingFilePath = backupJob.SourceTransferingFilePath,
+                TargetTransferingFilePath = backupJob.TargetTransferingFilePath,
             }).ToList());
         }
 

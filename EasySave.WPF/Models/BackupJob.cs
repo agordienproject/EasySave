@@ -64,14 +64,14 @@ namespace EasySave.Models
             if (Barrier.ParticipantCount > 0)
                 Barrier.RemoveParticipant();
 
-            _pauseEvent.Reset(); // Resets the event, blocking threads
+            _pauseEvent.Reset();
         }
 
         public void Resume()
         {
             BackupState = BackupState.Active;
             Barrier.AddParticipant();
-            _pauseEvent.Set(); // Sets the event, allowing threads to proceed
+            _pauseEvent.Set();
         }
 
         public void Stop()
@@ -92,17 +92,14 @@ namespace EasySave.Models
 
                 InitState();
 
-                // Set the _priorityFiles & _nonPriorityFiles lists 
                 SetDirectoryInfos();
 
-                // PRIORITAIRES
                 Barrier.AddParticipant();
                 if (_priorityFiles.Count > 0)
                     CopyFiles(_priorityFiles);
                 
                 Barrier.SignalAndWait();
 
-                // NON PRIORITAIRES
                 Barrier.RemoveParticipant();
                 if (_nonPriorityFiles.Count > 0)
                     CopyFiles(_nonPriorityFiles);
@@ -244,7 +241,7 @@ namespace EasySave.Models
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath));
 
-                const int bufferSize = 1024 * 1024 * 20; // 20 MB buffer size
+                const int bufferSize = 1024 * 1024 * 20;
                 byte[] buffer = new byte[bufferSize];
                 
                 long fileSize = new FileInfo(sourceFilePath).Length;

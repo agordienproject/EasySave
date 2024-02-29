@@ -20,11 +20,9 @@
         <DataGrid 
             ItemsSource="{Binding BackupJobs}" 
             SelectedItem="{Binding SelectedBackupJob}"
-            RowStyle="{StaticResource Datagrid_Rows_Style}"
-            CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
+            CellStyle="{Binding Body_Content_DataGrid_Centering}"
             AutoGenerateColumns="False" 
             SelectionMode="Single"
-            HeadersVisibility="Column"
             CanUserAddRows="False"
             CanUserSortColumns="False"
             GridLinesVisibility="Horizontal">
@@ -47,7 +45,7 @@
                         <Binding Path="TargetDirectory" Converter="{StaticResource PathToDirectoryConverter}"/>
                     </DataGridTextColumn.Binding>
                     <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
                             <Setter Property="ToolTip" Value="{Binding TargetDirectory}"/>
                         </Style>
                     </DataGridTextColumn.CellStyle>
