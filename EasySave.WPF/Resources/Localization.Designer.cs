@@ -151,6 +151,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Data Files.
+        /// </summary>
+        public static string DataFiles {
+            get {
+                return ResourceManager.GetString("DataFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Delete.
         /// </summary>
         public static string Delete {
@@ -187,6 +196,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à File Extensions.
+        /// </summary>
+        public static string FileExtensions {
+            get {
+                return ResourceManager.GetString("FileExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à File RMNG.
         /// </summary>
         public static string FileProgress {
@@ -201,6 +219,15 @@ namespace EasySave.Resources {
         public static string From {
             get {
                 return ResourceManager.GetString("From", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Language.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
             }
         }
         
