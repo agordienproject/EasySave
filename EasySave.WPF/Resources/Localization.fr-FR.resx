@@ -204,4 +204,73 @@
   <data name="MaxKoToTransfert" xml:space="preserve">
     <value>Nombre de Ko maximum pour copier un fichier</value>
   </data>
+  <data name="SettingEncryptedFileExtension" xml:space="preserve">
+    <value>Extensions à chiffrer</value>
+  </data>
+  <data name="SettingNameFileExtension" xml:space="preserve">
+    <value>Nom de l'extension</value>
+  </data>
+  <data name="SettingPrioritizedFileExtension" xml:space="preserve">
+    <value>Extensions prioritaires</value>
+  </data>
+  <data name="SettingsWarning" xml:space="preserve">
+    <value>Attention ! Lorsque vous cliquerez sur le bouton de sauvegarde tout en bas des paramètres, l'application va redémarrer afin de prendre en compte ces modifications.</value>
+  </data>
+  <data name="SettingsInfoBusinessApp" xml:space="preserve">
+    <value>Renseignez le nom de votre application métier qui stoppera l'exécution des travaux de sauvegarde quand elle sera en cours d'utilisation. A ce moment là, aucune autre sauvegarde ne pourra être lancé.</value>
+  </data>
+  <data name="SettingsInfoEncrypt" xml:space="preserve">
+    <value>Ici, vous définissez la liste des types de fichiers dont vous souhaitez chiffrer le contenu lors de la copie. Renseignez le nom de l'extension (ex : 'txt' pour un fichier texte) dans le champ ci-dessous puis cliquez sur le bouton 'ajouter'. Si vous souhaitez retirer une extension de la liste, cliquez sur celle-ci puis sur le bouton 'Supprimer'.</value>
+  </data>
+  <data name="SettingsInfoLanguage" xml:space="preserve">
+    <value>Utilisez les boutons pour sélectionner la langue de l'application. Le changement s'appliquera une fois l'application redémarrée.</value>
+  </data>
+  <data name="SettingsInfoLogs" xml:space="preserve">
+    <value>Renseignez dans le champ ci-dessous l'emplacement du dossier des logs des travaux de sauvegarde ou cliquez sur les '...' pour utiliser l'explorateur de fichier.</value>
+  </data>
+  <data name="SettingsInfoLogsFileType" xml:space="preserve">
+    <value>Utilisez les boutons pour sélectionner le type de fichier dans lequel seront écrits les logs. Vous pouvez choisir entre JSON et XML.</value>
+  </data>
+  <data name="SettingsInfoMaxKo" xml:space="preserve">
+    <value>Ici, vous définissez la taille maximale des fichier pour la copie en Kilo Octets (Ko). Les fichiers de cette taille ne seront pas copier en même temps mais successivement.</value>
+  </data>
+  <data name="SettingsInfoMaxMemory" xml:space="preserve">
+    <value>Ici, définissez la valeur maximale de la RAM que l'application peut utiliser en Méga Octet (MO). Quand la valeur est dépassée, l'application limite le nombre de travaux de sauvegarde en cours et ne permettra pas d'en lancer d'autre.</value>
+  </data>
+  <data name="SettingsInfoPrioritize" xml:space="preserve">
+    <value>Ici, vous définissez la liste des fichiers prioritaires lors de l'exécution. Renseignez le nom de l'extension (ex : 'txt' pour un fichier texte) dans le champ ci-dessous puis cliquez sur le bouton 'ajouter'. Si vous souhaitez retirer une extension de la liste, cliquez sur celle-ci puis sur le bouton 'Supprimer'.</value>
+  </data>
+  <data name="SettingsInfoStates" xml:space="preserve">
+    <value>Renseignez dans le champ ci-dessous l'emplacement du dossier des états des travaux de sauvegarde ou cliquez sur les '...' pour utiliser l'explorateur de fichier. Vous avez aussi la possibilité de changer le nom du fichier qui est par défaut 'states'</value>
+  </data>
+  <data name="SettingsMaxMemory" xml:space="preserve">
+    <value>RAM maximale que peut utiliser l'application</value>
+  </data>
+  <data name="MaxRAMIsReached" xml:space="preserve">
+    <value>Attention, l'application consomme plus de mémoire dans la RAM que la limite que vous avez imposée. Veuillez limiter vos travaux de sauvegarde.</value>
+  </data>
+  <data name="Progression" xml:space="preserve">
+    <value>Progression</value>
+  </data>
+  <data name="TransferingFile" xml:space="preserve">
+    <value>Fichier en transfert</value>
+  </data>
+  <data name="FileProgress" xml:space="preserve">
+    <value>Fichier RST</value>
+  </data>
+  <data name="SizeToTransfert" xml:space="preserve">
+    <value>Taille totale</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="DataFiles" xml:space="preserve">
+    <value>Fichier de données</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="FileExtensions" xml:space="preserve">
+    <value>Fichier d'extensions</value>
+  </data>
 </root>

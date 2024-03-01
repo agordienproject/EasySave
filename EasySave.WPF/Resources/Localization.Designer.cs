@@ -151,6 +151,15 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Data Files.
+        /// </summary>
+        public static string DataFiles {
+            get {
+                return ResourceManager.GetString("DataFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Delete.
         /// </summary>
         public static string Delete {
@@ -187,6 +196,24 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à File Extensions.
+        /// </summary>
+        public static string FileExtensions {
+            get {
+                return ResourceManager.GetString("FileExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à File RMNG.
+        /// </summary>
+        public static string FileProgress {
+            get {
+                return ResourceManager.GetString("FileProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à From.
         /// </summary>
         public static string From {
@@ -196,11 +223,29 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Language.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Maximum number of Ko to copy a file.
         /// </summary>
         public static string MaxKoToTransfert {
             get {
                 return ResourceManager.GetString("MaxKoToTransfert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Be careful, the application consumes more memory in RAM than the limit you have imposed. Please limit your backup work..
+        /// </summary>
+        public static string MaxRAMIsReached {
+            get {
+                return ResourceManager.GetString("MaxRAMIsReached", resourceCulture);
             }
         }
         
@@ -250,11 +295,29 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Progression.
+        /// </summary>
+        public static string Progression {
+            get {
+                return ResourceManager.GetString("Progression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Current Culture.
         /// </summary>
         public static string SettingCurrentCulture {
             get {
                 return ResourceManager.GetString("SettingCurrentCulture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Extensions to encrypt.
+        /// </summary>
+        public static string SettingEncryptedFileExtension {
+            get {
+                return ResourceManager.GetString("SettingEncryptedFileExtension", resourceCulture);
             }
         }
         
@@ -277,6 +340,24 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Name of the extension.
+        /// </summary>
+        public static string SettingNameFileExtension {
+            get {
+                return ResourceManager.GetString("SettingNameFileExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Priority extensions.
+        /// </summary>
+        public static string SettingPrioritizedFileExtension {
+            get {
+                return ResourceManager.GetString("SettingPrioritizedFileExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Settings.
         /// </summary>
         public static string Settings {
@@ -286,11 +367,119 @@ namespace EasySave.Resources {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the name of your business application that will stop backup jobs running when it is in use. At that point, no further backups can be launched..
+        /// </summary>
+        public static string SettingsInfoBusinessApp {
+            get {
+                return ResourceManager.GetString("SettingsInfoBusinessApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Here you define the list of file types whose contents you wish to encrypt when copied. Enter the extension name (e.g. &apos;txt&apos; for a text file) in the field below, then click the &apos;Add&apos; button. If you wish to remove an extension from the list, click on it and then on the &apos;Remove&apos; button..
+        /// </summary>
+        public static string SettingsInfoEncrypt {
+            get {
+                return ResourceManager.GetString("SettingsInfoEncrypt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Use the buttons to select the application language. The change will be applied once the application has been restarted. .
+        /// </summary>
+        public static string SettingsInfoLanguage {
+            get {
+                return ResourceManager.GetString("SettingsInfoLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the location of the backup job logs folder in the field below or click on the &apos;...&apos; to use the file explorer..
+        /// </summary>
+        public static string SettingsInfoLogs {
+            get {
+                return ResourceManager.GetString("SettingsInfoLogs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Use the buttons to select the type of file in which the logs will be written. You can choose between JSON and XML..
+        /// </summary>
+        public static string SettingsInfoLogsFileType {
+            get {
+                return ResourceManager.GetString("SettingsInfoLogsFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Here you define the maximum file size for copying in Kilobytes (Kb). Files of this size will not be copied at the same time, but successively..
+        /// </summary>
+        public static string SettingsInfoMaxKo {
+            get {
+                return ResourceManager.GetString("SettingsInfoMaxKo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Here, set the maximum value of RAM that the application can use in Mega Bytes (MB). When this value is exceeded, the application limits the number of backup jobs in progress and will not allow any more to be launched..
+        /// </summary>
+        public static string SettingsInfoMaxMemory {
+            get {
+                return ResourceManager.GetString("SettingsInfoMaxMemory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Here you define the list of files to be given priority at runtime. Enter the extension name (e.g. &apos;txt&apos; for a text file) in the field below, then click on the &apos;Add&apos; button. If you wish to remove an extension from the list, click on it and then on the &apos;Remove&apos; button..
+        /// </summary>
+        public static string SettingsInfoPrioritize {
+            get {
+                return ResourceManager.GetString("SettingsInfoPrioritize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter the location of the backup job status folder in the field below or click on the &apos;...&apos; to use the file explorer. You also have the possibility to change the name of the file which is by default &apos;states&apos;.
+        /// </summary>
+        public static string SettingsInfoStates {
+            get {
+                return ResourceManager.GetString("SettingsInfoStates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Maximum RAM that the application can use.
+        /// </summary>
+        public static string SettingsMaxMemory {
+            get {
+                return ResourceManager.GetString("SettingsMaxMemory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Warning ! When you click on the save button at the bottom of the settings, the application will restart to take these changes into account..
+        /// </summary>
+        public static string SettingsWarning {
+            get {
+                return ResourceManager.GetString("SettingsWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Log file extension.
         /// </summary>
         public static string SettingTypeLogFile {
             get {
                 return ResourceManager.GetString("SettingTypeLogFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Total size.
+        /// </summary>
+        public static string SizeToTransfert {
+            get {
+                return ResourceManager.GetString("SizeToTransfert", resourceCulture);
             }
         }
         
@@ -318,6 +507,24 @@ namespace EasySave.Resources {
         public static string State {
             get {
                 return ResourceManager.GetString("State", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Stop.
+        /// </summary>
+        public static string Stop {
+            get {
+                return ResourceManager.GetString("Stop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Transfering file.
+        /// </summary>
+        public static string TransferingFile {
+            get {
+                return ResourceManager.GetString("TransferingFile", resourceCulture);
             }
         }
     }

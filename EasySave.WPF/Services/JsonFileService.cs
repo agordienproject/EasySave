@@ -31,29 +31,46 @@ namespace EasySave.Services
             }
         }
 
-        public async Task<List<T>?> Read<T>()
+        public List<T>? Read<T>()
         {
-            using FileStream openStream = File.OpenRead(_filePath);
+            if (string.IsNullOrWhiteSpace(_filePath) || !File.Exists(_filePath))
+            {
+                return null;
+            }
 
-            List<T>? list = new();
+            try
+            { 
+                using (FileStream openStream = File.OpenRead(_filePath))
+                {
+                    return JsonSerializer.Deserialize<List<T>>(openStream);
+                }
+            }
+            catch (JsonException ex)
+            {
+                return null;
+            }
+        }
+
+        public void Write<T>(List<T> list)
+        {
+            if (string.IsNullOrWhiteSpace(_filePath))
+            {
+                return;
+            }
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
 
             try
             {
-                list = await JsonSerializer.DeserializeAsync<List<T>?>(openStream);
+                using (FileStream openStream = File.Open(_filePath, FileMode.Create))
+                {
+                    JsonSerializer.Serialize(openStream, list, options);
+                }
             }
-            catch (JsonException e)
+            catch (Exception ex)
             {
-
+                    
             }
-
-            return list;
-        }
-
-        public async Task Write<T>(List<T> list)
-        {
-            var options = new JsonSerializerOptions { WriteIndented = true, };
-            using FileStream openStream = File.Open(_filePath, FileMode.Truncate);
-            await JsonSerializer.SerializeAsync(openStream, list, options);
         }
     }
 }

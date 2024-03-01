@@ -89,12 +89,12 @@ namespace EasySave.Properties {
             "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
             "tring>json</string>\r\n  <string>xml</string>\r\n  <string>html</string>\r\n</ArrayOfS" +
             "tring>")]
-        public global::System.Collections.Specialized.StringCollection AuthorizedExtensions {
+        public global::System.Collections.Specialized.StringCollection EncryptedExtensions {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["AuthorizedExtensions"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["EncryptedExtensions"]));
             }
             set {
-                this["AuthorizedExtensions"] = value;
+                this["EncryptedExtensions"] = value;
             }
         }
         
@@ -112,13 +112,52 @@ namespace EasySave.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public int MaxKoToTransfert {
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public long MaxKoToTransfert {
             get {
-                return ((int)(this["MaxKoToTransfert"]));
+                return ((long)(this["MaxKoToTransfert"]));
             }
             set {
                 this["MaxKoToTransfert"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsd=\"http://www.w3." +
+            "org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\r\n  <s" +
+            "tring>json</string>\r\n  <string>xml</string>\r\n  <string>html</string>\r\n</ArrayOfS" +
+            "tring>")]
+        public global::System.Collections.Specialized.StringCollection PrioritizedExtensions {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["PrioritizedExtensions"]));
+            }
+            set {
+                this["PrioritizedExtensions"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public long MaxMemory {
+            get {
+                return ((long)(this["MaxMemory"]));
+            }
+            set {
+                this["MaxMemory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsRestarting {
+            get {
+                return ((bool)(this["IsRestarting"]));
+            }
+            set {
+                this["IsRestarting"] = value;
             }
         }
     }

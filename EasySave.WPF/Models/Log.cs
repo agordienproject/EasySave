@@ -1,4 +1,6 @@
-﻿namespace EasySave.Models
+﻿using EasySave.Domain.Models;
+
+namespace EasySave.Models
 {
     public class Log : INamedEntity
     {

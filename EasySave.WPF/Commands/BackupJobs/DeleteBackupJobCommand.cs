@@ -17,9 +17,14 @@ namespace EasySave.Commands.BackupJobs
 
         public override async Task ExecuteAsync(object parameter)
         {
-            await _backupJobService.Delete(_backupJobsViewModel.BackupJobs.FirstOrDefault(bj => bj == (BackupJob)parameter).BackupName);
+            BackupJob backupJob = (BackupJob)parameter;
 
-            _backupJobsViewModel.LoadBackupJobsCommand.Execute(parameter);
+            if (backupJob != null)
+            {
+                _backupJobService.Delete(backupJob.BackupJobId);
+                _backupJobsViewModel.BackupJobs.Remove(backupJob);
+            }
+
         }
 
     }

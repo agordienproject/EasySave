@@ -2,8 +2,9 @@
 
 namespace EasySave.Services.Interfaces
 {
-    public interface ILogService : IDataService<Log>
+    public interface ILogService
     {
-
+        List<Log> GetAll();
+        Log Create(Log entity);
     }
 }

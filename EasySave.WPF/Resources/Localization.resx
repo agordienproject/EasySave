@@ -205,4 +205,73 @@
   <data name="MaxKoToTransfert" xml:space="preserve">
     <value>Maximum number of Ko to copy a file</value>
   </data>
+  <data name="SettingEncryptedFileExtension" xml:space="preserve">
+    <value>Extensions to encrypt</value>
+  </data>
+  <data name="SettingNameFileExtension" xml:space="preserve">
+    <value>Name of the extension</value>
+  </data>
+  <data name="SettingPrioritizedFileExtension" xml:space="preserve">
+    <value>Priority extensions</value>
+  </data>
+  <data name="SettingsWarning" xml:space="preserve">
+    <value>Warning ! When you click on the save button at the bottom of the settings, the application will restart to take these changes into account.</value>
+  </data>
+  <data name="SettingsInfoBusinessApp" xml:space="preserve">
+    <value>Enter the name of your business application that will stop backup jobs running when it is in use. At that point, no further backups can be launched.</value>
+  </data>
+  <data name="SettingsInfoEncrypt" xml:space="preserve">
+    <value>Here you define the list of file types whose contents you wish to encrypt when copied. Enter the extension name (e.g. 'txt' for a text file) in the field below, then click the 'Add' button. If you wish to remove an extension from the list, click on it and then on the 'Remove' button.</value>
+  </data>
+  <data name="SettingsInfoLanguage" xml:space="preserve">
+    <value>Use the buttons to select the application language. The change will be applied once the application has been restarted. </value>
+  </data>
+  <data name="SettingsInfoLogs" xml:space="preserve">
+    <value>Enter the location of the backup job logs folder in the field below or click on the '...' to use the file explorer.</value>
+  </data>
+  <data name="SettingsInfoLogsFileType" xml:space="preserve">
+    <value>Use the buttons to select the type of file in which the logs will be written. You can choose between JSON and XML.</value>
+  </data>
+  <data name="SettingsInfoMaxKo" xml:space="preserve">
+    <value>Here you define the maximum file size for copying in Kilobytes (Kb). Files of this size will not be copied at the same time, but successively.</value>
+  </data>
+  <data name="SettingsInfoMaxMemory" xml:space="preserve">
+    <value>Here, set the maximum value of RAM that the application can use in Mega Bytes (MB). When this value is exceeded, the application limits the number of backup jobs in progress and will not allow any more to be launched.</value>
+  </data>
+  <data name="SettingsInfoPrioritize" xml:space="preserve">
+    <value>Here you define the list of files to be given priority at runtime. Enter the extension name (e.g. 'txt' for a text file) in the field below, then click on the 'Add' button. If you wish to remove an extension from the list, click on it and then on the 'Remove' button.</value>
+  </data>
+  <data name="SettingsInfoStates" xml:space="preserve">
+    <value>Enter the location of the backup job status folder in the field below or click on the '...' to use the file explorer. You also have the possibility to change the name of the file which is by default 'states'</value>
+  </data>
+  <data name="SettingsMaxMemory" xml:space="preserve">
+    <value>Maximum RAM that the application can use</value>
+  </data>
+  <data name="MaxRAMIsReached" xml:space="preserve">
+    <value>Be careful, the application consumes more memory in RAM than the limit you have imposed. Please limit your backup work.</value>
+  </data>
+  <data name="Progression" xml:space="preserve">
+    <value>Progression</value>
+  </data>
+  <data name="TransferingFile" xml:space="preserve">
+    <value>Transfering file</value>
+  </data>
+  <data name="FileProgress" xml:space="preserve">
+    <value>File RMNG</value>
+  </data>
+  <data name="SizeToTransfert" xml:space="preserve">
+    <value>Total size</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="DataFiles" xml:space="preserve">
+    <value>Data Files</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="FileExtensions" xml:space="preserve">
+    <value>File Extensions</value>
+  </data>
 </root>

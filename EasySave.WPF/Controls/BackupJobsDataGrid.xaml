@@ -3,39 +3,85 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EasySave.Controls" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:local="clr-namespace:EasySave.Controls" 
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:localization="clr-namespace:EasySave.Resources"
+             xmlns:converters="clr-namespace:EasySave.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             Background="#FFFFFF">
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:PathToDirectoryConverter x:Key="PathToDirectoryConverter"/>
+        <converters:PathToFileNameConverter x:Key="PathToFileNameConverter"/>
+        <converters:BytesConverter x:Key="BytesConverter"/>
+    </UserControl.Resources>
 
     <Grid>
         <DataGrid 
             ItemsSource="{Binding BackupJobs}" 
             SelectedItem="{Binding SelectedBackupJob}"
+            CellStyle="{Binding Body_Content_DataGrid_Centering}"
             AutoGenerateColumns="False" 
             SelectionMode="Single"
-            HeadersVisibility="Column"
-            CanUserAddRows="False">
-
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="LightCyan" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
+            CanUserAddRows="False"
+            CanUserSortColumns="False"
+            GridLinesVisibility="Horizontal">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="{x:Static localization:Localization.Name}" Binding="{Binding BackupName, Mode=TwoWay}" IsReadOnly="True">
+                <DataGridTextColumn Header="{x:Static localization:Localization.Name}" Binding="{Binding BackupName, Mode=TwoWay}" IsReadOnly="True" />
+                <DataGridTextColumn Header="{x:Static localization:Localization.SourceDirectory}" IsReadOnly="True" Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="SourceDirectory" Converter="{StaticResource PathToDirectoryConverter}"/>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding SourceDirectory}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static localization:Localization.SourceDirectory}" Binding="{Binding SourceDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
-                <DataGridTextColumn Header="{x:Static localization:Localization.DestinationDirectory}" Binding="{Binding TargetDirectory, Mode=TwoWay}" IsReadOnly="True" Width="*"/>
+
+                <DataGridTextColumn Header="{x:Static localization:Localization.DestinationDirectory}" IsReadOnly="True" Width="Auto">
+                    <DataGridTextColumn.Binding>
+                        <Binding Path="TargetDirectory" Converter="{StaticResource PathToDirectoryConverter}"/>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                            <Setter Property="ToolTip" Value="{Binding TargetDirectory}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="{x:Static localization:Localization.BackupType}" Binding="{Binding BackupType, Mode=TwoWay}" IsReadOnly="True"/>
                 <DataGridTextColumn Header="{x:Static localization:Localization.State}" Binding="{Binding BackupState, Mode=TwoWay}" IsReadOnly="True" Width="Auto"/>
-                <DataGridTextColumn Header="Progression" Binding="{Binding Progression, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+
+
+                <DataGridTemplateColumn Header="{x:Static localization:Localization.Progression}" IsReadOnly="True" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <ProgressBar x:Name="progressBar" Background="Transparent"
+                                     VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                     Minimum="0" Maximum="100" Width="150" Height="25"
+                                     Value="{Binding Progression, Mode=OneWay}" >
+                                    <ProgressBar.Template>
+                                        <ControlTemplate TargetType="ProgressBar">
+                                            <Grid x:Name="PART_Track">
+                                                <Rectangle x:Name="PART_Indicator" HorizontalAlignment="Left" Fill="Green"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </ProgressBar.Template>
+                                </ProgressBar>
+                                <TextBlock Text="{Binding Progression, Mode=OneWay}" HorizontalAlignment="Center"  
+                                    VerticalAlignment="Center" TextAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="{x:Static localization:Localization.TransferingFile}" Binding="{Binding SourceTransferingFilePath, Mode=OneWay, Converter={StaticResource PathToFileNameConverter}}" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.FileProgress}" Binding="{Binding FileProgress, Mode=OneWay}" IsReadOnly="True" Width="Auto"/>
+                <DataGridTextColumn Header="{x:Static localization:Localization.SizeToTransfert}"  IsReadOnly="True" Width="Auto"
+                                    Binding="{Binding FilesSizeLeftToDo, Mode=OneWay, Converter={StaticResource BytesConverter}}"/>
+                
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Execute}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -43,25 +89,78 @@
                                     Command="{Binding DataContext.ExecuteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                     CommandParameter="{Binding}"
                                     BorderThickness="0">
-                                <ui:SymbolIcon Symbol="Play48" />
+                                <ui:SymbolIcon>
+                                    <ui:SymbolIcon.Style>
+                                        <Style TargetType="ui:SymbolIcon">
+                                            <Setter Property="Symbol" Value="Play48"/>
+                                            <Setter Property="Foreground" Value="Green"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Filled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding BackupState}" Value="Paused">
+                                                    <Setter Property="Symbol" Value="Play48"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding BackupState}" Value="Active">
+                                                    <Setter Property="Symbol" Value="Pause48"/>
+                                                    <Setter Property="Foreground" Value="Black"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding BackupState}" Value="Finished">
+                                                    <Setter Property="Symbol" Value="Play48"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ui:SymbolIcon.Style>
+                                </ui:SymbolIcon>
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="{x:Static localization:Localization.Stop}">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                    Command="{Binding DataContext.StopBackupJobExecutionCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                                    CommandParameter="{Binding}"
+                                    BorderThickness="0">
+                                <ui:SymbolIcon >
+                                    <ui:SymbolIcon.Style>
+                                        <Style TargetType="ui:SymbolIcon">
+                                            <Setter Property="Symbol" Value="Stop24"/>
+                                            <Setter Property="Foreground" Value="Red"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                            <Setter Property="Filled" Value="True"/>
+                                        </Style>
+                                    </ui:SymbolIcon.Style>
+                                </ui:SymbolIcon>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
                 <DataGridTemplateColumn Header="{x:Static localization:Localization.Delete}">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                     Command="{Binding DataContext.DeleteBackupJobCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                                     CommandParameter="{Binding}"
-                                    BorderThickness="0" 
-                                    Click="MessageBoxDeleteBackup">
-                                <ui:SymbolIcon Symbol="DeleteDismiss28"/>
+                                    BorderThickness="0">
+                                <ui:SymbolIcon >
+                                    
+                                    <ui:SymbolIcon.Style>
+                                        <Style TargetType="ui:SymbolIcon">
+                                            <Setter Property="Symbol" Value="DeleteDismiss28"/>
+                                            <Setter Property="Foreground" Value="Red"/>
+                                            <Setter Property="FontWeight" Value="Bold"/>
+                                        </Style>
+                                    </ui:SymbolIcon.Style>
+                                </ui:SymbolIcon>
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+
     </Grid>
 </UserControl>

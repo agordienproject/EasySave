@@ -18,7 +18,9 @@ namespace EasySave.Commands.AppSettings
         {
             _appSettingsViewModel.AppSettings = await AppSettingsService.LoadAppSettings();
 
-            _appSettingsViewModel.FileExtensions = new ObservableCollection<string>(_appSettingsViewModel.AppSettings.AuthorizedExtensions);
+            _appSettingsViewModel.EncryptedFileExtensions = new ObservableCollection<string>(_appSettingsViewModel.AppSettings.EncryptedExtensions);
+            _appSettingsViewModel.PrioritizedFileExtensions = new ObservableCollection<string>(_appSettingsViewModel.AppSettings.PrioritizedExtensions);
+
         }
     }
 }

@@ -2,7 +2,7 @@
 {
     public interface IFileService
     {
-        Task<List<T>?> Read<T>();
-        Task Write<T>(List<T> list);
+        List<T>? Read<T>();
+        void Write<T>(List<T> list);
     }
 }

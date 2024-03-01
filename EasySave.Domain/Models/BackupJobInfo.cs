@@ -10,6 +10,8 @@ namespace EasySave.Domain.Models
 {
     public class BackupJobInfo : INamedEntity, INotifyPropertyChanged
     {
+        public Guid BackupJobId { get; set; }
+
         private string? _backupName;
         public string? BackupName
         {
@@ -51,7 +53,7 @@ namespace EasySave.Domain.Models
                 OnPropertyChanged(nameof(TargetDirectory));
             }
         }
-        
+
         private BackupType _backupType;
         public BackupType BackupType
         {
@@ -105,6 +107,7 @@ namespace EasySave.Domain.Models
             {
                 _totalFilesNumber = value;
                 OnPropertyChanged(nameof(TotalFilesNumber));
+                OnPropertyChanged(nameof(FileProgress));
             }
         }
 
@@ -117,9 +120,9 @@ namespace EasySave.Domain.Models
             }
             set
             {
-                    _totalFilesSize = value;
-                    OnPropertyChanged(nameof(TotalFilesSize));
-                    OnPropertyChanged(nameof(Progression)); // Assurez-vous de notifier également pour la propriété calculée
+                _totalFilesSize = value;
+                OnPropertyChanged(nameof(TotalFilesSize));
+                OnPropertyChanged(nameof(Progression));
             }
         }
 
@@ -134,6 +137,7 @@ namespace EasySave.Domain.Models
             {
                 _nbFilesLeftToDo = value;
                 OnPropertyChanged(nameof(NbFilesLeftToDo));
+                OnPropertyChanged(nameof(FileProgress));
             }
         }
 
@@ -146,9 +150,9 @@ namespace EasySave.Domain.Models
             }
             set
             {
-                    _filesSizeLeftToDo = value;
-                    OnPropertyChanged(nameof(FilesSizeLeftToDo));
-                    OnPropertyChanged(nameof(Progression)); // Assurez-vous de notifier également pour la propriété calculée
+                _filesSizeLeftToDo = value;
+                OnPropertyChanged(nameof(FilesSizeLeftToDo));
+                OnPropertyChanged(nameof(Progression));
             }
         }
 
@@ -185,28 +189,43 @@ namespace EasySave.Domain.Models
         {
             get
             {
-                if (TotalFilesSize > 0)
+                if (TotalFilesSize > 0 && FilesSizeLeftToDo != 0)
                 {
-                    return (((TotalFilesSize - FilesSizeLeftToDo) / TotalFilesSize) * 100).ToString("#.##") + "%";
+                    return (((TotalFilesSize - FilesSizeLeftToDo) / TotalFilesSize) * 100).ToString("#");
                 }
                 return "0";
             }
         }
 
+        public string FileProgress
+        {
+            get
+            {
+                if (TotalFilesNumber != 0)
+                {
+                    int NbFilesDone = TotalFilesNumber - NbFilesLeftToDo;
+                    return NbFilesDone.ToString() + "/" + TotalFilesNumber.ToString();
+                }
+                return "";
+            }
+        }
+
         public BackupJobInfo
-        (   string backupName,
-            string sourceDirectory, 
-            string targetDirectory, 
-            BackupType backupType, 
-            BackupState backupState, 
-            string? backupTime, 
-            int totalFilesNumber, 
-            long totalFilesSize, 
-            int nbFilesLeftToDo, 
-            long filesSizeLeftToDo, 
-            string? sourceTransferingFilePath, 
+        (Guid backupJobId,
+            string backupName,
+            string sourceDirectory,
+            string targetDirectory,
+            BackupType backupType,
+            BackupState backupState,
+            string? backupTime,
+            int totalFilesNumber,
+            long totalFilesSize,
+            int nbFilesLeftToDo,
+            long filesSizeLeftToDo,
+            string? sourceTransferingFilePath,
             string? targetTransferingFilePath)
         {
+            BackupJobId = backupJobId;
             BackupName = backupName;
             SourceDirectory = sourceDirectory;
             TargetDirectory = targetDirectory;
@@ -220,14 +239,14 @@ namespace EasySave.Domain.Models
             SourceTransferingFilePath = sourceTransferingFilePath;
             TargetTransferingFilePath = targetTransferingFilePath;
         }
-        
+
         public BackupJobInfo()
         {
             BackupName = "";
             SourceDirectory = "";
             TargetDirectory = "";
-            BackupType = BackupType.Complete;
-            BackupState = BackupState.Inactive;
+            BackupType = BackupType.Full;
+            BackupState = BackupState.Finished;
             BackupTime = null;
             TotalFilesNumber = 0;
             TotalFilesSize = 0;

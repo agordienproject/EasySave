@@ -21,11 +21,22 @@ namespace EasySave.Commands.BackupJobs
             if (BusinessAppChecker.IsBusinessAppRunning(Properties.Settings.Default.BusinessAppName))
                 return;
 
-            await Task.Run(async () =>
-            {
-                await _backupJobsViewModel.BackupJobs.First(backupJob => backupJob == (BackupJob)parameter).Execute();
+            BackupJob backupJob = _backupJobsViewModel.BackupJobs.First(backupJob => backupJob == (BackupJob)parameter);
 
-            });
+            if (backupJob.IsFinished)
+            {
+                Thread thread = new Thread(backupJob.Execute);
+                thread.IsBackground = true;
+                thread.Start();
+            }
+            else if (backupJob.IsRunning)
+            {
+                backupJob.Pause();
+            }
+            else if (backupJob.IsPaused)
+            {
+                backupJob.Resume();
+            }
 
         }
 

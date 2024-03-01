@@ -22,54 +22,91 @@ namespace EasySave.ViewModels
             }
         }
 
-        private ObservableCollection<string> _fileExtensions;
-        public ObservableCollection<string> FileExtensions
+        private ObservableCollection<string> _encryptedFileExtensions;
+        public ObservableCollection<string> EncryptedFileExtensions
         {
-            get { return _fileExtensions; }
+            get { return _encryptedFileExtensions; }
             set
             {
-                _fileExtensions = value;
-                OnPropertyChanged(nameof(FileExtensions));
+                _encryptedFileExtensions = value;
+                OnPropertyChanged(nameof(EncryptedFileExtensions));
             }
         }
 
-        private string _selectedFileExtension;
-        public string SelectedFileExtension
+        private ObservableCollection<string> _prioritizedFileExtensions;
+        public ObservableCollection<string> PrioritizedFileExtensions
         {
-            get { return _selectedFileExtension; }
+            get { return _prioritizedFileExtensions; }
             set
             {
-                _selectedFileExtension = value;
-                OnPropertyChanged(nameof(SelectedFileExtension));
+                _prioritizedFileExtensions = value;
+                OnPropertyChanged(nameof(PrioritizedFileExtensions));
+            }
+        }
+
+        private string _selectedEncryptedFileExtension;
+        public string SelectedEncryptedFileExtension
+        {
+            get { return _selectedEncryptedFileExtension; }
+            set
+            {
+                _selectedEncryptedFileExtension = value;
+                OnPropertyChanged(nameof(SelectedEncryptedFileExtension));
+            }
+        }
+
+        private string _selectedPrioritizedFileExtension;
+        public string SelectedPrioritizedFileExtension
+        {
+            get { return _selectedPrioritizedFileExtension; }
+            set
+            {
+                _selectedPrioritizedFileExtension = value;
+                OnPropertyChanged(nameof(SelectedPrioritizedFileExtension));
             }
         }
 
         public ICommand LoadAppSettingsCommand { get; set; }
         public ICommand SaveAppSettingsCommand { get; set; }
 
-        public ICommand AddFileExtensionCommand { get; set; }
-        public ICommand RemoveFileExtensionCommand { get; set; }
+        public ICommand AddEncryptedFileExtensionCommand { get; set; }
+        public ICommand RemoveEncryptedFileExtensionCommand { get; set; }
+        public ICommand AddPrioritizedFileExtensionCommand { get; set; }
+        public ICommand RemovePrioritizedFileExtensionCommand { get; set; }
 
         public AppSettingsViewModel()
         {
             LoadAppSettingsCommand = new LoadAppSettingsCommand(this);
             SaveAppSettingsCommand = new SaveAppSettingsCommand(this);
 
-            AddFileExtensionCommand = new RelayCommand(AddFileExtension);
-            RemoveFileExtensionCommand = new RelayCommand(RemoveFileExtension);
+            AddEncryptedFileExtensionCommand = new RelayCommand(AddEncryptedFileExtension);
+            RemoveEncryptedFileExtensionCommand = new RelayCommand(RemoveEncryptedFileExtension);
+            AddPrioritizedFileExtensionCommand = new RelayCommand(AddPrioritizedFileExtension);
+            RemovePrioritizedFileExtensionCommand = new RelayCommand(RemovePrioritizedFileExtension);
 
             LoadAppSettingsCommand.Execute(this);
         }
 
-        public void AddFileExtension(object parameter)
+        public void AddEncryptedFileExtension(object parameter)
         {
-            if (!FileExtensions.Contains(parameter.ToString()) && !String.IsNullOrWhiteSpace((string)parameter))
-                FileExtensions.Add(parameter.ToString());
+            if (!EncryptedFileExtensions.Contains(parameter.ToString()) && !String.IsNullOrWhiteSpace((string)parameter))
+                EncryptedFileExtensions.Add(parameter.ToString());
         }
 
-        public void RemoveFileExtension(object parameter)
+        public void RemoveEncryptedFileExtension(object parameter)
         {
-            FileExtensions.Remove(SelectedFileExtension);
+            EncryptedFileExtensions.Remove(SelectedEncryptedFileExtension);
+        }
+
+        public void AddPrioritizedFileExtension(object parameter)
+        {
+            if (!PrioritizedFileExtensions.Contains(parameter.ToString()) && !String.IsNullOrWhiteSpace((string)parameter))
+                PrioritizedFileExtensions.Add(parameter.ToString());
+        }
+
+        public void RemovePrioritizedFileExtension(object parameter)
+        {
+            PrioritizedFileExtensions.Remove(SelectedPrioritizedFileExtension);
         }
     }
 }
